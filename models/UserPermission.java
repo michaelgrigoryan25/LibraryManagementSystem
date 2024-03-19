@@ -1,4 +1,4 @@
-package user.permission;
+package models;
 
 public enum UserPermission {
     CREATE_RESOURCES,

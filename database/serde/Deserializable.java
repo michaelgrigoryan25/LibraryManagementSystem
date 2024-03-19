@@ -1,4 +1,4 @@
-package database.deserializer;
+package database.serde;
 
 public interface Deserializable {
 }

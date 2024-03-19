@@ -1,4 +1,4 @@
-package database.serializer;
+package database.serde;
 
 public class Serializer implements Serializable {
 }

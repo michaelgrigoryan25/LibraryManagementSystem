@@ -1,6 +1,4 @@
-package user.admin;
-
-import user.User;
+package models;
 
 public class Admin extends User {
 

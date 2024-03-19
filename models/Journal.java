@@ -1,6 +1,4 @@
-package resource;
-
-import user.User;
+package models;
 
 import java.util.Date;
 

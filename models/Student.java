@@ -1,7 +1,6 @@
-package user.student;
+package models;
 
 import institution.Institution;
-import user.User;
 
 import java.util.Date;
 

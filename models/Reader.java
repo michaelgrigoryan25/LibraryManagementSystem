@@ -1,6 +1,4 @@
-package user.reader;
-
-import user.User;
+package models;
 
 public class Reader extends User {
 

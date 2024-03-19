@@ -1,4 +1,4 @@
-package resource;
+package models;
 
 public enum ResourceType {
     BOOK, ARTICLE, JOURNAL
