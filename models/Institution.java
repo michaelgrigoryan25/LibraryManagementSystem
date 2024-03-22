@@ -1,4 +1,4 @@
-package institution;
+package models;
 
 public class Institution {
 

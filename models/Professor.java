@@ -1,7 +1,5 @@
 package models;
 
-import institution.Institution;
-
 import java.util.Date;
 
 public class Professor extends User {
