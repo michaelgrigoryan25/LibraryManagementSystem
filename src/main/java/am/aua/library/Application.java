@@ -9,9 +9,15 @@ import am.aua.library.database.Database;
  */
 public class Application {
     public static void main(String[] args) throws ApplicationException {
+        String baseDirectory = "./resources/";
+        String providedBaseDirectory = args[0];
+        if (providedBaseDirectory != null) {
+            baseDirectory = providedBaseDirectory;
+        }
+
         // Setting up the database and the directories associated with it for storing
         // the information.
-        Database.setBaseDirectory("./resources/");
+        Database.setBaseDirectory(baseDirectory);
 
         // Setting up the command-line interface for providing minimal interaction
         // capabilities.
