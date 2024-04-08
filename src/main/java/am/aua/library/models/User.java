@@ -45,9 +45,11 @@ public abstract class User {
      */
     public User(String firstName, String lastName, String username, String password) {
         this.id = Math.abs(UUID.randomUUID().getLeastSignificantBits());
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.username = username;
+        // Converting everything to uppercase for consistency
+        this.firstName = firstName.toUpperCase();
+        this.lastName = lastName.toUpperCase();
+        this.username = username.toUpperCase();
+        // Password remains as is without any other modifications
         this.password = password;
     }
 

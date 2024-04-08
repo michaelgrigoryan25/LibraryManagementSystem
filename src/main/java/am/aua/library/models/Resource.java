@@ -1,5 +1,7 @@
 package am.aua.library.models;
 
+import com.google.gson.annotations.Expose;
+
 import java.util.Date;
 import java.util.UUID;
 
@@ -11,24 +13,27 @@ public abstract class Resource {
     /**
      * The id of the resource.
      */
+    @Expose
     private final long id;
-
-
     /**
      * The title of the resource.
      */
+    @Expose
     private String title;
     /**
      * The content of the resource.
      */
+    @Expose
     private String content;
     /**
      * The user who published the resource.
      */
+    @Expose
     private User publishedBy;
     /**
      * The date when the resource was published.
      */
+    @Expose
     private Date publishedAt;
 
     /**
@@ -41,7 +46,7 @@ public abstract class Resource {
      */
     public Resource(String title, String content, User publishedBy, Date publishedAt) {
         this.id = UUID.randomUUID().getLeastSignificantBits();
-        this.title = title;
+        this.title = title.toUpperCase();
         this.content = content;
         this.publishedBy = publishedBy;
         this.publishedAt = publishedAt;
