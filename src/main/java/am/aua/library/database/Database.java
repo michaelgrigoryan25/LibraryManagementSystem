@@ -1,5 +1,8 @@
 package am.aua.library.database;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -8,6 +11,15 @@ import java.nio.file.Path;
  * Database class provides methods for managing users and institutions.
  */
 public class Database {
+    /**
+     * Initializing a Gson instance for serialization and deserialization
+     */
+    public final static Gson serializer = new GsonBuilder()
+            .setPrettyPrinting()
+            .serializeNulls()
+            .excludeFieldsWithoutExposeAnnotation()
+            .create();
+
     /**
      * Base directory for storing database files
      */

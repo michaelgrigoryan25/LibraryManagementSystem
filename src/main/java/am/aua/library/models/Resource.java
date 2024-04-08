@@ -1,12 +1,19 @@
 package am.aua.library.models;
 
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * The Resource class represents a generic resource in the system.
  * It is an abstract class that contains common attributes and methods for all types of resources.
  */
 public abstract class Resource {
+    /**
+     * The id of the resource.
+     */
+    private final long id;
+
+
     /**
      * The title of the resource.
      */
@@ -33,6 +40,7 @@ public abstract class Resource {
      * @param publishedAt the date when the resource was published
      */
     public Resource(String title, String content, User publishedBy, Date publishedAt) {
+        this.id = UUID.randomUUID().getLeastSignificantBits();
         this.title = title;
         this.content = content;
         this.publishedBy = publishedBy;

@@ -1,5 +1,9 @@
 package am.aua.library.models;
 
+import com.google.gson.annotations.Expose;
+
+import java.util.UUID;
+
 /**
  * The User class represents a generic user in the system.
  * It is an abstract class that contains common attributes and methods for all types of users.
@@ -8,35 +12,39 @@ public abstract class User {
     /**
      * The unique identifier for the user.
      */
-    private Long id;
+    @Expose
+    private final Long id;
     /**
      * The first name of the user.
      */
+    @Expose
     private String firstName;
     /**
      * The last name of the user.
      */
+    @Expose
     private String lastName;
     /**
      * The username of the user.
      */
+    @Expose
     private String username;
     /**
      * The password of the user.
      */
+    @Expose
     private String password;
 
     /**
      * Constructs a new User object with the specified attributes.
      *
-     * @param id        the unique identifier for the user
      * @param firstName the first name of the user
      * @param lastName  the last name of the user
      * @param username  the username of the user
      * @param password  the password of the user
      */
-    public User(Long id, String firstName, String lastName, String username, String password) {
-        this.id = id;
+    public User(String firstName, String lastName, String username, String password) {
+        this.id = Math.abs(UUID.randomUUID().getLeastSignificantBits());
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
