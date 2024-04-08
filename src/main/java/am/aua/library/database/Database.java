@@ -25,19 +25,23 @@ public class Database {
     /**
      * Sets the base directory for storing database files.
      *
-     * @param directory Base directory path
+     * @param path Base directory path
      * @throws DatabaseException If directory creation fails or directory is null
      */
-    public synchronized static void setBaseDirectory(String directory) throws DatabaseException {
-        if (directory != null) {
-            boolean created = Path.of(directory).toFile().mkdirs();
-            if (!created) {
-                throw new DatabaseException("Could not create directory: " + directory);
-            }
-            Database.directory = directory;
-        } else {
+    public synchronized static void setBaseDirectory(String path) throws DatabaseException {
+        if (path == null) {
             throw new DatabaseException("Directory is not set and is currently `null`");
         }
+
+        File directory = Path.of(path).toFile();
+        if (!directory.exists()) {
+            boolean created = directory.mkdir();
+            if (!created) {
+                throw new DatabaseException("Unable to create directory " + directory);
+            }
+        }
+
+        Database.directory = path;
     }
 
     /**
