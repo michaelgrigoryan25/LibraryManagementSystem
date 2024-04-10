@@ -14,7 +14,7 @@ public class Database {
     /**
      * Initializing a Gson instance for serialization and deserialization
      */
-    public final static Gson serializer = new GsonBuilder()
+    private final static Gson serializer = new GsonBuilder()
             .setPrettyPrinting()
             .serializeNulls()
             .excludeFieldsWithoutExposeAnnotation()
