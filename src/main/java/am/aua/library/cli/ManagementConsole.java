@@ -20,7 +20,6 @@ public class ManagementConsole extends Console {
     public void run() {
         Scanner scanner = new Scanner(System.in);
 
-        programLoop:
         while (true) {
             System.out.println("=".repeat(40));
             System.out.println("Welcome to the Library Management System!");
@@ -41,7 +40,7 @@ public class ManagementConsole extends Console {
                     break;
                 case 3:
                     exitProgram();
-                    break programLoop;
+                    break;
                 default:
                     System.out.println("Invalid choice. Please select a valid option.");
                     break;

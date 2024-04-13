@@ -1,6 +1,8 @@
 package am.aua.library.cli.registration;
 
 import am.aua.library.cli.Console;
+import am.aua.library.dto.ProfessorRegistrationDto;
+import am.aua.library.dto.StudentRegistrationDto;
 
 import java.util.Scanner;
 
@@ -8,22 +10,22 @@ import java.util.Scanner;
  * RegistrationConsole class handles user registration process through the console interface.
  */
 public class RegistrationConsole extends Console {
-    /**
-     * The first name of the user.
-     */
-    protected static String firstName;
-    /**
-     * The last name of the user.
-     */
-    protected static String lastName;
-    /**
-     * The username of the user.
-     */
-    protected static String username;
-    /**
-     * The password of the user.
-     */
-    protected static String password;
+//    /**
+//     * The first name of the user.
+//     */
+//    protected static String firstName;
+//    /**
+//     * The last name of the user.
+//     */
+//    protected static String lastName;
+//    /**
+//     * The username of the user.
+//     */
+//    protected static String username;
+//    /**
+//     * The password of the user.
+//     */
+//    protected static String password;
 
     /**
      * Runs the registration console interface.
@@ -41,19 +43,19 @@ public class RegistrationConsole extends Console {
 
         // Prompting user to enter first name
         System.out.print("Enter your first name: ");
-        RegistrationConsole.firstName = scanner.nextLine();
+        String firstName = scanner.nextLine();
 
         // Prompting user to enter last name
         System.out.print("Enter your last name: ");
-        RegistrationConsole.lastName = scanner.nextLine();
+        String lastName = scanner.nextLine();
 
         // Prompting user to enter username
         System.out.print("Enter your username: ");
-        RegistrationConsole.username = scanner.nextLine();
+        String username = scanner.nextLine();
 
         // Prompting user to enter password
         System.out.print("Enter your password: ");
-        RegistrationConsole.password = scanner.nextLine();
+        String password = scanner.nextLine();
 
         int userTypeChoice = -1;
         while (userTypeChoice == -1) {
@@ -68,12 +70,16 @@ public class RegistrationConsole extends Console {
             switch (userTypeChoice) {
                 case 1:
                     // If user selects student, initiate student registration
-                    StudentRegistrationConsole studentRegistrationConsole = new StudentRegistrationConsole();
+                    StudentRegistrationConsole studentRegistrationConsole = new StudentRegistrationConsole(new StudentRegistrationDto(
+                            firstName, lastName, username, password
+                    ));
                     studentRegistrationConsole.run();
                     break;
                 case 2:
                     // If user selects professor, initiate professor registration
-                    ProfessorRegistrationConsole professorRegistrationConsole = new ProfessorRegistrationConsole();
+                    ProfessorRegistrationConsole professorRegistrationConsole = new ProfessorRegistrationConsole(new ProfessorRegistrationDto(
+                                    firstName, lastName, username, password
+                    ));
                     professorRegistrationConsole.run();
                     break;
                 default:

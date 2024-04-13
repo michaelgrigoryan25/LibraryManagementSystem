@@ -1,9 +1,12 @@
 package am.aua.library.database;
 
+import am.aua.library.dto.ProfessorRegistrationDto;
+import am.aua.library.dto.StudentRegistrationDto;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
 
@@ -14,7 +17,7 @@ public class Database {
     /**
      * Initializing a Gson instance for serialization and deserialization
      */
-    public final static Gson serializer = new GsonBuilder()
+    private final static Gson serializer = new GsonBuilder()
             .setPrettyPrinting()
             .serializeNulls()
             .excludeFieldsWithoutExposeAnnotation()
@@ -85,4 +88,29 @@ public class Database {
             throw new DatabaseException("Provided path is `null`");
         }
     }
+
+    public synchronized static StudentRegistrationDto saveStudent(StudentRegistrationDto dto, String fileName) throws DatabaseException{
+        try {
+            // add the provided data transfer object to the json file with the provided fileName
+            System.out.println(serializer.toJson(dto));
+            serializer.toJson(dto, new FileWriter(directory + fileName));
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new DatabaseException("Could not save the student with the following data: " + dto);
+        }
+        // if successful, return the provided data transfer object
+        return dto;
+    }
+
+    public synchronized static ProfessorRegistrationDto saveProfessor(ProfessorRegistrationDto dto, String fileName) throws DatabaseException {
+        try {
+            System.out.println(serializer.toJson(dto));
+            serializer.toJson(dto, new FileWriter(directory + fileName));
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new DatabaseException("Could not save the teacher with the following data: " + dto);
+        }
+        return dto;
+    }
+
 }
