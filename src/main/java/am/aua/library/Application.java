@@ -8,11 +8,12 @@ import am.aua.library.database.Database;
  * will be initialized, configured, and started from here.
  */
 public class Application {
+    private static final String DEFAULT_BASE_DIRECTORY = "./resources/";
+
     public static void main(String[] args) throws ApplicationException {
-        String baseDirectory = "./resources/";
-        String providedBaseDirectory = args[0];
-        if (providedBaseDirectory != null) {
-            baseDirectory = providedBaseDirectory;
+        String baseDirectory = Application.DEFAULT_BASE_DIRECTORY;
+        if (args.length > 0 && args[0] != null) {
+            baseDirectory = args[0];
         }
 
         // Setting up the database and the directories associated with it for storing
