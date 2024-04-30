@@ -1,7 +1,9 @@
 package am.aua.library;
 
-import am.aua.library.cli.ManagementConsole;
 import am.aua.library.database.Database;
+import am.aua.library.ui.core.LibraryManagementSystemUI;
+
+import javax.swing.*;
 
 /**
  * This class is the entrypoint of the library management system. Everything
@@ -19,10 +21,7 @@ public class Application {
         // Setting up the database and the directories associated with it for storing
         // the information.
         Database.setBaseDirectory(baseDirectory);
-
-        // Setting up the command-line interface for providing minimal interaction
-        // capabilities.
-        ManagementConsole console = new ManagementConsole();
-        console.run();
+        // Starting the UI using SwingUtilities
+        SwingUtilities.invokeLater(LibraryManagementSystemUI::new);
     }
 }
