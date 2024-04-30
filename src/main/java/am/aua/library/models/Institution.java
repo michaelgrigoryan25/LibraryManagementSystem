@@ -21,7 +21,11 @@ public class Institution {
     private String name;
 
     public Institution(String name) {
-        this.id = Math.abs(UUID.randomUUID().getLeastSignificantBits());
+        this(Math.abs(UUID.randomUUID().getLeastSignificantBits()), name);
+    }
+
+    public Institution(long id, String name) {
+        this.id = id;
         setName(name);
     }
 

@@ -132,3 +132,4 @@ replay_pid*
 
 /build
 /.gradle
+/resources/students.json

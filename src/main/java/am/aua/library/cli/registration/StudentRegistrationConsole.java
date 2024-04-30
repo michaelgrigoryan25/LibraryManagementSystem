@@ -25,11 +25,11 @@ public class StudentRegistrationConsole extends Console {
 
     @Override
     public void run() {
-        System.out.println(studentRegistrationDto);
-        try {
-            Database.saveStudent(studentRegistrationDto, jsonFileName);
-        } catch (DatabaseException exception) {
-            System.out.println("Could not register the user with the provided credentials.");
-        }
+//        System.out.println(studentRegistrationDto);
+//        try {
+//            Database.saveStudent(studentRegistrationDto, jsonFileName);
+//        } catch (DatabaseException exception) {
+//            System.out.println("Could not register the user with the provided credentials.");
+//        }
     }
 }

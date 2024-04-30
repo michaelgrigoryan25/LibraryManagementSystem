@@ -26,11 +26,11 @@ public class ProfessorRegistrationConsole extends Console {
 
     @Override
     public void run() {
-        // TODO: Implement professor registration flow
-        try {
-            Database.saveProfessor(professorRegistrationDto, jsonFileName);
-        } catch (DatabaseException e) {
-            System.out.println("Could not register a professor with the provided credentials.");
-        }
+//        // TODO: Implement professor registration flow
+//        try {
+//            Database.saveProfessor(professorRegistrationDto, jsonFileName);
+//        } catch (DatabaseException e) {
+//            System.out.println("Could not register a professor with the provided credentials.");
+//        }
     }
 }

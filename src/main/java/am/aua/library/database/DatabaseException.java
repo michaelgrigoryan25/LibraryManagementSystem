@@ -15,4 +15,8 @@ public class DatabaseException extends ApplicationException {
     public DatabaseException(String message) {
         super(message);
     }
+
+    public DatabaseException(Exception e) {
+        super(e.getMessage());
+    }
 }
