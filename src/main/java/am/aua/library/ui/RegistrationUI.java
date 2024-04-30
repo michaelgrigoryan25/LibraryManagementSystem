@@ -14,6 +14,7 @@ public class RegistrationUI extends Page {
     private JTextField usernameField;
     private JPasswordField passwordField;
     private JComboBox<UserType> userTypeComboBox;
+    private JComboBox institutionComboBox;
 
     public RegistrationUI() {
         super("Registration");
@@ -55,7 +56,8 @@ public class RegistrationUI extends Page {
 
         usernameField = new JTextField();
         passwordField = new JPasswordField();
-        userTypeComboBox = new JComboBox<>(UserType.values());
+        userTypeComboBox = createUserTypeComboBox();
+        institutionComboBox = createInstitutionsComboBox();
 
         panel.add(usernameLabel);
         panel.add(usernameField);
@@ -66,6 +68,14 @@ public class RegistrationUI extends Page {
 
         rootPanel.add(panel, BorderLayout.CENTER);
         return rootPanel;
+    }
+
+    private JComboBox<UserType> createUserTypeComboBox() {
+        return new JComboBox<>(UserType.values());
+    }
+
+    private JComboBox createInstitutionsComboBox() {
+        return new JComboBox();
     }
 
     private JPanel createButtonsPanel() {
@@ -94,15 +104,17 @@ public class RegistrationUI extends Page {
     private JButton createRegisterButton() {
         JButton button = new JButton("Register");
         button.addActionListener(e -> {
-            String username = this.usernameField.getText();
+            String username = this.usernameField.getText().toLowerCase();
             String password = new String(this.passwordField.getPassword());
 
-            // Dummy check, replace with actual authentication logic
-            if (username.equals("user") && password.equals("password")) {
-                this.dispose(); // Close the login window
-                // TODO: Redirect the user to the database page
-            } else {
-                JOptionPane.showMessageDialog(this, "Invalid username or password");
+            if (username.isEmpty() || username.isBlank()) {
+                JOptionPane.showMessageDialog(RegistrationUI.this, "Username cannot be empty");
+                return;
+            }
+
+            if (password.isBlank() || password.length() < 8) {
+                JOptionPane.showMessageDialog(RegistrationUI.this, "Password must contain at least 8 characters");
+                return;
             }
         });
 
