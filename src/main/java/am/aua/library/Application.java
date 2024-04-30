@@ -20,7 +20,7 @@ public class Application {
 
         // Setting up the database and the directories associated with it for storing
         // the information.
-        Database.setBaseDirectory(baseDirectory);
+//        new Database(baseDirectory);
         // Starting the UI using SwingUtilities
         SwingUtilities.invokeLater(LibraryManagementSystemUI::new);
     }
