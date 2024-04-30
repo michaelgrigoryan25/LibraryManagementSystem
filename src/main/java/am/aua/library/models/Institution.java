@@ -8,7 +8,7 @@ import java.util.UUID;
  * The Institution class represents an institution in the system.
  * It stores information about an institution, such as its unique identifier and name.
  */
-public class Institution {
+public class Institution implements Comparable<Institution> {
     /**
      * The unique identifier for the institution.
      */
@@ -52,5 +52,15 @@ public class Institution {
      */
     public String getName() {
         return name;
+    }
+
+    @Override
+    public String toString() {
+        return getName();
+    }
+
+    @Override
+    public int compareTo(Institution o) {
+        return this.getName().compareTo(o.getName());
     }
 }

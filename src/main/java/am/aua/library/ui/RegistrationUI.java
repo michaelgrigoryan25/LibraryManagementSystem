@@ -1,5 +1,10 @@
 package am.aua.library.ui;
 
+import am.aua.library.database.Database;
+import am.aua.library.database.DatabaseException;
+import am.aua.library.models.Institution;
+import am.aua.library.models.Student;
+import am.aua.library.repositories.UserRepositoryImpl;
 import am.aua.library.ui.core.LibraryManagementSystemUI;
 import am.aua.library.ui.core.Page;
 import am.aua.library.ui.core.Text;
@@ -7,10 +12,17 @@ import am.aua.library.ui.core.Text;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 public class RegistrationUI extends Page {
+    private final UserRepositoryImpl userRepository;
+
     private enum UserType {STUDENT, PROFESSOR}
 
+    private JTextField fullNameField;
     private JTextField usernameField;
     private JPasswordField passwordField;
     private JComboBox<UserType> userTypeComboBox;
@@ -18,6 +30,7 @@ public class RegistrationUI extends Page {
 
     public RegistrationUI() {
         super("Registration");
+        this.userRepository = new UserRepositoryImpl();
     }
 
     @Override
@@ -45,24 +58,31 @@ public class RegistrationUI extends Page {
         rootPanel.setLayout(new BorderLayout());
 
         JPanel panel = new JPanel();
-        GridLayout layout = new GridLayout(4, 1);
+        GridLayout layout = new GridLayout(6, 1);
         layout.setVgap(10);
         panel.setLayout(layout);
         panel.setBorder(new EmptyBorder(0, 50, 0, 50));
 
+        JLabel fullNameLabel = new Text("Full Name:");
         JLabel usernameLabel = new Text("Username:");
         JLabel passwordLabel = new Text("Password:");
         JLabel userTypeLabel = new Text("User Type: ");
+        JLabel institutionLabel = new Text("Institution");
 
+        fullNameField = new JTextField();
         usernameField = new JTextField();
         passwordField = new JPasswordField();
         userTypeComboBox = createUserTypeComboBox();
         institutionComboBox = createInstitutionsComboBox();
 
+        panel.add(fullNameLabel);
+        panel.add(fullNameField);
         panel.add(usernameLabel);
         panel.add(usernameField);
         panel.add(userTypeLabel);
         panel.add(userTypeComboBox);
+        panel.add(institutionLabel);
+        panel.add(institutionComboBox);
         panel.add(passwordLabel);
         panel.add(passwordField);
 
@@ -74,8 +94,11 @@ public class RegistrationUI extends Page {
         return new JComboBox<>(UserType.values());
     }
 
-    private JComboBox createInstitutionsComboBox() {
-        return new JComboBox();
+    private JComboBox<Institution> createInstitutionsComboBox() {
+        Institution[] institutions = this.database.getInstitutions().toArray(Institution[]::new);
+        JComboBox<Institution> comboBox = new JComboBox<>(institutions);
+        comboBox.setRenderer(new InstitutionCellRenderer());
+        return comboBox;
     }
 
     private JPanel createButtonsPanel() {
@@ -104,20 +127,65 @@ public class RegistrationUI extends Page {
     private JButton createRegisterButton() {
         JButton button = new JButton("Register");
         button.addActionListener(e -> {
-            String username = this.usernameField.getText().toLowerCase();
-            String password = new String(this.passwordField.getPassword());
+            String fullName = this.fullNameField.getText();
+            if (fullName.isBlank() || fullName.isEmpty()) {
+                JOptionPane.showMessageDialog(RegistrationUI.this, "Please enter a valid full name");
+                return;
+            }
 
+            String username = this.usernameField.getText().toLowerCase();
             if (username.isEmpty() || username.isBlank()) {
                 JOptionPane.showMessageDialog(RegistrationUI.this, "Username cannot be empty");
                 return;
             }
 
+            String password = new String(this.passwordField.getPassword());
             if (password.isBlank() || password.length() < 8) {
                 JOptionPane.showMessageDialog(RegistrationUI.this, "Password must contain at least 8 characters");
                 return;
             }
+
+            UserType type = (UserType) this.userTypeComboBox.getSelectedItem();
+            if (type == null) {
+                JOptionPane.showMessageDialog(RegistrationUI.this, "Please select a user type for registration");
+                return;
+            }
+
+            Institution institution = (Institution) this.institutionComboBox.getSelectedItem();
+            if (institution == null) {
+                JOptionPane.showMessageDialog(RegistrationUI.this, "Please select a verified institution");
+                return;
+            }
+
+            if (type == UserType.STUDENT) {
+                String[] nameChunks = fullName.split(" ");
+                Student student = new Student(nameChunks[0], nameChunks[1], username, password, institution.getId());
+                try {
+                    this.userRepository.add(student);
+                    // TODO: Figure out why the user isn't saving in the database
+                } catch (DatabaseException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
         });
 
         return button;
+    }
+}
+
+class InstitutionCellRenderer implements ListCellRenderer<Institution> {
+    protected DefaultListCellRenderer defaultRenderer = new DefaultListCellRenderer();
+    private final static Dimension preferredSize = new Dimension(0, 20);
+
+    @Override
+    public Component getListCellRendererComponent(JList list, Institution value, int index, boolean isSelected, boolean cellHasFocus) {
+        String name = value.getName();
+        if (name.length() > 45) {
+            name = name.substring(0, 46) + "...";
+        }
+
+        JLabel renderer = (JLabel) defaultRenderer.getListCellRendererComponent(list, name, index, isSelected, cellHasFocus);
+        renderer.setPreferredSize(preferredSize);
+        return renderer;
     }
 }

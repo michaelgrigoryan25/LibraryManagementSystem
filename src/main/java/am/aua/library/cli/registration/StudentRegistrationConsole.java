@@ -1,9 +1,6 @@
 package am.aua.library.cli.registration;
 
 import am.aua.library.cli.Console;
-import am.aua.library.database.Database;
-import am.aua.library.database.DatabaseException;
-import am.aua.library.dto.StudentRegistrationDto;
 
 /**
  * The StudentRegistrationConsole class represents the console interface for student registration.
@@ -17,11 +14,11 @@ public class StudentRegistrationConsole extends Console {
 
     private static final String jsonFileName = "students.json/";
 
-    private StudentRegistrationDto studentRegistrationDto;
-
-    public StudentRegistrationConsole(StudentRegistrationDto studentRegistrationDto) {
-        this.studentRegistrationDto = studentRegistrationDto;
-    }
+//    private StudentRegistrationDto studentRegistrationDto;
+//
+//    public StudentRegistrationConsole(StudentRegistrationDto studentRegistrationDto) {
+//        this.studentRegistrationDto = studentRegistrationDto;
+//    }
 
     @Override
     public void run() {

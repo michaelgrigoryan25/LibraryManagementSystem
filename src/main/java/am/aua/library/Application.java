@@ -10,17 +10,15 @@ import javax.swing.*;
  * will be initialized, configured, and started from here.
  */
 public class Application {
-    private static final String DEFAULT_BASE_DIRECTORY = "./resources/";
-
     public static void main(String[] args) throws ApplicationException {
-        String baseDirectory = Application.DEFAULT_BASE_DIRECTORY;
+        String baseDirectory = null;
         if (args.length > 0 && args[0] != null) {
             baseDirectory = args[0];
         }
 
         // Setting up the database and the directories associated with it for storing
         // the information.
-//        new Database(baseDirectory);
+        Database.setDirectory(baseDirectory);
         // Starting the UI using SwingUtilities
         SwingUtilities.invokeLater(LibraryManagementSystemUI::new);
     }
