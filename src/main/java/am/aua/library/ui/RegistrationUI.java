@@ -2,9 +2,12 @@ package am.aua.library.ui;
 
 import am.aua.library.database.Database;
 import am.aua.library.database.DatabaseException;
+import am.aua.library.database.DuplicateRecordException;
 import am.aua.library.models.Institution;
+import am.aua.library.models.Professor;
 import am.aua.library.models.Student;
-import am.aua.library.repositories.UserRepositoryImpl;
+import am.aua.library.repositories.ProfessorRepositoryImpl;
+import am.aua.library.repositories.StudentRepositoryImpl;
 import am.aua.library.ui.core.LibraryManagementSystemUI;
 import am.aua.library.ui.core.Page;
 import am.aua.library.ui.core.Text;
@@ -12,13 +15,11 @@ import am.aua.library.ui.core.Text;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import java.util.Arrays;
 
 public class RegistrationUI extends Page {
-    private final UserRepositoryImpl userRepository;
+    private final StudentRepositoryImpl userRepository;
+    private final ProfessorRepositoryImpl professorRepository;
 
     private enum UserType {STUDENT, PROFESSOR}
 
@@ -26,11 +27,14 @@ public class RegistrationUI extends Page {
     private JTextField usernameField;
     private JPasswordField passwordField;
     private JComboBox<UserType> userTypeComboBox;
-    private JComboBox institutionComboBox;
+    private JComboBox<Institution> institutionComboBox;
+    private JLabel professorRegistrationKeyLabel;
+    private JPasswordField professorRegistrationKeyField;
 
     public RegistrationUI() {
         super("Registration");
-        this.userRepository = new UserRepositoryImpl();
+        this.userRepository = new StudentRepositoryImpl();
+        this.professorRepository = new ProfessorRepositoryImpl();
     }
 
     @Override
@@ -63,11 +67,11 @@ public class RegistrationUI extends Page {
         panel.setLayout(layout);
         panel.setBorder(new EmptyBorder(0, 50, 0, 50));
 
-        JLabel fullNameLabel = new Text("Full Name:");
-        JLabel usernameLabel = new Text("Username:");
-        JLabel passwordLabel = new Text("Password:");
-        JLabel userTypeLabel = new Text("User Type: ");
-        JLabel institutionLabel = new Text("Institution");
+        JLabel fullNameLabel = new Text("Full Name:", Text.Size.SM);
+        JLabel usernameLabel = new Text("Username:", Text.Size.SM);
+        JLabel passwordLabel = new Text("Password:", Text.Size.SM);
+        JLabel userTypeLabel = new Text("User Type: ", Text.Size.SM);
+        JLabel institutionLabel = new Text("Institution: ", Text.Size.SM);
 
         fullNameField = new JTextField();
         usernameField = new JTextField();
@@ -86,12 +90,25 @@ public class RegistrationUI extends Page {
         panel.add(passwordLabel);
         panel.add(passwordField);
 
+        professorRegistrationKeyLabel = new Text("Professor Registration Key: ");
+        professorRegistrationKeyLabel.setVisible(false);
+        professorRegistrationKeyField = new JPasswordField();
+        professorRegistrationKeyField.setVisible(false);
+
+        panel.add(professorRegistrationKeyLabel);
+        panel.add(professorRegistrationKeyField);
+
         rootPanel.add(panel, BorderLayout.CENTER);
         return rootPanel;
     }
 
     private JComboBox<UserType> createUserTypeComboBox() {
-        return new JComboBox<>(UserType.values());
+        JComboBox<UserType> userTypeComboBox = new JComboBox<>(UserType.values());
+        userTypeComboBox.addItemListener(e -> {
+            professorRegistrationKeyLabel.setVisible(e.getItem().equals(UserType.PROFESSOR));
+            professorRegistrationKeyField.setVisible(e.getItem().equals(UserType.PROFESSOR));
+        });
+        return userTypeComboBox;
     }
 
     private JComboBox<Institution> createInstitutionsComboBox() {
@@ -134,8 +151,8 @@ public class RegistrationUI extends Page {
             }
 
             String username = this.usernameField.getText().toLowerCase();
-            if (username.isEmpty() || username.isBlank()) {
-                JOptionPane.showMessageDialog(RegistrationUI.this, "Username cannot be empty");
+            if (!isValidUsername(username)) {
+                JOptionPane.showMessageDialog(RegistrationUI.this, "Username cannot contain spaces, be empty, or contain characters other than ASCII");
                 return;
             }
 
@@ -158,18 +175,54 @@ public class RegistrationUI extends Page {
             }
 
             if (type == UserType.STUDENT) {
-                String[] nameChunks = fullName.split(" ");
-                Student student = new Student(nameChunks[0], nameChunks[1], username, password, institution.getId());
+                Student student = new Student(fullName, username, password, institution.getId());
                 try {
-                    this.userRepository.add(student);
                     // TODO: Figure out why the user isn't saving in the database
+                    this.userRepository.add(student);
                 } catch (DatabaseException ex) {
-                    throw new RuntimeException(ex);
+                    if (ex instanceof DuplicateRecordException) {
+                        JOptionPane.showMessageDialog(RegistrationUI.this, "Student with username `" + username + "` already exists. Choose a different username.");
+                        return;
+                    }
+
+                    System.err.print(getClass().getCanonicalName());
+                    System.err.print(": " + ex.getMessage());
+                }
+            } else {
+                if (Arrays.equals(professorRegistrationKeyField.getPassword(), Database.PROFESSOR_REGISTRATION_KEY.toCharArray())) {
+                    Professor professor = new Professor(fullName, username, password, institution.getId());
+                    try {
+                        this.professorRepository.add(professor);
+                    } catch (DatabaseException ex) {
+                        if (ex instanceof DuplicateRecordException) {
+                            JOptionPane.showMessageDialog(RegistrationUI.this, "Professor with username `" + username + "` already exists. Choose a different username.");
+                            return;
+                        }
+
+                        System.err.print(getClass().getCanonicalName());
+                        System.err.print(": " + ex.getMessage());
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(RegistrationUI.this, "Professor registration key is invalid");
                 }
             }
         });
 
         return button;
+    }
+
+    private boolean isValidUsername(String input) {
+        return !input.isEmpty() && !input.isBlank() && isAscii(input) && !input.contains(" ");
+    }
+
+    private boolean isAscii(String input) {
+        for (char c : input.toCharArray()) {
+            if (c > 127) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
 

@@ -16,14 +16,13 @@ public class Professor extends User {
     /**
      * Constructs a new Professor object with the specified attributes.
      *
-     * @param firstName     the first name of the professor
-     * @param secondName    the last name of the professor
+     * @param fullName      the first name of the professor
      * @param username      the username of the professor
      * @param password      the password of the professor
      * @param institutionId the ID of the institution associated with the professor
      */
-    public Professor(String firstName, String secondName, String username, String password, Long institutionId) {
-        super(firstName, secondName, username, password);
+    public Professor(String fullName, String username, String password, Long institutionId) {
+        super(fullName, username, password);
         setInstitutionId(institutionId);
     }
 

@@ -132,4 +132,4 @@ replay_pid*
 
 /build
 /.gradle
-/resources/users.json
+/resources/internal
