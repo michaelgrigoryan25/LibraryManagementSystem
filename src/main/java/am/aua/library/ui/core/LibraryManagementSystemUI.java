@@ -1,5 +1,6 @@
 package am.aua.library.ui.core;
 
+import am.aua.library.database.Database;
 import am.aua.library.ui.LoginUI;
 import am.aua.library.ui.RegistrationUI;
 
@@ -11,13 +12,25 @@ public class LibraryManagementSystemUI extends Page {
     @Override
     protected void setupPage() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new GridLayout(2, 1));
+        setLayout(new GridLayout(3, 1));
     }
 
     @Override
     protected void setupComponents() {
         add(createTextPanel());
+        add(createImagePanel());
         add(createButtonPanel());
+    }
+
+    private JPanel createImagePanel() {
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridBagLayout());
+        ImageIcon imageIcon = new ImageIcon(Database.getAssetPath("./images/books.png").toString());
+        Image image = imageIcon.getImage();
+        Image resized = image.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
+        imageIcon = new ImageIcon(resized);
+        panel.add(new JLabel(imageIcon));
+        return panel;
     }
 
     private JPanel createTextPanel() {

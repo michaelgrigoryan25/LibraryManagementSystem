@@ -14,6 +14,7 @@ import java.util.List;
 
 public class Database {
     private static final String DEFAULT_DATABASE_DIRECTORY = "./resources/";
+    private static final String DEFAULT_ASSETS_DIRECTORY = "assets";
     private static final String DEFAULT_INTERNAL_PATH = "internal";
     private static final Path DEFAULT_DATABASE_PATH = Path.of(DEFAULT_DATABASE_DIRECTORY, DEFAULT_INTERNAL_PATH);
 
@@ -33,6 +34,10 @@ public class Database {
     private Database() throws DatabaseException {
         Database.setDirectory(directory);
         this.load();
+    }
+
+    public static Path getAssetPath(String pathname) {
+        return Path.of(DEFAULT_DATABASE_DIRECTORY, DEFAULT_ASSETS_DIRECTORY, pathname);
     }
 
     public static synchronized Database getInstance() {

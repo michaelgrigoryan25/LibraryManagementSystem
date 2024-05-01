@@ -7,7 +7,7 @@ Programming course (CS120) at the American University of Armenia.
 
 The latest UML diagram has been generated for the commit a3d34acb27d9d9ca254546c1ba18227793f41ecb.
 
-![UML Class Diagram](./static/images/uml_diagram.png)
+![UML Class Diagram](static/diagrams/a3d34acb27d9d9ca254546c1ba18227793f41ecb.png)
 
 ## Overview
 

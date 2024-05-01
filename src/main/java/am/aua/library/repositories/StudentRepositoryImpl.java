@@ -62,7 +62,8 @@ public class StudentRepositoryImpl implements StudentRepository {
 
     @Override
     public void add(Student element) throws DatabaseException {
-        if (this.findByUsername(element.getUsername()) != null) {
+        final ProfessorRepositoryImpl professorRepository = new ProfessorRepositoryImpl();
+        if (this.findByUsername(element.getUsername()) != null || professorRepository.findByUsername(element.getUsername()) != null) {
             throw new DuplicateRecordException("user with username `" + element.getUsername() + "` already exists");
         }
 

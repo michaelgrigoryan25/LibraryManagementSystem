@@ -8,6 +8,7 @@ import am.aua.library.models.Professor;
 import am.aua.library.models.Student;
 import am.aua.library.repositories.ProfessorRepositoryImpl;
 import am.aua.library.repositories.StudentRepositoryImpl;
+import am.aua.library.ui.core.Helpers;
 import am.aua.library.ui.core.LibraryManagementSystemUI;
 import am.aua.library.ui.core.Page;
 import am.aua.library.ui.core.Text;
@@ -151,13 +152,13 @@ public class RegistrationUI extends Page {
             }
 
             String username = this.usernameField.getText().toLowerCase();
-            if (!isValidUsername(username)) {
+            if (!Helpers.isValidUsername(username)) {
                 JOptionPane.showMessageDialog(RegistrationUI.this, "Username cannot contain spaces, be empty, or contain characters other than ASCII");
                 return;
             }
 
             String password = new String(this.passwordField.getPassword());
-            if (password.isBlank() || password.length() < 8) {
+            if (!Helpers.isValidPassword(password)) {
                 JOptionPane.showMessageDialog(RegistrationUI.this, "Password must contain at least 8 characters");
                 return;
             }
@@ -174,11 +175,14 @@ public class RegistrationUI extends Page {
                 return;
             }
 
+
             if (type == UserType.STUDENT) {
                 Student student = new Student(fullName, username, password, institution.getId());
                 try {
-                    // TODO: Figure out why the user isn't saving in the database
                     this.userRepository.add(student);
+                    JOptionPane.showMessageDialog(RegistrationUI.this, "Registered successfully!");
+                    dispose();
+                    new DatabaseUI(student.getId());
                 } catch (DatabaseException ex) {
                     if (ex instanceof DuplicateRecordException) {
                         JOptionPane.showMessageDialog(RegistrationUI.this, "Student with username `" + username + "` already exists. Choose a different username.");
@@ -193,6 +197,9 @@ public class RegistrationUI extends Page {
                     Professor professor = new Professor(fullName, username, password, institution.getId());
                     try {
                         this.professorRepository.add(professor);
+                        JOptionPane.showMessageDialog(RegistrationUI.this, "Registered successfully!");
+                        dispose();
+                        new DatabaseUI(professor.getId());
                     } catch (DatabaseException ex) {
                         if (ex instanceof DuplicateRecordException) {
                             JOptionPane.showMessageDialog(RegistrationUI.this, "Professor with username `" + username + "` already exists. Choose a different username.");
@@ -211,34 +218,20 @@ public class RegistrationUI extends Page {
         return button;
     }
 
-    private boolean isValidUsername(String input) {
-        return !input.isEmpty() && !input.isBlank() && isAscii(input) && !input.contains(" ");
-    }
+    private static class InstitutionCellRenderer implements ListCellRenderer<Institution> {
+        protected DefaultListCellRenderer defaultRenderer = new DefaultListCellRenderer();
+        private final static Dimension preferredSize = new Dimension(0, 20);
 
-    private boolean isAscii(String input) {
-        for (char c : input.toCharArray()) {
-            if (c > 127) {
-                return false;
+        @Override
+        public Component getListCellRendererComponent(JList list, Institution value, int index, boolean isSelected, boolean cellHasFocus) {
+            String name = value.getName();
+            if (name.length() > 45) {
+                name = name.substring(0, 46) + "...";
             }
+
+            JLabel renderer = (JLabel) defaultRenderer.getListCellRendererComponent(list, name, index, isSelected, cellHasFocus);
+            renderer.setPreferredSize(preferredSize);
+            return renderer;
         }
-
-        return true;
-    }
-}
-
-class InstitutionCellRenderer implements ListCellRenderer<Institution> {
-    protected DefaultListCellRenderer defaultRenderer = new DefaultListCellRenderer();
-    private final static Dimension preferredSize = new Dimension(0, 20);
-
-    @Override
-    public Component getListCellRendererComponent(JList list, Institution value, int index, boolean isSelected, boolean cellHasFocus) {
-        String name = value.getName();
-        if (name.length() > 45) {
-            name = name.substring(0, 46) + "...";
-        }
-
-        JLabel renderer = (JLabel) defaultRenderer.getListCellRendererComponent(list, name, index, isSelected, cellHasFocus);
-        renderer.setPreferredSize(preferredSize);
-        return renderer;
     }
 }

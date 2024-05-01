@@ -62,8 +62,9 @@ public class ProfessorRepositoryImpl implements ProfessorRepository {
 
     @Override
     public void add(Professor element) throws DatabaseException {
-        if (findByUsername(element.getUsername()) != null) {
-            throw new DuplicateRecordException("cannot create professor `" + element.getUsername() + "` since it already exists");
+        final StudentRepositoryImpl studentRepository = new StudentRepositoryImpl();
+        if (findByUsername(element.getUsername()) != null || studentRepository.findByUsername(element.getUsername()) != null) {
+            throw new DuplicateRecordException("cannot create user `" + element.getUsername() + "` since it already exists");
         }
 
         this.database.getProfessorsUnsafe().add(element);
@@ -74,7 +75,7 @@ public class ProfessorRepositoryImpl implements ProfessorRepository {
     public void update(Professor element) throws DatabaseException {
         int index = this.database.getProfessorsUnsafe().indexOf(element);
         if (index < 0) {
-            throw new RecordNotFoundException("cannot update professor `" + element.getId() + "` since it doesn't exist");
+            throw new RecordNotFoundException("cannot update user `" + element.getId() + "` since it doesn't exist");
         }
 
         Professor prev = this.database.getProfessorsUnsafe().get(index);

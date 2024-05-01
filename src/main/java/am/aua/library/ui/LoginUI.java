@@ -1,5 +1,11 @@
 package am.aua.library.ui;
 
+import am.aua.library.models.Professor;
+import am.aua.library.models.Student;
+import am.aua.library.models.User;
+import am.aua.library.repositories.ProfessorRepositoryImpl;
+import am.aua.library.repositories.StudentRepositoryImpl;
+import am.aua.library.ui.core.Helpers;
 import am.aua.library.ui.core.LibraryManagementSystemUI;
 import am.aua.library.ui.core.Page;
 import am.aua.library.ui.core.Text;
@@ -9,11 +15,16 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 public class LoginUI extends Page {
+    private final StudentRepositoryImpl studentRepository;
+    private final ProfessorRepositoryImpl professorRepository;
+
     private JTextField usernameField;
     private JPasswordField passwordField;
 
     public LoginUI() {
         super("Login");
+        this.studentRepository = new StudentRepositoryImpl();
+        this.professorRepository = new ProfessorRepositoryImpl();
     }
 
     @Override
@@ -89,9 +100,22 @@ public class LoginUI extends Page {
             String password = new String(passwordField.getPassword());
 
             // Dummy check, replace with actual authentication logic
-            if (username.equals("user") && password.equals("password")) {
+            if (Helpers.isValidPassword(password) && Helpers.isValidUsername(username)) {
                 dispose(); // Close the login window
-                // TODO: Redirect the user to the database page
+
+                Student student = studentRepository.findByUsername(username);
+                if (student != null) {
+                    JOptionPane.showMessageDialog(LoginUI.this, "Logged in successfully as STUDENT: " + student.getFullName());
+                    new DatabaseUI(student.getId());
+                    return;
+                }
+
+                Professor professor = professorRepository.findByUsername(username);
+                if (professor != null) {
+                    JOptionPane.showMessageDialog(LoginUI.this, "Logged in successfully as PROFESSOR:" + professor.getFullName());
+                    new DatabaseUI(professor.getId());
+                    return;
+                }
             } else {
                 JOptionPane.showMessageDialog(LoginUI.this, "Invalid username or password");
             }
