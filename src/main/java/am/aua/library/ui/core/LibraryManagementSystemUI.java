@@ -33,7 +33,7 @@ public class LibraryManagementSystemUI extends Page {
     private JPanel createButtonPanel() {
         JPanel rootPanel = new JPanel();
         rootPanel.setLayout(new BorderLayout());
-        rootPanel.setBorder(new EmptyBorder(100, 50, 100, 50));
+        rootPanel.setBorder(new EmptyBorder(50, 50, 50, 50));
 
         JPanel panel = new JPanel();
         GridLayout layout = new GridLayout(2, 1);

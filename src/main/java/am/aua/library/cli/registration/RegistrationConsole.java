@@ -1,8 +1,6 @@
 package am.aua.library.cli.registration;
 
 import am.aua.library.cli.Console;
-import am.aua.library.dto.ProfessorRegistrationDto;
-import am.aua.library.dto.StudentRegistrationDto;
 
 import java.util.Scanner;
 
@@ -70,17 +68,17 @@ public class RegistrationConsole extends Console {
             switch (userTypeChoice) {
                 case 1:
                     // If user selects student, initiate student registration
-                    StudentRegistrationConsole studentRegistrationConsole = new StudentRegistrationConsole(new StudentRegistrationDto(
-                            firstName, lastName, username, password
-                    ));
-                    studentRegistrationConsole.run();
+//                    StudentRegistrationConsole studentRegistrationConsole = new StudentRegistrationConsole(new StudentRegistrationDto(
+//                            firstName, lastName, username, password
+//                    ));
+//                    studentRegistrationConsole.run();
                     break;
                 case 2:
                     // If user selects professor, initiate professor registration
-                    ProfessorRegistrationConsole professorRegistrationConsole = new ProfessorRegistrationConsole(new ProfessorRegistrationDto(
-                                    firstName, lastName, username, password
-                    ));
-                    professorRegistrationConsole.run();
+//                    ProfessorRegistrationConsole professorRegistrationConsole = new ProfessorRegistrationConsole(new ProfessorRegistrationDto(
+//                            firstName, lastName, username, password
+//                    ));
+//                    professorRegistrationConsole.run();
                     break;
                 default:
                     // If user enters an incorrect choice, display error message

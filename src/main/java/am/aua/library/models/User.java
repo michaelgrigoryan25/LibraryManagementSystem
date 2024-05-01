@@ -13,17 +13,12 @@ public abstract class User {
      * The unique identifier for the user.
      */
     @Expose
-    private final Long id;
+    private Long id;
     /**
-     * The first name of the user.
+     * The full name of the user.
      */
     @Expose
-    private String firstName;
-    /**
-     * The last name of the user.
-     */
-    @Expose
-    private String lastName;
+    private String fullName;
     /**
      * The username of the user.
      */
@@ -38,16 +33,14 @@ public abstract class User {
     /**
      * Constructs a new User object with the specified attributes.
      *
-     * @param firstName the first name of the user
-     * @param lastName  the last name of the user
-     * @param username  the username of the user
-     * @param password  the password of the user
+     * @param fullName the full name of the user
+     * @param username the username of the user
+     * @param password the password of the user
      */
-    public User(String firstName, String lastName, String username, String password) {
+    public User(String fullName, String username, String password) {
         this.id = Math.abs(UUID.randomUUID().getLeastSignificantBits());
         // Converting everything to uppercase for consistency
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.fullName = fullName;
         this.username = username;
         // Password remains as is without any other modifications
         this.password = password;
@@ -87,13 +80,14 @@ public abstract class User {
         return id;
     }
 
-    /**
-     * Gets the first name of the user.
-     *
-     * @return the first name of the user
-     */
-    public String getFirstName() {
-        return firstName;
+    public void setId(Long id) {
+        if (this.id != null && id >= 0) {
+            this.id = id;
+        }
+    }
+
+    public String getFullName() {
+        return this.fullName;
     }
 
     /**
@@ -101,29 +95,9 @@ public abstract class User {
      *
      * @param firstName the first name to set
      */
-    public void setFirstName(String firstName) {
+    public void setFullName(String firstName) {
         if (firstName != null && !firstName.isEmpty() && !firstName.isBlank()) {
-            this.firstName = firstName.toUpperCase();
-        }
-    }
-
-    /**
-     * Gets the last name of the user.
-     *
-     * @return the last name of the user
-     */
-    public String getLastName() {
-        return lastName;
-    }
-
-    /**
-     * Sets the last name of the user.
-     *
-     * @param lastName the last name to set
-     */
-    public void setLastName(String lastName) {
-        if (lastName != null && !lastName.isEmpty() && !lastName.isBlank()) {
-            this.lastName = lastName.toUpperCase();
+            this.fullName = firstName.toUpperCase();
         }
     }
 
