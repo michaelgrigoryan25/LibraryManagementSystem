@@ -8,7 +8,7 @@ import am.aua.library.models.Student;
 
 import java.util.List;
 
-public class StudentRepositoryImpl implements UserRepository<Student> {
+public class StudentRepositoryImpl implements StudentRepository {
     private final Database database = Database.getInstance();
 
     @Override
