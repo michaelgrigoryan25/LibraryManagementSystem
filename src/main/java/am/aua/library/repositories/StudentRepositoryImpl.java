@@ -45,17 +45,6 @@ public class StudentRepositoryImpl implements StudentRepository {
     }
 
     @Override
-    public Student findByUsernameUnsafe(String username) {
-        for (Student user : this.database.getStudentsUnsafe()) {
-            if (user.getUsername().equals(username)) {
-                return user;
-            }
-        }
-
-        return null;
-    }
-
-    @Override
     public List<Student> findAll() {
         return database.getStudents();
     }

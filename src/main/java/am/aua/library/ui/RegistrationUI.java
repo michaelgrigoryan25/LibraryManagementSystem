@@ -9,7 +9,6 @@ import am.aua.library.models.Student;
 import am.aua.library.repositories.ProfessorRepositoryImpl;
 import am.aua.library.repositories.StudentRepositoryImpl;
 import am.aua.library.ui.core.Helpers;
-import am.aua.library.ui.core.LibraryManagementSystemUI;
 import am.aua.library.ui.core.Page;
 import am.aua.library.ui.core.Text;
 
@@ -136,7 +135,7 @@ public class RegistrationUI extends Page {
         JButton button = new JButton("Back to Main Menu");
         button.addActionListener(e -> {
             dispose();
-            new LibraryManagementSystemUI();
+            new MainUI();
         });
 
         return button;
@@ -182,7 +181,7 @@ public class RegistrationUI extends Page {
                     this.userRepository.add(student);
                     JOptionPane.showMessageDialog(RegistrationUI.this, "Registered successfully!");
                     dispose();
-                    new DatabaseUI(student.getId());
+                    new ReaderUI(student.getId());
                 } catch (DatabaseException ex) {
                     if (ex instanceof DuplicateRecordException) {
                         JOptionPane.showMessageDialog(RegistrationUI.this, "Student with username `" + username + "` already exists. Choose a different username.");
@@ -199,7 +198,7 @@ public class RegistrationUI extends Page {
                         this.professorRepository.add(professor);
                         JOptionPane.showMessageDialog(RegistrationUI.this, "Registered successfully!");
                         dispose();
-                        new DatabaseUI(professor.getId());
+                        new AdminUI(professor.getId());
                     } catch (DatabaseException ex) {
                         if (ex instanceof DuplicateRecordException) {
                             JOptionPane.showMessageDialog(RegistrationUI.this, "Professor with username `" + username + "` already exists. Choose a different username.");

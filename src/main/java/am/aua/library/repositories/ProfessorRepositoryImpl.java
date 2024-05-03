@@ -23,17 +23,6 @@ public class ProfessorRepositoryImpl implements ProfessorRepository {
     }
 
     @Override
-    public Professor findByUsernameUnsafe(String username) {
-        for (Professor professor : this.database.getProfessorsUnsafe()) {
-            if (professor.getUsername().equals(username)) {
-                return professor;
-            }
-        }
-
-        return null;
-    }
-
-    @Override
     public Professor get(Long id) {
         for (Professor professor : this.database.getProfessors()) {
             if (professor.getId().equals(id)) {

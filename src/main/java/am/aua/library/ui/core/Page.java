@@ -18,9 +18,10 @@ public abstract class Page extends JFrame {
     protected Page(String title) {
         super(title == null ? DEFAULT_TITLE : (DEFAULT_TITLE + " :: " + title));
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        this.setupPage();
         this.setupComponents();
+        this.setupPage();
         this.setMinimumSize(Page.DEFAULT_DIMENSIONS);
+        this.setResizable(false);
         this.setPreferredSize(Page.DEFAULT_DIMENSIONS);
         this.setLocationRelativeTo(null);
         this.pack();

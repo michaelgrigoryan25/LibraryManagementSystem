@@ -1,12 +1,9 @@
 package am.aua.library.ui;
 
-import am.aua.library.models.Professor;
-import am.aua.library.models.Student;
 import am.aua.library.models.User;
 import am.aua.library.repositories.ProfessorRepositoryImpl;
 import am.aua.library.repositories.StudentRepositoryImpl;
 import am.aua.library.ui.core.Helpers;
-import am.aua.library.ui.core.LibraryManagementSystemUI;
 import am.aua.library.ui.core.Page;
 import am.aua.library.ui.core.Text;
 
@@ -87,7 +84,7 @@ public class LoginUI extends Page {
         JButton button = new JButton("Back to Main Menu");
         button.addActionListener(e -> {
             dispose();
-            new LibraryManagementSystemUI();
+            new MainUI();
         });
 
         return button;
@@ -99,27 +96,30 @@ public class LoginUI extends Page {
             String username = usernameField.getText();
             String password = new String(passwordField.getPassword());
 
-            // Dummy check, replace with actual authentication logic
             if (Helpers.isValidPassword(password) && Helpers.isValidUsername(username)) {
-                dispose(); // Close the login window
+                this.dispose(); // Close the login window
 
-                Student student = studentRepository.findByUsername(username);
-                if (student != null) {
-                    JOptionPane.showMessageDialog(LoginUI.this, "Logged in successfully as STUDENT: " + student.getFullName());
-                    new DatabaseUI(student.getId());
+                boolean isAdmin = false;
+                User user = studentRepository.findByUsername(username);
+                if (user == null) {
+                    user = professorRepository.findByUsername(username);
+                    isAdmin = true;
+                }
+
+                if (user != null && password.equals(user.getPassword())) {
+                    if (isAdmin) {
+                        new AdminUI(user.getId());
+                        return;
+                    }
+
+                    new ReaderUI(user.getId());
                     return;
                 }
 
-                Professor professor = professorRepository.findByUsername(username);
-                if (professor != null) {
-                    JOptionPane.showMessageDialog(LoginUI.this, "Logged in successfully as PROFESSOR:" + professor.getFullName());
-                    new DatabaseUI(professor.getId());
-                    return;
-                }
-            } else {
                 JOptionPane.showMessageDialog(LoginUI.this, "Invalid username or password");
             }
         });
+
         return register;
     }
 }

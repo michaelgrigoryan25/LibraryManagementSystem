@@ -1,9 +1,10 @@
 package am.aua.library.repositories;
 
+import am.aua.library.database.DatabaseException;
 import am.aua.library.models.Student;
 
-public interface StudentRepository extends Repository<Student> {
-    Student findByUsername(String username);
+import java.util.List;
 
-    Student findByUsernameUnsafe(String username);
+public interface StudentRepository extends UserRepository<Student> {
+
 }

@@ -46,30 +46,9 @@ public abstract class User {
         this.password = password;
     }
 
-    /**
-     * Gets the password of the user.
-     *
-     * @return the password of the user
-     */
     public String getPassword() {
-        return password;
+        return this.password;
     }
-
-    /**
-     * Sets the password of the user.
-     * The password must not be null and must have a length greater than 8 characters.
-     * If the password meets these conditions, it will be set; otherwise, it will be unchanged.
-     *
-     * @param password the password to set
-     */
-    public void setPassword(String password) {
-        // Check if the password is not null and its length is greater than 8 characters
-        if (password != null && password.length() > 8) {
-            // If the password meets the conditions, set it
-            this.password = password;
-        }
-    }
-
 
     /**
      * Gets the unique identifier for the user.
@@ -88,17 +67,6 @@ public abstract class User {
 
     public String getFullName() {
         return this.fullName;
-    }
-
-    /**
-     * Sets the first name of the user.
-     *
-     * @param firstName the first name to set
-     */
-    public void setFullName(String firstName) {
-        if (firstName != null && !firstName.isEmpty() && !firstName.isBlank()) {
-            this.fullName = firstName.toUpperCase();
-        }
     }
 
     /**

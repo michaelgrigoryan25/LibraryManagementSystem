@@ -133,3 +133,4 @@ replay_pid*
 /build
 /.gradle
 /resources/internal
+/.env.local
