@@ -104,14 +104,14 @@ public class LoginUI extends Page {
                 Student student = studentRepository.findByUsername(username);
                 if (student != null) {
                     JOptionPane.showMessageDialog(LoginUI.this, "Logged in successfully as STUDENT: " + student.getFullName());
-                    new DatabaseUI(student.getId());
+                    new ReaderUI(student.getId());
                     return;
                 }
 
                 Professor professor = professorRepository.findByUsername(username);
                 if (professor != null) {
                     JOptionPane.showMessageDialog(LoginUI.this, "Logged in successfully as PROFESSOR:" + professor.getFullName());
-                    new DatabaseUI(professor.getId());
+                    new AdminUI(professor.getId());
                     return;
                 }
             } else {

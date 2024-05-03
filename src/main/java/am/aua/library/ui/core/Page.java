@@ -21,6 +21,7 @@ public abstract class Page extends JFrame {
         this.setupPage();
         this.setupComponents();
         this.setMinimumSize(Page.DEFAULT_DIMENSIONS);
+        this.setResizable(false);
         this.setPreferredSize(Page.DEFAULT_DIMENSIONS);
         this.setLocationRelativeTo(null);
         this.pack();
