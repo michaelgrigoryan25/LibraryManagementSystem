@@ -1,8 +1,11 @@
 package am.aua.library.ui;
 
+import am.aua.library.ui.components.BookListPanel;
+import am.aua.library.ui.components.BookSearchPanel;
 import am.aua.library.ui.core.Page;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.List;
 
 public class AdminUI extends Page {
@@ -16,13 +19,12 @@ public class AdminUI extends Page {
 
     @Override
     protected void setupPage() {
-        add(jList);
+        setLayout(new GridLayout(2, 1));
+        add(new BookSearchPanel());
+        add(new BookListPanel());
     }
 
     @Override
     protected void setupComponents() {
-        DefaultListModel<String> listModel = new DefaultListModel<>();
-        listModel.addAll(List.of("book 1"));
-        this.jList = new JList<>(listModel);
     }
 }

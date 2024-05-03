@@ -11,7 +11,7 @@ import java.util.ArrayList;
  */
 public class Book implements Comparable<Book> {
     @Expose
-    private Long isbn;
+    private Long id;
     @Expose
     private String title;
     @Expose
@@ -31,6 +31,8 @@ public class Book implements Comparable<Book> {
     @Expose
     private URL cover;
     @Expose
+    private URL link;
+    @Expose
     private ArrayList<Long> renters;
     @Expose
     private ArrayList<String> authors;
@@ -38,7 +40,7 @@ public class Book implements Comparable<Book> {
     private ArrayList<String> categories;
 
     public Book(
-            Long isbn,
+            Long id,
             String title,
             String subtitle,
             String description,
@@ -47,8 +49,8 @@ public class Book implements Comparable<Book> {
             int pages,
             URL cover
     ) {
-        setYear(year);
-        setIsbn(isbn);
+        this.id = id;
+        this.year = year;
         this.pages = pages;
         this.cover = cover;
         this.title = title;
@@ -61,11 +63,15 @@ public class Book implements Comparable<Book> {
     }
 
     public void addCategory(String category) {
-        this.categories.add(category);
+        if (category != null && !category.isBlank() && !category.isEmpty()) {
+            this.categories.add(category.toUpperCase());
+        }
     }
 
     public void removeCategory(String category) {
-        this.categories.remove(category);
+        if (category != null) {
+            this.categories.remove(category.toUpperCase());
+        }
     }
 
     private void setYear(int year) {
@@ -75,7 +81,9 @@ public class Book implements Comparable<Book> {
     }
 
     public void setPages(int pages) {
-        this.pages = pages;
+        if (pages > 0) {
+            this.pages = pages;
+        }
     }
 
     public void incrementCopies() {
@@ -86,9 +94,9 @@ public class Book implements Comparable<Book> {
         if (this.copies > 0) this.copies--;
     }
 
-    public void setIsbn(Long isbn) {
-        if ((isbn + "").length() == 13) {
-            this.isbn = isbn;
+    public void setId(Long id) {
+        if (id != null && id > 0) {
+            this.id = id;
         }
     }
 
@@ -114,8 +122,8 @@ public class Book implements Comparable<Book> {
         return this.renters;
     }
 
-    public Long getIsbn() {
-        return isbn;
+    public Long getId() {
+        return this.id;
     }
 
     public String getTitle() {
