@@ -8,23 +8,12 @@ import am.aua.library.models.Professor;
 
 import java.util.List;
 
-public class ProfessorRepositoryImpl implements ProfessorRepository {
+public class ProfessorRepositoryImpl implements UserRepository<Professor> {
     private final Database database = Database.getInstance();
 
     @Override
     public Professor findByUsername(String username) {
         for (Professor professor : this.database.getProfessors()) {
-            if (professor.getUsername().equals(username)) {
-                return professor;
-            }
-        }
-
-        return null;
-    }
-
-    @Override
-    public Professor findByUsernameUnsafe(String username) {
-        for (Professor professor : this.database.getProfessorsUnsafe()) {
             if (professor.getUsername().equals(username)) {
                 return professor;
             }

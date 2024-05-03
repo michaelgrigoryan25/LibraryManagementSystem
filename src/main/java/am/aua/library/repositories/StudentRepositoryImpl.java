@@ -8,7 +8,7 @@ import am.aua.library.models.Student;
 
 import java.util.List;
 
-public class StudentRepositoryImpl implements StudentRepository {
+public class StudentRepositoryImpl implements UserRepository<Student> {
     private final Database database = Database.getInstance();
 
     @Override
@@ -36,17 +36,6 @@ public class StudentRepositoryImpl implements StudentRepository {
     @Override
     public Student findByUsername(String username) {
         for (Student user : this.database.getStudents()) {
-            if (user.getUsername().equals(username)) {
-                return user;
-            }
-        }
-
-        return null;
-    }
-
-    @Override
-    public Student findByUsernameUnsafe(String username) {
-        for (Student user : this.database.getStudentsUnsafe()) {
             if (user.getUsername().equals(username)) {
                 return user;
             }

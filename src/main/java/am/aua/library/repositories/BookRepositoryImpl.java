@@ -68,7 +68,7 @@ public class BookRepositoryImpl implements BookRepository {
     @Override
     public Book get(Long id) {
         for (Book book : database.getBooks()) {
-            if (book.getId().equals(id)) {
+            if (book.getIsbn().equals(id)) {
                 return book;
             }
         }
@@ -79,7 +79,7 @@ public class BookRepositoryImpl implements BookRepository {
     @Override
     public Book getUnsafe(Long id) {
         for (Book book : database.getBooksUnsafe()) {
-            if (book.getId().equals(id)) {
+            if (book.getIsbn().equals(id)) {
                 return book;
             }
         }
@@ -94,8 +94,8 @@ public class BookRepositoryImpl implements BookRepository {
 
     @Override
     public void add(Book element) throws DatabaseException {
-        if (exists(element.getId())) {
-            throw new DuplicateRecordException("book with id `" + element.getId() + "` already exists");
+        if (exists(element.getIsbn())) {
+            throw new DuplicateRecordException("book with id `" + element.getIsbn() + "` already exists");
         }
 
         this.database.getBooksUnsafe().add(element);
@@ -106,12 +106,12 @@ public class BookRepositoryImpl implements BookRepository {
     public void update(Book element) throws DatabaseException {
         int index = this.database.getBooksUnsafe().indexOf(element);
         if (index < 0) {
-            throw new RecordNotFoundException("cannot update user `" + element.getId() + "` since it doesn't exist");
+            throw new RecordNotFoundException("cannot update user `" + element.getIsbn() + "` since it doesn't exist");
         }
 
-        Professor prev = this.database.getProfessorsUnsafe().get(index);
+        Book prev = this.database.getBooksUnsafe().get(index);
         // This ensures that the IDs and the usernames are not modified
-        element.setId(prev.getId());
+        element.setIsbn(prev.getIsbn());
 
         this.database.getBooksUnsafe().set(index, element);
         this.database.persist();
