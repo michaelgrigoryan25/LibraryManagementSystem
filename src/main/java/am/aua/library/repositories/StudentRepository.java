@@ -10,17 +10,24 @@ public interface StudentRepository extends UserRepository<Student> {
     @Override
     Student findByUsername(String username);
 
+    @Override
     Student get(Long id);
 
+    @Override
     Student getUnsafe(Long id);
 
+    @Override
     List<Student> findAll();
 
+    @Override
     void add(Student student) throws DatabaseException;
 
+    @Override
     void update(Student student) throws DatabaseException;
 
+    @Override
     void remove(Student student) throws DatabaseException;
 
+    @Override
     boolean exists(Long id);
 }
