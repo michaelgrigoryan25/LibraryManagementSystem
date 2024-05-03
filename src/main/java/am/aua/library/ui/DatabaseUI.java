@@ -5,12 +5,13 @@ import am.aua.library.repositories.StudentRepositoryImpl;
 import am.aua.library.ui.core.Page;
 
 public class DatabaseUI extends Page {
+    private final Long id;
     private final StudentRepositoryImpl studentRepository;
     private final ProfessorRepositoryImpl professorRepository;
-    private Long id;
 
     public DatabaseUI(Long id) {
         super();
+        this.id = id;
         this.studentRepository = new StudentRepositoryImpl();
         this.professorRepository = new ProfessorRepositoryImpl();
         if (studentRepository.exists(id)) {

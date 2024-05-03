@@ -6,7 +6,7 @@ public class Helpers {
     }
 
     public static boolean isValidPassword(String input) {
-        return input.length() > 8 && !input.isBlank();
+        return input.length() >= 8 && !input.isBlank();
     }
 
     public static boolean isAscii(String input) {

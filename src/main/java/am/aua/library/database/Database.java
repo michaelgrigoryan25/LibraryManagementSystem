@@ -1,5 +1,6 @@
 package am.aua.library.database;
 
+import am.aua.library.models.Book;
 import am.aua.library.models.Institution;
 import am.aua.library.models.Professor;
 import am.aua.library.models.Student;
@@ -18,6 +19,7 @@ public class Database {
     private static final String DEFAULT_INTERNAL_PATH = "internal";
     private static final Path DEFAULT_DATABASE_PATH = Path.of(DEFAULT_DATABASE_DIRECTORY, DEFAULT_INTERNAL_PATH);
 
+    private static final String DEFAULT_BOOKS_DATABASE = "b.json";
     private static final String DEFAULT_STUDENTS_DATABASE = "s.json";
     private static final String DEFAULT_PROFESSORS_DATABASE = "p.json";
     private static final String DEFAULT_INSTITUTIONS_DATABASE = "institutions.json";
@@ -27,6 +29,7 @@ public class Database {
     private static Database instance;
     private static String directory = DEFAULT_DATABASE_DIRECTORY;
 
+    private ArrayList<Book> books;
     private ArrayList<Student> students;
     private ArrayList<Professor> professors;
     private ArrayList<Institution> institutions;
@@ -60,6 +63,10 @@ public class Database {
     public synchronized ArrayList<Student> getStudentsUnsafe() {
         return this.students;
     }
+
+    public ArrayList<Book> getBooks() { return new ArrayList<>(this.books); }
+
+    public synchronized ArrayList<Book> getBooksUnsafe() { return this.books; }
 
     public ArrayList<Professor> getProfessors() {
         return new ArrayList<>(this.professors);
@@ -96,9 +103,9 @@ public class Database {
                 }
             }
 
+            createDatabase(DEFAULT_BOOKS_DATABASE, "[]");
             createDatabase(DEFAULT_STUDENTS_DATABASE, "[]");
             createDatabase(DEFAULT_PROFESSORS_DATABASE, "[]");
-
             Database.directory = directory;
         }
     }
@@ -130,6 +137,10 @@ public class Database {
 
         List<Professor> professors = loadArrayDataFromJson(DEFAULT_DATABASE_PATH.resolve(DEFAULT_PROFESSORS_DATABASE), Professor[].class);
         this.professors = new ArrayList<>(professors);
+
+        List<Book> books = loadArrayDataFromJson(DEFAULT_DATABASE_PATH.resolve(DEFAULT_BOOKS_DATABASE), Book[].class);
+        this.books = new ArrayList<>(books);
+        this.books.sort(Book::compareTo);
 
         this.persist();
     }

@@ -1,14 +1,13 @@
-package am.aua.library.ui.core;
+package am.aua.library.ui;
 
 import am.aua.library.database.Database;
-import am.aua.library.ui.LoginUI;
-import am.aua.library.ui.RegistrationUI;
+import am.aua.library.ui.core.Page;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
-public class LibraryManagementSystemUI extends Page {
+public class MainUI extends Page {
     @Override
     protected void setupPage() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

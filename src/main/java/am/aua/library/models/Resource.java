@@ -14,7 +14,7 @@ public abstract class Resource {
      * The id of the resource.
      */
     @Expose
-    private final long id;
+    private Long id;
     /**
      * The title of the resource.
      */
@@ -35,6 +35,9 @@ public abstract class Resource {
      */
     @Expose
     private Date publishedAt;
+    // The number of current resources available
+    @Expose
+    private int availableQuantity;
 
     /**
      * Constructs a new Resource object with the specified attributes.
@@ -48,8 +51,33 @@ public abstract class Resource {
         this.id = UUID.randomUUID().getLeastSignificantBits();
         this.title = title.toUpperCase();
         this.content = content;
+        this.availableQuantity = 0;
         this.publishedBy = publishedBy;
         this.publishedAt = publishedAt;
+    }
+
+    public int getAvailableQuantity() {
+        return this.availableQuantity;
+    }
+
+    public void incrementAvailableQuantity() {
+        this.availableQuantity++;
+    }
+
+    public void decrementAvailableQuantity() {
+        if (this.availableQuantity > 0) {
+            this.availableQuantity--;
+        }
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        if (id != null && id >= 0) {
+            this.id = id;
+        }
     }
 
     /**

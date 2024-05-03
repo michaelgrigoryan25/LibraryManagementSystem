@@ -2,11 +2,9 @@ package am.aua.library.ui;
 
 import am.aua.library.models.Professor;
 import am.aua.library.models.Student;
-import am.aua.library.models.User;
 import am.aua.library.repositories.ProfessorRepositoryImpl;
 import am.aua.library.repositories.StudentRepositoryImpl;
 import am.aua.library.ui.core.Helpers;
-import am.aua.library.ui.core.LibraryManagementSystemUI;
 import am.aua.library.ui.core.Page;
 import am.aua.library.ui.core.Text;
 
@@ -87,7 +85,7 @@ public class LoginUI extends Page {
         JButton button = new JButton("Back to Main Menu");
         button.addActionListener(e -> {
             dispose();
-            new LibraryManagementSystemUI();
+            new MainUI();
         });
 
         return button;
@@ -120,6 +118,7 @@ public class LoginUI extends Page {
                 JOptionPane.showMessageDialog(LoginUI.this, "Invalid username or password");
             }
         });
+
         return register;
     }
 }
