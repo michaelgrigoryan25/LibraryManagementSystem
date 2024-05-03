@@ -9,14 +9,15 @@ import am.aua.library.models.Professor;
 import am.aua.library.models.User;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class BookRepositoryImpl implements BookRepository {
     private final Database database = Database.getInstance();
 
     @Override
-    public ArrayList<Book> findByTitle(String title) {
-        ArrayList<Book> filtered = new ArrayList<>();
+    public List<Book> findByTitle(String title) {
+        List<Book> filtered = new LinkedList<>();
         for (Book book : database.getBooks()) {
             if (book.getTitle().contains(title)) {
                 filtered.add(book);
