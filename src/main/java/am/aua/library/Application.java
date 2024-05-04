@@ -1,7 +1,7 @@
 package am.aua.library;
 
 import am.aua.library.database.Database;
-import am.aua.library.ui.MainUI;
+import am.aua.library.ui.views.MainView;
 
 import javax.swing.*;
 
@@ -20,6 +20,6 @@ public class Application {
         // the information.
         Database.setDirectory(baseDirectory);
         // Starting the UI using SwingUtilities
-        SwingUtilities.invokeLater(MainUI::new);
+        SwingUtilities.invokeLater(MainView::new);
     }
 }

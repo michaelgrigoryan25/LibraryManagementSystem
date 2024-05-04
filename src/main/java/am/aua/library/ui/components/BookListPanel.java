@@ -3,19 +3,21 @@ package am.aua.library.ui.components;
 import am.aua.library.models.Book;
 import am.aua.library.repositories.BookRepositoryImpl;
 
-import javax.swing.*;
+import java.util.List;
 
-public class BookListPanel extends JPanel {
-    private JList<Book> bookJList;
-    private DefaultListModel<Book> bookListModel;
+public class BookListPanel extends AbstractListPanel<Book> {
     private final BookRepositoryImpl bookRepository;
 
     public BookListPanel() {
         super();
         this.bookRepository = new BookRepositoryImpl();
-        this.bookListModel = new DefaultListModel<>();
-        this.bookListModel.addAll(this.bookRepository.findAll());
-        this.bookJList = new JList<>(bookListModel);
-        this.add(bookJList);
+    }
+
+    @Override
+    public void onSearch(String query) {
+        List<Book> books = this.bookRepository.findByTitle(query);
+
+        this.getListModel().clear();
+        this.getListModel().addAll(books);
     }
 }

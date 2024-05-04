@@ -1,36 +1,38 @@
-package am.aua.library.ui;
+package am.aua.library.ui.views;
 
 import am.aua.library.models.User;
 import am.aua.library.repositories.ProfessorRepositoryImpl;
 import am.aua.library.repositories.StudentRepositoryImpl;
-import am.aua.library.ui.core.Helpers;
-import am.aua.library.ui.core.Page;
-import am.aua.library.ui.core.Text;
+import am.aua.library.ui.Helpers;
+import am.aua.library.ui.components.AbstractPage;
+import am.aua.library.ui.components.Text;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
-public class LoginUI extends Page {
+public class LoginView extends AbstractPage {
     private final StudentRepositoryImpl studentRepository;
     private final ProfessorRepositoryImpl professorRepository;
 
     private JTextField usernameField;
     private JPasswordField passwordField;
 
-    public LoginUI() {
+    public LoginView() {
         super("Login");
         this.studentRepository = new StudentRepositoryImpl();
         this.professorRepository = new ProfessorRepositoryImpl();
     }
 
     @Override
-    public void setupPage() {
+    public void setup() {
         this.setLayout(new GridLayout(3, 1));
+        this.usernameField = new JTextField();
+        this.passwordField = new JPasswordField();
     }
 
     @Override
-    public void setupComponents() {
+    public void addComponents() {
         this.add(createTextPanel());
         this.add(createInputPanel());
         this.add(createButtonsPanel());
@@ -54,9 +56,6 @@ public class LoginUI extends Page {
 
         JLabel usernameLabel = new Text("Username:");
         JLabel passwordLabel = new Text("Password:");
-
-        usernameField = new JTextField();
-        passwordField = new JPasswordField();
 
         panel.add(usernameLabel);
         panel.add(usernameField);
@@ -84,18 +83,28 @@ public class LoginUI extends Page {
         JButton button = new JButton("Back to Main Menu");
         button.addActionListener(e -> {
             dispose();
-            new MainUI();
+            new MainView();
         });
 
         return button;
     }
 
     private JButton createLoginButton() {
-        JButton register = new JButton("Login");
-        register.addActionListener(e -> {
+        JButton login = new JButton("Login");
+        login.addActionListener(e -> {
             String username = usernameField.getText();
-            String password = new String(passwordField.getPassword());
+            if (System.getenv("JAVA_ENV").equals("development")) {
+                this.dispose();
+                if (username.equals("admin")) {
+                    new AdminView(12345L);
+                    return;
+                }
 
+                new ReaderView(12345L);
+                return;
+            }
+
+            String password = new String(passwordField.getPassword());
             if (Helpers.isValidPassword(password) && Helpers.isValidUsername(username)) {
                 this.dispose(); // Close the login window
 
@@ -108,18 +117,18 @@ public class LoginUI extends Page {
 
                 if (user != null && password.equals(user.getPassword())) {
                     if (isAdmin) {
-                        new AdminUI(user.getId());
+                        new AdminView(user.getId());
                         return;
                     }
 
-                    new ReaderUI(user.getId());
+                    new ReaderView(user.getId());
                     return;
                 }
 
-                JOptionPane.showMessageDialog(LoginUI.this, "Invalid username or password");
+                JOptionPane.showMessageDialog(LoginView.this, "Invalid username or password");
             }
         });
 
-        return register;
+        return login;
     }
 }

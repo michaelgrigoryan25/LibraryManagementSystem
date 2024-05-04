@@ -1,4 +1,4 @@
-package am.aua.library.ui;
+package am.aua.library.ui.views;
 
 import am.aua.library.database.Database;
 import am.aua.library.database.DatabaseException;
@@ -8,19 +8,16 @@ import am.aua.library.models.Professor;
 import am.aua.library.models.Student;
 import am.aua.library.repositories.ProfessorRepositoryImpl;
 import am.aua.library.repositories.StudentRepositoryImpl;
-import am.aua.library.ui.core.Helpers;
-import am.aua.library.ui.core.Page;
-import am.aua.library.ui.core.Text;
+import am.aua.library.ui.Helpers;
+import am.aua.library.ui.components.AbstractPage;
+import am.aua.library.ui.components.Text;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.util.Arrays;
 
-public class RegistrationUI extends Page {
-    private final StudentRepositoryImpl userRepository;
-    private final ProfessorRepositoryImpl professorRepository;
-
+public class RegistrationView extends AbstractPage {
     private enum UserType {STUDENT, PROFESSOR}
 
     private JTextField fullNameField;
@@ -31,19 +28,22 @@ public class RegistrationUI extends Page {
     private JLabel professorRegistrationKeyLabel;
     private JPasswordField professorRegistrationKeyField;
 
-    public RegistrationUI() {
+    private StudentRepositoryImpl userRepository;
+    private ProfessorRepositoryImpl professorRepository;
+
+    public RegistrationView() {
         super("Registration");
+    }
+
+    @Override
+    public void setup() {
+        this.setLayout(new GridLayout(3, 1));
         this.userRepository = new StudentRepositoryImpl();
         this.professorRepository = new ProfessorRepositoryImpl();
     }
 
     @Override
-    public void setupPage() {
-        this.setLayout(new GridLayout(3, 1));
-    }
-
-    @Override
-    public void setupComponents() {
+    public void addComponents() {
         this.add(createTextPanel());
         this.add(createInputPanel());
         this.add(createButtonsPanel());
@@ -135,7 +135,7 @@ public class RegistrationUI extends Page {
         JButton button = new JButton("Back to Main Menu");
         button.addActionListener(e -> {
             dispose();
-            new MainUI();
+            new MainView();
         });
 
         return button;
@@ -146,31 +146,31 @@ public class RegistrationUI extends Page {
         button.addActionListener(e -> {
             String fullName = this.fullNameField.getText();
             if (fullName.isBlank() || fullName.isEmpty()) {
-                JOptionPane.showMessageDialog(RegistrationUI.this, "Please enter a valid full name");
+                JOptionPane.showMessageDialog(RegistrationView.this, "Please enter a valid full name");
                 return;
             }
 
             String username = this.usernameField.getText().toLowerCase();
             if (!Helpers.isValidUsername(username)) {
-                JOptionPane.showMessageDialog(RegistrationUI.this, "Username cannot contain spaces, be empty, or contain characters other than ASCII");
+                JOptionPane.showMessageDialog(RegistrationView.this, "Username cannot contain spaces, be empty, or contain characters other than ASCII");
                 return;
             }
 
             String password = new String(this.passwordField.getPassword());
             if (!Helpers.isValidPassword(password)) {
-                JOptionPane.showMessageDialog(RegistrationUI.this, "Password must contain at least 8 characters");
+                JOptionPane.showMessageDialog(RegistrationView.this, "Password must contain at least 8 characters");
                 return;
             }
 
             UserType type = (UserType) this.userTypeComboBox.getSelectedItem();
             if (type == null) {
-                JOptionPane.showMessageDialog(RegistrationUI.this, "Please select a user type for registration");
+                JOptionPane.showMessageDialog(RegistrationView.this, "Please select a user type for registration");
                 return;
             }
 
             Institution institution = (Institution) this.institutionComboBox.getSelectedItem();
             if (institution == null) {
-                JOptionPane.showMessageDialog(RegistrationUI.this, "Please select a verified institution");
+                JOptionPane.showMessageDialog(RegistrationView.this, "Please select a verified institution");
                 return;
             }
 
@@ -179,12 +179,12 @@ public class RegistrationUI extends Page {
                 Student student = new Student(fullName, username, password, institution.getId());
                 try {
                     this.userRepository.add(student);
-                    JOptionPane.showMessageDialog(RegistrationUI.this, "Registered successfully!");
+                    JOptionPane.showMessageDialog(RegistrationView.this, "Registered successfully!");
                     dispose();
-                    new ReaderUI(student.getId());
+                    new ReaderView(student.getId());
                 } catch (DatabaseException ex) {
                     if (ex instanceof DuplicateRecordException) {
-                        JOptionPane.showMessageDialog(RegistrationUI.this, "Student with username `" + username + "` already exists. Choose a different username.");
+                        JOptionPane.showMessageDialog(RegistrationView.this, "Student with username `" + username + "` already exists. Choose a different username.");
                         return;
                     }
 
@@ -196,12 +196,12 @@ public class RegistrationUI extends Page {
                     Professor professor = new Professor(fullName, username, password, institution.getId());
                     try {
                         this.professorRepository.add(professor);
-                        JOptionPane.showMessageDialog(RegistrationUI.this, "Registered successfully!");
+                        JOptionPane.showMessageDialog(RegistrationView.this, "Registered successfully!");
                         dispose();
-                        new AdminUI(professor.getId());
+                        new AdminView(professor.getId());
                     } catch (DatabaseException ex) {
                         if (ex instanceof DuplicateRecordException) {
-                            JOptionPane.showMessageDialog(RegistrationUI.this, "Professor with username `" + username + "` already exists. Choose a different username.");
+                            JOptionPane.showMessageDialog(RegistrationView.this, "Professor with username `" + username + "` already exists. Choose a different username.");
                             return;
                         }
 
@@ -209,7 +209,7 @@ public class RegistrationUI extends Page {
                         System.err.print(": " + ex.getMessage());
                     }
                 } else {
-                    JOptionPane.showMessageDialog(RegistrationUI.this, "Professor registration key is invalid");
+                    JOptionPane.showMessageDialog(RegistrationView.this, "Professor registration key is invalid");
                 }
             }
         });

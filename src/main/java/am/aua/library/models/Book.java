@@ -165,6 +165,11 @@ public class Book implements Comparable<Book> {
         return diff;
     }
 
+    @Override
+    public String toString() {
+        return this.title;
+    }
+
     public String getDescription() {
         return description;
     }

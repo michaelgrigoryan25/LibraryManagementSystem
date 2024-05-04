@@ -1,4 +1,4 @@
-package am.aua.library.ui.core;
+package am.aua.library.ui;
 
 public class Helpers {
     public static boolean isValidUsername(String input) {

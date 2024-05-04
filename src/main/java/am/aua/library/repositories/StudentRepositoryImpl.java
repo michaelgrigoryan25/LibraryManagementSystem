@@ -6,6 +6,7 @@ import am.aua.library.database.DuplicateRecordException;
 import am.aua.library.database.RecordNotFoundException;
 import am.aua.library.models.Student;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class StudentRepositoryImpl implements StudentRepository {
@@ -42,6 +43,18 @@ public class StudentRepositoryImpl implements StudentRepository {
         }
 
         return null;
+    }
+
+    @Override
+    public List<Student> findByNameContaining(String contains) {
+        ArrayList<Student> students = new ArrayList<>();
+        for (Student user : this.database.getStudents()) {
+            if (user.getFullName().contains(contains)) {
+                students.add(user);
+            }
+        }
+
+        return students;
     }
 
     @Override

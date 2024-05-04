@@ -1,21 +1,21 @@
-package am.aua.library.ui;
+package am.aua.library.ui.views;
 
 import am.aua.library.database.Database;
-import am.aua.library.ui.core.Page;
+import am.aua.library.ui.components.AbstractPage;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
-public class MainUI extends Page {
+public class MainView extends AbstractPage {
     @Override
-    protected void setupPage() {
+    protected void setup() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new GridLayout(3, 1));
     }
 
     @Override
-    protected void setupComponents() {
+    protected void addComponents() {
         add(createTextPanel());
         add(createImagePanel());
         add(createButtonPanel());
@@ -72,10 +72,10 @@ public class MainUI extends Page {
     }
 
     private void openLoginPage() {
-        new LoginUI();
+        new LoginView();
     }
 
     private void openRegisterPage() {
-        new RegistrationUI();
+        new RegistrationView();
     }
 }

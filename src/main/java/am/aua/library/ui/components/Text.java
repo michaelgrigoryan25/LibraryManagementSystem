@@ -1,4 +1,4 @@
-package am.aua.library.ui.core;
+package am.aua.library.ui.components;
 
 import javax.swing.*;
 import java.awt.*;
