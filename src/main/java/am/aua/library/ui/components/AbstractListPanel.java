@@ -3,24 +3,28 @@ package am.aua.library.ui.components;
 import javax.swing.*;
 import java.awt.*;
 
-public abstract class AbstractListPanel<ElementType> extends JPanel implements SearchPanel.SearchListener {
-    private final DefaultListModel<ElementType> listModel;
-    private final SearchPanel searchPanel;
+public abstract class AbstractListPanel<T> extends JPanel implements SearchPanel.SearchListener {
+    private final DefaultListModel<T> listModel;
 
-    public AbstractListPanel() {
+    protected AbstractListPanel() {
         super();
+        this.setup();
 
-        this.setLayout(new GridLayout(2, 1));
-        this.searchPanel = new SearchPanel(this);
+        this.setLayout(new BorderLayout());
         this.listModel = new DefaultListModel<>();
-        JList<ElementType> jList = new JList<>(listModel);
+        this.setupListModel();
+        JList<T> jList = new JList<>(listModel);
+
         JScrollPane jScrollPane = new JScrollPane();
         jScrollPane.add(jList);
-        this.add(searchPanel);
-        this.add(jScrollPane);
+        this.add(jScrollPane, BorderLayout.SOUTH);
     }
 
-    public DefaultListModel<ElementType> getListModel() {
+    protected abstract void setup();
+
+    protected abstract void setupListModel();
+
+    protected DefaultListModel<T> getListModel() {
         return this.listModel;
     }
 }

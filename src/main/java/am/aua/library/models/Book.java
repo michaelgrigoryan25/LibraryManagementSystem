@@ -167,10 +167,16 @@ public class Book implements Comparable<Book> {
 
     @Override
     public String toString() {
-        return this.title;
+        String content = this.title;
+        if (this.subtitle != null) content += this.subtitle;
+        return content;
     }
 
     public String getDescription() {
         return description;
+    }
+
+    public URL getCover() {
+        return cover;
     }
 }

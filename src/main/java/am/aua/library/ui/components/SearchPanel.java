@@ -2,6 +2,9 @@ package am.aua.library.ui.components;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 public class SearchPanel extends JPanel {
     public interface SearchListener {
@@ -11,11 +14,15 @@ public class SearchPanel extends JPanel {
     public SearchPanel(SearchListener listener) {
         super();
 
-        this.setLayout(new FlowLayout());
+        this.setLayout(new BorderLayout());
         JTextField searchField = new JTextField();
-        this.add(searchField);
+        searchField.setPreferredSize(new Dimension(searchField.getPreferredSize().width, 30));
         JButton searchButton = new JButton("Search");
         searchButton.addActionListener(e -> listener.onSearch(searchField.getText()));
-        this.add(searchButton);
+        searchButton.setPreferredSize(new Dimension(100, searchField.getPreferredSize().height));
+        searchField.setForeground(Color.GRAY);
+
+        this.add(searchField, BorderLayout.CENTER);
+        this.add(searchButton, BorderLayout.EAST);
     }
 }

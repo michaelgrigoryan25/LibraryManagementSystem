@@ -19,7 +19,7 @@ public class BookRepositoryImpl implements BookRepository {
     public List<Book> findByTitle(String title) {
         List<Book> filtered = new LinkedList<>();
         for (Book book : database.getBooks()) {
-            if (book.getTitle().contains(title)) {
+            if (book.getTitle().toLowerCase().contains(title.toLowerCase())) {
                 filtered.add(book);
             }
         }

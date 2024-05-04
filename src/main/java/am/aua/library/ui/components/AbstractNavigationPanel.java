@@ -6,17 +6,23 @@ import javax.swing.*;
 import java.awt.*;
 
 public abstract class AbstractNavigationPanel extends JPanel {
+    public Tab getCurrentTab() {
+        return currentTab;
+    }
+
     public interface NavigationChangeListener {
         void onChange(AbstractNavigationPanel.Tab tab);
     }
 
     public enum Tab {BOOKS, USERS, SAVES}
 
+    private Tab currentTab;
     private final AbstractPage page;
     private final NavigationChangeListener navigationChangeListener;
 
     public AbstractNavigationPanel(AbstractPage page, NavigationChangeListener listener) {
         super();
+        this.setLayout(new GridLayout(1, 3));
         this.page = page;
         this.navigationChangeListener = listener;
     }
@@ -26,7 +32,6 @@ public abstract class AbstractNavigationPanel extends JPanel {
     }
 
     public void configureDefaultNavigation(JFrame target, boolean isAdmin) {
-        this.setLayout(new GridLayout(1, 3));
         JButton booksRef = new JButton("Books");
         booksRef.addActionListener(e -> changeTab(Tab.BOOKS));
         this.add(booksRef);
@@ -47,6 +52,9 @@ public abstract class AbstractNavigationPanel extends JPanel {
     }
 
     public void changeTab(Tab tab) {
-        this.navigationChangeListener.onChange(tab);
+        if (this.currentTab != tab) {
+            this.currentTab = tab;
+            this.navigationChangeListener.onChange(tab);
+        }
     }
 }
