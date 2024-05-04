@@ -93,9 +93,11 @@ public class LoginView extends AbstractPage {
         JButton login = new JButton("Login");
         login.addActionListener(e -> {
             String username = usernameField.getText();
-            // TODO: fix the development execution of this block
-            if ("development".equals(System.getenv("JAVA_ENV"))) {
-                this.dispose();
+            String javaEnv = System.getenv("JAVA_ENV");
+
+            // WARNING: This chunk is only used for development purposes
+            if (javaEnv != null && javaEnv.equals("development")) {
+                LoginView.this.dispose();
                 if (username.equals("admin")) {
                     new AdminView(12345L);
                     return;
@@ -106,28 +108,42 @@ public class LoginView extends AbstractPage {
             }
 
             String password = new String(passwordField.getPassword());
-            if (Helpers.isValidPassword(password) && Helpers.isValidUsername(username)) {
-                this.dispose(); // Close the login window
+            if (!Helpers.isValidPassword(password)) {
+                JOptionPane.showMessageDialog(LoginView.this, "Incorrect password");
+                return;
+            }
 
-                boolean isAdmin = false;
-                User user = studentRepository.findByUsername(username);
-                if (user == null) {
-                    user = professorRepository.findByUsername(username);
-                    isAdmin = true;
-                }
+            if (!Helpers.isValidUsername(username)) {
+                JOptionPane.showMessageDialog(LoginView.this, "Invalid username");
+                return;
+            }
 
-                if (user != null && password.equals(user.getPassword())) {
-                    if (isAdmin) {
-                        new AdminView(user.getId());
-                        return;
-                    }
+            // Closing the login view
+            LoginView.this.dispose();
 
-                    new ReaderView(user.getId());
+            boolean isAdmin = false;
+            User user = studentRepository.findByUsername(username);
+            if (user == null) {
+                user = professorRepository.findByUsername(username);
+                isAdmin = true;
+            }
+
+            if (user == null) {
+                JOptionPane.showMessageDialog(LoginView.this, "User not found");
+                return;
+            }
+
+            if (password.equals(user.getPassword())) {
+                if (isAdmin) {
+                    new AdminView(user.getId());
                     return;
                 }
 
-                JOptionPane.showMessageDialog(LoginView.this, "Invalid username or password");
+                new ReaderView(user.getId());
+                return;
             }
+
+            JOptionPane.showMessageDialog(LoginView.this, "Incorrect password");
         });
 
         return login;
