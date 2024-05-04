@@ -54,10 +54,8 @@ public class AdminView extends AbstractPage {
 
     @Override
     protected synchronized void addComponents() {
-        this.bookListPanel.add(new Text("Books"));
         this.root.add(this.bookListPanel);
 
-        this.userListPanel.add(new Text("Users"));
         this.userListPanel.setVisible(false);
         this.root.add(this.userListPanel);
 

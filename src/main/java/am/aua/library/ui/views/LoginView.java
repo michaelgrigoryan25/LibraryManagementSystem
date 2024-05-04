@@ -93,7 +93,7 @@ public class LoginView extends AbstractPage {
         JButton login = new JButton("Login");
         login.addActionListener(e -> {
             String username = usernameField.getText();
-            if (System.getenv("JAVA_ENV").equals("development")) {
+            if ("development".equals(System.getenv("JAVA_ENV"))) {
                 this.dispose();
                 if (username.equals("admin")) {
                     new AdminView(12345L);
