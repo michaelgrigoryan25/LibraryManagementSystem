@@ -91,61 +91,61 @@ public class LoginView extends AbstractPage {
 
     private JButton createLoginButton() {
         JButton login = new JButton("Login");
-        login.addActionListener(e -> {
-            String username = usernameField.getText();
-            String javaEnv = System.getenv("JAVA_ENV");
-
-            // WARNING: This chunk is only used for development purposes
-            if (javaEnv != null && javaEnv.equals("development")) {
-                LoginView.this.dispose();
-                if (username.equals("admin")) {
-                    new AdminView(12345L);
-                    return;
-                }
-
-                new ReaderView(12345L);
-                return;
-            }
-
-            String password = new String(passwordField.getPassword());
-            if (!Helpers.isValidPassword(password)) {
-                JOptionPane.showMessageDialog(LoginView.this, "Incorrect password");
-                return;
-            }
-
-            if (!Helpers.isValidUsername(username)) {
-                JOptionPane.showMessageDialog(LoginView.this, "Invalid username");
-                return;
-            }
-
-            // Closing the login view
-            LoginView.this.dispose();
-
-            boolean isAdmin = false;
-            User user = studentRepository.findByUsername(username);
-            if (user == null) {
-                user = professorRepository.findByUsername(username);
-                isAdmin = true;
-            }
-
-            if (user == null) {
-                JOptionPane.showMessageDialog(LoginView.this, "User not found");
-                return;
-            }
-
-            if (password.equals(user.getPassword())) {
-                if (isAdmin) {
-                    new AdminView(user.getId());
-                    return;
-                }
-
-                new ReaderView(user.getId());
-                return;
-            }
-
-            JOptionPane.showMessageDialog(LoginView.this, "Incorrect password");
-        });
-
+        login.addActionListener(e -> authenticate());
         return login;
+    }
+
+    private void authenticate() {
+        String username = usernameField.getText();
+        String javaEnv = System.getenv("JAVA_ENV");
+
+        // WARNING: This chunk is only used for development purposes
+        if (javaEnv != null && javaEnv.equals("development")) {
+            LoginView.this.dispose();
+            if (username.equals("admin")) {
+                new AdminView(12345L);
+                return;
+            }
+
+            new ReaderView(12345L);
+            return;
+        }
+
+        if (!Helpers.isValidUsername(username)) {
+            JOptionPane.showMessageDialog(LoginView.this, "Invalid username");
+            return;
+        }
+
+        String password = new String(passwordField.getPassword());
+        if (!Helpers.isValidPassword(password)) {
+            JOptionPane.showMessageDialog(LoginView.this, "Incorrect password");
+            return;
+        }
+
+        this.dispose();
+
+        boolean isAdmin = false;
+        User user = studentRepository.findByUsername(username);
+        if (user == null) {
+            user = professorRepository.findByUsername(username);
+            isAdmin = true;
+        }
+
+        if (user == null) {
+            JOptionPane.showMessageDialog(LoginView.this, "User not found");
+            return;
+        }
+
+        if (password.equals(user.getPassword())) {
+            if (isAdmin) {
+                new AdminView(user.getId());
+                return;
+            }
+
+            new ReaderView(user.getId());
+            return;
+        }
+
+        JOptionPane.showMessageDialog(LoginView.this, "Incorrect password");
     }
 }

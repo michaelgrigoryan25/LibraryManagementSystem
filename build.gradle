@@ -11,6 +11,12 @@ application {
     mainClass = 'am.aua.library.Application'
 }
 
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(15))
+    }
+}
+
 run {
     standardInput = System.in
 }
