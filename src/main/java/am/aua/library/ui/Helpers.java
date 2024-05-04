@@ -1,5 +1,9 @@
 package am.aua.library.ui;
 
+import am.aua.library.ui.views.MainView;
+
+import javax.swing.*;
+
 public class Helpers {
     public static boolean isValidUsername(String input) {
         return !input.isEmpty() && !input.isBlank() && isAscii(input) && !input.contains(" ");
@@ -17,5 +21,13 @@ public class Helpers {
         }
 
         return true;
+    }
+
+    public static void handleLogout(JFrame target) {
+        int input = JOptionPane.showConfirmDialog(target, "Are you sure you want to logout?");
+        if (input == JOptionPane.YES_OPTION) {
+            target.dispose();
+            new MainView();
+        }
     }
 }
