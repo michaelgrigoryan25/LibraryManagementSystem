@@ -179,4 +179,8 @@ public class Book implements Comparable<Book> {
     public URL getCover() {
         return cover;
     }
+
+    public URL getLink() {
+        return link;
+    }
 }

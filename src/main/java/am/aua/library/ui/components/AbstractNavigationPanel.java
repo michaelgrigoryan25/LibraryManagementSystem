@@ -31,6 +31,10 @@ public abstract class AbstractNavigationPanel extends JPanel {
         return this.page;
     }
 
+    protected void setCurrentTab(Tab tab) {
+        this.currentTab = tab;
+    }
+
     public void configureDefaultNavigation(JFrame target, boolean isAdmin) {
         JButton booksRef = new JButton("Books");
         booksRef.addActionListener(e -> changeTab(Tab.BOOKS));
@@ -53,7 +57,7 @@ public abstract class AbstractNavigationPanel extends JPanel {
 
     public void changeTab(Tab tab) {
         if (this.currentTab != tab) {
-            this.currentTab = tab;
+            this.setCurrentTab(tab);
             this.navigationChangeListener.onChange(tab);
         }
     }

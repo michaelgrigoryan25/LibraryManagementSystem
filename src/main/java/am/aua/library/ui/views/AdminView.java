@@ -8,20 +8,15 @@ import am.aua.library.repositories.StudentRepositoryImpl;
 import am.aua.library.ui.Helpers;
 import am.aua.library.ui.components.*;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.*;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.net.URL;
-import java.util.Objects;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class AdminView extends AbstractPage {
-//    private final Long id;
-
     private SearchPanel searchPanel;
     private AdminViewNavigationPanel adminViewNavigationPanel;
 
@@ -37,7 +32,6 @@ public class AdminView extends AbstractPage {
 
     public AdminView(Long id) {
         super("Admin View");
-//        this.id = id;
     }
 
     @Override
@@ -86,7 +80,16 @@ public class AdminView extends AbstractPage {
     protected void addBooksList() {
         this.bookListModel.addAll(bookRepository.findAll());
         JList<Book> bookJList = new JList<>(this.bookListModel);
-        bookJList.setCellRenderer(new BookListCellRenderer(this));
+        bookJList.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2) {
+                    Book book = bookJList.getSelectedValue();
+                    new BookView(book, AdminView.this);
+                }
+            }
+        });
+
         this.bookListPane = new JScrollPane(bookJList, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         groupedPanel.add(this.bookListPane, BorderLayout.CENTER);
     }
@@ -97,7 +100,6 @@ public class AdminView extends AbstractPage {
 
     protected void addStudentsList() {
         JList<Student> studentJList = new JList<>(this.studentListModel);
-        studentJList.setCellRenderer(new StudentListCellRenderer(this));
         this.studentListPane = new JScrollPane(studentJList, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         this.groupedPanel.add(this.studentListPane, BorderLayout.CENTER);
     }
@@ -110,7 +112,8 @@ public class AdminView extends AbstractPage {
 class AdminViewNavigationPanel extends AbstractNavigationPanel {
     public AdminViewNavigationPanel(AbstractPage page, NavigationChangeListener listener) {
         super(page, listener);
-        configureDefaultNavigation(this.getPage(), true);
+        this.setCurrentTab(Tab.BOOKS);
+        this.configureDefaultNavigation(this.getPage(), true);
     }
 }
 
@@ -134,73 +137,5 @@ class AdminViewNavigationChangeListener implements AbstractNavigationPanel.Navig
 
         // triggering a re-render of the nested panel
         view.groupedPanel.revalidate();
-    }
-}
-
-class BookListCellRenderer implements ListCellRenderer<Book> {
-    private final AdminView view;
-    private static final ImageIcon penIcon = Helpers.getRescaledImageIcon("pen.png", 20, 20);
-    private static final ImageIcon eyeIcon = Helpers.getRescaledImageIcon("eye.png", 20, 20);
-    private static final ImageIcon removeIcon = Helpers.getRescaledImageIcon("remove.png", 20, 20);
-
-
-    public BookListCellRenderer(AdminView view) {
-        this.view = view;
-    }
-
-    @Override
-    public Component getListCellRendererComponent(JList<? extends Book> list, Book value, int index, boolean isSelected, boolean cellHasFocus) {
-        JPanel panel = new JPanel();
-        panel.setLayout(new BorderLayout());
-        panel.setBorder(new EmptyBorder(10, 10, 10, 10));
-
-        JPanel infoContainer = new JPanel();
-        infoContainer.setLayout(new GridLayout(2, 1));
-        String title = value.getTitle();
-        if (title.length() > 50) title = title.substring(0, 49);
-        infoContainer.add(new Text(title, Text.Size.MD));
-
-        JPanel actionsContainer = new JPanel();
-        actionsContainer.setLayout(new GridLayout(1, 2));
-
-        JButton viewButton = new JButton(eyeIcon);
-        JButton editIcon = new JButton(penIcon);
-        JButton removeButton = new JButton(removeIcon);
-        editIcon.addActionListener(e -> {
-        });
-        viewButton.addActionListener(e -> {
-        });
-        removeButton.addActionListener(e -> {
-            System.out.println('a');
-            try {
-                view.bookRepository.remove(value);
-            } catch (DatabaseException ex) {
-                throw new RuntimeException(ex);
-            }
-            view.bookListModel.removeElement(value);
-            view.groupedPanel.revalidate();
-        });
-
-        actionsContainer.add(viewButton);
-        actionsContainer.add(editIcon);
-        actionsContainer.add(removeButton);
-
-        panel.add(infoContainer, BorderLayout.WEST);
-        panel.add(actionsContainer, BorderLayout.EAST);
-        panel.setMinimumSize(new Dimension(panel.getPreferredSize().width, panel.getPreferredSize().height + 100));
-        return panel;
-    }
-}
-
-class StudentListCellRenderer implements ListCellRenderer<Student> {
-    private final AdminView view;
-
-    public StudentListCellRenderer(AdminView view) {
-        this.view = view;
-    }
-
-    @Override
-    public Component getListCellRendererComponent(JList<? extends Student> list, Student value, int index, boolean isSelected, boolean cellHasFocus) {
-        return null;
     }
 }
