@@ -1,5 +1,6 @@
 package am.aua.library.ui.components;
 
+import am.aua.library.models.Book;
 import am.aua.library.ui.Helpers;
 
 import javax.swing.*;
@@ -14,7 +15,7 @@ public abstract class AbstractNavigationPanel extends JPanel {
         void onChange(AbstractNavigationPanel.Tab tab);
     }
 
-    public enum Tab {BOOKS, USERS, SAVES}
+    public enum Tab {BOOKS, USERS, RENTED, ADD}
 
     private Tab currentTab;
     private final AbstractPage page;
@@ -22,7 +23,6 @@ public abstract class AbstractNavigationPanel extends JPanel {
 
     public AbstractNavigationPanel(AbstractPage page, NavigationChangeListener listener) {
         super();
-        this.setLayout(new GridLayout(1, 3));
         this.page = page;
         this.navigationChangeListener = listener;
     }
@@ -36,17 +36,24 @@ public abstract class AbstractNavigationPanel extends JPanel {
     }
 
     public void configureDefaultNavigation(JFrame target, boolean isAdmin) {
+        this.setLayout(new GridLayout(1, 3));
         JButton booksRef = new JButton("Books");
         booksRef.addActionListener(e -> changeTab(Tab.BOOKS));
         this.add(booksRef);
 
         if (isAdmin) {
+            this.setLayout(new GridLayout(1, 4));
+
             JButton usersRef = new JButton("Students");
             usersRef.addActionListener(e -> changeTab(Tab.USERS));
             this.add(usersRef);
+
+            JButton addBookRef = new JButton("Add Book");
+            addBookRef.addActionListener(e -> changeTab(Tab.ADD));
+            this.add(addBookRef);
         } else {
-            JButton savesRef = new JButton("Saved Books");
-            savesRef.addActionListener(e -> changeTab(Tab.SAVES));
+            JButton savesRef = new JButton("Rented Books");
+            savesRef.addActionListener(e -> changeTab(Tab.RENTED));
             this.add(savesRef);
         }
 

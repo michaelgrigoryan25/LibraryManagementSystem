@@ -23,7 +23,7 @@ class ReaderViewNavigationChangeListener implements AbstractNavigationPanel.Navi
     public void onChange(AbstractNavigationPanel.Tab tab) {
         boolean flag = tab.equals(AbstractNavigationPanel.Tab.BOOKS);
         view.bookListPanel.setVisible(flag);
-        view.userListPanel.setVisible(!flag);
+        view.rentedBooksPanel.setVisible(!flag);
     }
 }
 
@@ -33,7 +33,7 @@ public class ReaderView extends AbstractPage {
     private ReaderViewNavigationPanel readerViewNavigationPanel;
     protected JPanel root;
     protected JPanel bookListPanel;
-    protected JPanel userListPanel;
+    protected JPanel rentedBooksPanel;
 
     public ReaderView(Long id) {
         super("User View");
@@ -49,7 +49,7 @@ public class ReaderView extends AbstractPage {
         this.root = new JPanel();
         // these are the children of contentPanel
         this.bookListPanel = new JPanel();
-        this.userListPanel = new JPanel();
+        this.rentedBooksPanel = new JPanel();
     }
 
     @Override
@@ -57,9 +57,9 @@ public class ReaderView extends AbstractPage {
         this.bookListPanel.add(new Text("Books"));
         this.root.add(this.bookListPanel);
 
-        this.userListPanel.add(new Text("Users"));
-        this.userListPanel.setVisible(false);
-        this.root.add(this.userListPanel);
+        this.rentedBooksPanel.add(new Text("Rented Books"));
+        this.rentedBooksPanel.setVisible(false);
+        this.root.add(this.rentedBooksPanel);
 
         this.add(this.readerViewNavigationPanel, BorderLayout.NORTH);
         this.add(this.root, BorderLayout.CENTER);
