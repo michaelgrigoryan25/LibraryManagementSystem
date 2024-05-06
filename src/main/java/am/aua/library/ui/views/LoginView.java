@@ -1,8 +1,8 @@
 package am.aua.library.ui.views;
 
-import am.aua.library.models.User;
-import am.aua.library.repositories.ProfessorRepositoryImpl;
-import am.aua.library.repositories.StudentRepositoryImpl;
+import am.aua.library.models.Admin;
+import am.aua.library.repositories.AdminRepositoryImpl;
+import am.aua.library.repositories.LeaserRepositoryImpl;
 import am.aua.library.ui.Helpers;
 import am.aua.library.ui.components.AbstractPage;
 import am.aua.library.ui.components.Text;
@@ -11,17 +11,13 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
-public class LoginView extends AbstractPage {
-    private final StudentRepositoryImpl studentRepository;
-    private final ProfessorRepositoryImpl professorRepository;
-
+public final class LoginView extends AbstractPage {
     private JTextField usernameField;
     private JPasswordField passwordField;
+    private AdminRepositoryImpl adminRepository;
 
     public LoginView() {
         super("Login");
-        this.studentRepository = new StudentRepositoryImpl();
-        this.professorRepository = new ProfessorRepositoryImpl();
     }
 
     @Override
@@ -29,6 +25,7 @@ public class LoginView extends AbstractPage {
         this.setLayout(new GridLayout(3, 1));
         this.usernameField = new JTextField();
         this.passwordField = new JPasswordField();
+        this.adminRepository = new AdminRepositoryImpl();
     }
 
     @Override
@@ -103,11 +100,9 @@ public class LoginView extends AbstractPage {
         if (javaEnv != null && javaEnv.equals("development")) {
             LoginView.this.dispose();
             if (username.equals("admin")) {
-                new AdminView(12345L);
+                new AdminView();
                 return;
             }
-
-            new ReaderView(12345L);
             return;
         }
 
@@ -124,25 +119,14 @@ public class LoginView extends AbstractPage {
 
         this.dispose();
 
-        boolean isAdmin = false;
-        User user = studentRepository.findByUsername(username);
-        if (user == null) {
-            user = professorRepository.findByUsername(username);
-            isAdmin = true;
-        }
-
-        if (user == null) {
+        Admin admin = adminRepository.findByUsername(username);
+        if (admin == null) {
             JOptionPane.showMessageDialog(LoginView.this, "User not found");
             return;
         }
 
-        if (password.equals(user.getPassword())) {
-            if (isAdmin) {
-                new AdminView(user.getId());
-                return;
-            }
-
-            new ReaderView(user.getId());
+        if (password.equals(admin.getPassword())) {
+            new AdminView();
             return;
         }
 

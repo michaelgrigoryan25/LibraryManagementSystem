@@ -5,10 +5,8 @@ import am.aua.library.database.DatabaseException;
 import am.aua.library.database.DuplicateRecordException;
 import am.aua.library.database.RecordNotFoundException;
 import am.aua.library.models.Book;
-import am.aua.library.models.Professor;
 import am.aua.library.models.User;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -29,8 +27,8 @@ public class BookRepositoryImpl implements BookRepository {
 
     @Override
     public boolean rentById(Long id, Long userId) throws DatabaseException {
-        final StudentRepositoryImpl studentRepository = new StudentRepositoryImpl();
-        final ProfessorRepositoryImpl professorRepository = new ProfessorRepositoryImpl();
+        final LeaserRepositoryImpl studentRepository = new LeaserRepositoryImpl();
+        final AdminRepositoryImpl professorRepository = new AdminRepositoryImpl();
 
         Book book = getUnsafe(id);
         User user = studentRepository.get(userId);
@@ -48,8 +46,8 @@ public class BookRepositoryImpl implements BookRepository {
 
     @Override
     public boolean giveBackById(Long id, Long userId) throws DatabaseException {
-        final StudentRepositoryImpl studentRepository = new StudentRepositoryImpl();
-        final ProfessorRepositoryImpl professorRepository = new ProfessorRepositoryImpl();
+        final LeaserRepositoryImpl studentRepository = new LeaserRepositoryImpl();
+        final AdminRepositoryImpl professorRepository = new AdminRepositoryImpl();
 
         Book book = getUnsafe(id);
         User user = studentRepository.get(userId);

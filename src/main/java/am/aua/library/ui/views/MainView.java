@@ -7,7 +7,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
-public class MainView extends AbstractPage {
+public final class MainView extends AbstractPage {
     @Override
     protected void setup() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -39,29 +39,6 @@ public class Book implements Comparable<Book> {
     @Expose
     private ArrayList<String> categories;
 
-    public Book(
-            Long id,
-            String title,
-            String subtitle,
-            String description,
-            int year,
-            int copies,
-            int pages,
-            URL cover
-    ) {
-        this.id = id;
-        this.year = year;
-        this.pages = pages;
-        this.cover = cover;
-        this.title = title;
-        this.copies = copies;
-        this.subtitle = subtitle;
-        this.description = description;
-        this.authors = new ArrayList<>();
-        this.renters = new ArrayList<>();
-        this.categories = new ArrayList<>();
-    }
-
     public void addCategory(String category) {
         if (category != null && !category.isBlank() && !category.isEmpty()) {
             this.categories.add(category.toUpperCase());
@@ -182,5 +159,9 @@ public class Book implements Comparable<Book> {
 
     public URL getLink() {
         return link;
+    }
+
+    public String getLanguage() {
+        return language;
     }
 }

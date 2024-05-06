@@ -2,8 +2,8 @@ package am.aua.library.database;
 
 import am.aua.library.models.Book;
 import am.aua.library.models.Institution;
-import am.aua.library.models.Professor;
-import am.aua.library.models.Student;
+import am.aua.library.models.Admin;
+import am.aua.library.models.Leaser;
 import com.google.gson.Gson;
 
 import java.io.*;
@@ -19,19 +19,19 @@ public class Database {
     private static final String DEFAULT_INTERNAL_PATH = "internal";
     private static final Path DEFAULT_DATABASE_PATH = Path.of(DEFAULT_DATABASE_DIRECTORY, DEFAULT_INTERNAL_PATH);
 
-    private static final String DEFAULT_STUDENTS_DATABASE = "s.json";
-    private static final String DEFAULT_PROFESSORS_DATABASE = "p.json";
+    private static final String DEFAULT_ADMINS_DATABASE = "a.json";
+    private static final String DEFAULT_LEASERS_DATABASE = "l.json";
     private static final String DEFAULT_BOOKS_DATABASE = "books.json";
     private static final String DEFAULT_INSTITUTIONS_DATABASE = "institutions.json";
     private static final Gson GSON = new Gson().newBuilder().serializeNulls().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
-    public static final String PROFESSOR_REGISTRATION_KEY = "very-secret-key";
+    public static final String ADMIN_REGISTRATION_KEY = "very-secret-key";
 
     private static Database instance;
     private static String directory = DEFAULT_DATABASE_DIRECTORY;
 
     private ArrayList<Book> books;
-    private ArrayList<Student> students;
-    private ArrayList<Professor> professors;
+    private ArrayList<Leaser> leasers;
+    private ArrayList<Admin> admins;
     private ArrayList<Institution> institutions;
 
     private Database() throws DatabaseException {
@@ -56,12 +56,12 @@ public class Database {
         return instance;
     }
 
-    public ArrayList<Student> getStudents() {
-        return new ArrayList<>(this.students);
+    public ArrayList<Leaser> getLeasers() {
+        return new ArrayList<>(this.leasers);
     }
 
-    public synchronized ArrayList<Student> getStudentsUnsafe() {
-        return this.students;
+    public synchronized ArrayList<Leaser> getLeasersUnsafe() {
+        return this.leasers;
     }
 
     public ArrayList<Book> getBooks() {
@@ -72,12 +72,12 @@ public class Database {
         return this.books;
     }
 
-    public ArrayList<Professor> getProfessors() {
-        return new ArrayList<>(this.professors);
+    public ArrayList<Admin> getAdmins() {
+        return new ArrayList<>(this.admins);
     }
 
-    public synchronized ArrayList<Professor> getProfessorsUnsafe() {
-        return this.professors;
+    public synchronized ArrayList<Admin> getAdminsUnsafe() {
+        return this.admins;
     }
 
     public ArrayList<Institution> getInstitutions() {
@@ -91,8 +91,8 @@ public class Database {
     public synchronized void persist() throws DatabaseException {
         try {
             Files.writeString(Path.of(DEFAULT_DATABASE_DIRECTORY, DEFAULT_BOOKS_DATABASE), GSON.toJson(this.books.toArray()));
-            Files.writeString(DEFAULT_DATABASE_PATH.resolve(DEFAULT_STUDENTS_DATABASE), GSON.toJson(this.students.toArray()));
-            Files.writeString(DEFAULT_DATABASE_PATH.resolve(DEFAULT_PROFESSORS_DATABASE), GSON.toJson(this.professors.toArray()));
+            Files.writeString(DEFAULT_DATABASE_PATH.resolve(DEFAULT_LEASERS_DATABASE), GSON.toJson(this.leasers.toArray()));
+            Files.writeString(DEFAULT_DATABASE_PATH.resolve(DEFAULT_ADMINS_DATABASE), GSON.toJson(this.admins.toArray()));
         } catch (IOException e) {
             throw new DatabaseException(e);
         }
@@ -107,8 +107,8 @@ public class Database {
             }
 
             Database.directory = directory;
-            createDatabaseIfNotExists(DEFAULT_STUDENTS_DATABASE);
-            createDatabaseIfNotExists(DEFAULT_PROFESSORS_DATABASE);
+            createDatabaseIfNotExists(DEFAULT_LEASERS_DATABASE);
+            createDatabaseIfNotExists(DEFAULT_ADMINS_DATABASE);
         }
     }
 
@@ -137,10 +137,10 @@ public class Database {
         this.books.sort(Book::compareTo);
         // can be empty when first running the program, so the initialization logic is a bit different
         // also since the internal folder is ignored for credential safety, we have to do it this way
-        List<Student> students = loadArrayDataFromJson(DEFAULT_DATABASE_PATH.resolve(DEFAULT_STUDENTS_DATABASE), Student[].class);
-        this.students = new ArrayList<>(students);
-        List<Professor> professors = loadArrayDataFromJson(DEFAULT_DATABASE_PATH.resolve(DEFAULT_PROFESSORS_DATABASE), Professor[].class);
-        this.professors = new ArrayList<>(professors);
+        List<Leaser> leasers = loadArrayDataFromJson(DEFAULT_DATABASE_PATH.resolve(DEFAULT_LEASERS_DATABASE), Leaser[].class);
+        this.leasers = new ArrayList<>(leasers);
+        List<Admin> admins = loadArrayDataFromJson(DEFAULT_DATABASE_PATH.resolve(DEFAULT_ADMINS_DATABASE), Admin[].class);
+        this.admins = new ArrayList<>(admins);
         this.persist();
     }
 

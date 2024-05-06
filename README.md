@@ -1,6 +1,6 @@
 # Library Management System
 
-Welcome to the Library Management System project developed by students of the Introduction to Object-Oriented
+Welcome to the Library Management System project developed by leasers of the Introduction to Object-Oriented
 Programming course (CS120) at the American University of Armenia.
 
 ## UML Class Diagram
@@ -11,7 +11,7 @@ The latest UML diagram has been generated for the commit a3d34acb27d9d9ca254546c
 
 ## Overview
 
-The Library Management System project is a comprehensive software solution developed by students of the Introduction to
+The Library Management System project is a comprehensive software solution developed by leasers of the Introduction to
 Object-Oriented Programming course (CS120) at the American University of Armenia. The system aims to provide an
 efficient and user-friendly platform for managing library operations in educational institutions, public libraries, and
 other similar organizations.

@@ -12,7 +12,6 @@ public class Text extends JLabel {
 
     public Text(String label, Size size) {
         super(label);
-
         switch (size) {
             case LG -> setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
             case MD -> setFont(new Font(Font.SANS_SERIF, Font.BOLD, 16));
