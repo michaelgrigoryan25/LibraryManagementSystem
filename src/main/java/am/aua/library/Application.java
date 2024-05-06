@@ -19,7 +19,6 @@ public class Application {
         // Setting up the database and the directories associated with it for storing
         // the information.
         Database.setDirectory(baseDirectory);
-        // Starting the UI using SwingUtilities
-        SwingUtilities.invokeLater(MainView::new);
+        new MainView();
     }
 }
