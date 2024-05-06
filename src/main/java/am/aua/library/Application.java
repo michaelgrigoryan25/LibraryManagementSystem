@@ -20,6 +20,6 @@ public class Application {
         // the information.
         Database.setDirectory(baseDirectory);
         // Starting the UI using SwingUtilities
-        SwingUtilities.invokeLater(MainView::new);
+        //SwingUtilities.invokeLater(MainView::new);
     }
 }
