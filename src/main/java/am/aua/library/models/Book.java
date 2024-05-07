@@ -3,6 +3,7 @@ package am.aua.library.models;
 import com.google.gson.annotations.Expose;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The Book class represents a book resource in the system.
@@ -26,11 +27,25 @@ public class Book implements Comparable<Book> {
     @Expose
     private String publisher;
     @Expose
-    private ArrayList<Long> renters;
+    private List<Long> renters;
     @Expose
-    private ArrayList<String> authors;
+    private List<String> authors;
     @Expose
-    private ArrayList<String> categories;
+    private List<String> categories;
+
+    public Book(Long id, String title, String subtitle, int year, int copies, int pages, String language, String publisher, List<Long> renters, List<String> authors, List<String> categories) {
+        this.id = id;
+        this.title = title;
+        this.subtitle = subtitle;
+        this.year = year;
+        this.copies = copies;
+        this.pages = pages;
+        this.language = language;
+        this.publisher = publisher;
+        this.renters = renters;
+        this.authors = authors;
+        this.categories = categories;
+    }
 
     public String getSubtitle() {
         return this.subtitle;
@@ -64,7 +79,7 @@ public class Book implements Comparable<Book> {
         }
     }
 
-    public ArrayList<Long> getRenters() {
+    public List<Long> getRenters() {
         return new ArrayList<>(this.renters);
     }
 
@@ -76,7 +91,7 @@ public class Book implements Comparable<Book> {
         return title;
     }
 
-    public ArrayList<String> getAuthors() {
+    public List<String> getAuthors() {
         return authors;
     }
 
