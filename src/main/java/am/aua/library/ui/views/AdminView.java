@@ -28,5 +28,9 @@ public final class AdminView extends AbstractPage {
         JButton viewLeasersTableButton = new JButton("View Leasers");
         viewLeasersTableButton.addActionListener(e -> new LeaserTableView());
         this.add(viewBooksTableButton);
+
+        JButton findLeaserButton = new JButton("Find & Update Leaser");
+        findLeaserButton.addActionListener(e -> new LeaserView());
+        this.add(findLeaserButton);
     }
 }
