@@ -12,7 +12,8 @@ public final class AdminView extends AbstractPage {
 
     @Override
     protected void setup() {
-        this.setLayout(new GridLayout(3, 1));
+
+        this.setLayout(new GridLayout(5, 1));
     }
 
     @Override
@@ -27,7 +28,11 @@ public final class AdminView extends AbstractPage {
 
         JButton viewLeasersTableButton = new JButton("View Leasers");
         viewLeasersTableButton.addActionListener(e -> new LeaserTableView());
-        this.add(viewBooksTableButton);
+        this.add(viewLeasersTableButton);
+
+        JButton addBooksButton = new JButton("Add Books");
+        addBooksButton.addActionListener(e -> new AddBooksView());
+        this.add(addBooksButton);
 
         JButton findLeaserButton = new JButton("Find & Update Leaser");
         findLeaserButton.addActionListener(e -> new LeaserView());
