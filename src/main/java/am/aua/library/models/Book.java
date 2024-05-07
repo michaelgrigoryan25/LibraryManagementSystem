@@ -2,7 +2,6 @@ package am.aua.library.models;
 
 import com.google.gson.annotations.Expose;
 
-import java.net.URL;
 import java.util.ArrayList;
 
 /**
@@ -16,8 +15,6 @@ public class Book implements Comparable<Book> {
     private String title;
     @Expose
     private String subtitle;
-    //    @Expose
-    //    private String description;
     @Expose
     private int year;
     @Expose
@@ -28,16 +25,16 @@ public class Book implements Comparable<Book> {
     private String language;
     @Expose
     private String publisher;
-    //    @Expose
-    //    private URL cover;
-    //    @Expose
-    //    private URL link;
     @Expose
     private ArrayList<Long> renters;
     @Expose
     private ArrayList<String> authors;
     @Expose
     private ArrayList<String> categories;
+
+    public String getSubtitle() {
+        return this.subtitle;
+    }
 
     public void incrementCopies() {
         this.copies++;
@@ -79,10 +76,6 @@ public class Book implements Comparable<Book> {
         return title;
     }
 
-    public String getSubtitle() {
-        return subtitle;
-    }
-
     public ArrayList<String> getAuthors() {
         return authors;
     }
@@ -108,22 +101,8 @@ public class Book implements Comparable<Book> {
 
     @Override
     public String toString() {
-        String content = this.title;
-        if (this.subtitle != null) content += this.subtitle;
-        return content;
+        return this.title;
     }
-
-//    public String getDescription() {
-//        return description;
-//    }
-
-//    public URL getCover() {
-//        return cover;
-//    }
-
-//    public URL getLink() {
-//        return link;
-//    }
 
     public String getLanguage() {
         return language;

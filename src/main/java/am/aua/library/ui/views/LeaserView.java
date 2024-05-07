@@ -20,6 +20,6 @@ public final class LeaserView extends AbstractPage {
 
     @Override
     protected void addComponents() {
-        this.add(new JLabel(new ImageIcon(Objects.requireNonNull(Helpers.generateQRCode("aaa", 100)))));
+//        this.add(new JLabel(new ImageIcon(Objects.requireNonNull(Helpers.generateQRCode("aaa", 100)))));
     }
 }

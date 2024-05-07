@@ -1,7 +1,5 @@
 package am.aua.library.ui.components;
 
-import org.javatuples.Pair;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -13,8 +11,7 @@ public abstract class AbstractPage extends JFrame {
         this(null);
     }
 
-    @SafeVarargs
-    protected AbstractPage(String title, Pair<String, Object>... state) {
+    protected AbstractPage(String title) {
         super(title == null ? DEFAULT_TITLE : (DEFAULT_TITLE + " :: " + title));
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setPreferredSize(AbstractPage.DEFAULT_DIMENSIONS);
