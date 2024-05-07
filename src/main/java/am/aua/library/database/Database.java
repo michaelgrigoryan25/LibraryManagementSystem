@@ -6,6 +6,8 @@ import am.aua.library.models.Admin;
 import am.aua.library.models.Leaser;
 import com.google.gson.Gson;
 
+import static am.aua.library.Constants.*;
+
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -14,18 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Database {
-    private static final String DEFAULT_DATABASE_DIRECTORY = "./resources/";
-    private static final String DEFAULT_ASSETS_DIRECTORY = "assets";
-    private static final String DEFAULT_INTERNAL_PATH = "internal";
-    private static final Path DEFAULT_DATABASE_PATH = Path.of(DEFAULT_DATABASE_DIRECTORY, DEFAULT_INTERNAL_PATH);
-
-    private static final String DEFAULT_ADMINS_DATABASE = "a.json";
-    private static final String DEFAULT_LEASERS_DATABASE = "l.json";
-    private static final String DEFAULT_BOOKS_DATABASE = "books.json";
-    private static final String DEFAULT_INSTITUTIONS_DATABASE = "institutions.json";
     private static final Gson GSON = new Gson().newBuilder().serializeNulls().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
-    public static final String ADMIN_REGISTRATION_KEY = "very-secret-key";
-
     private static Database instance;
     private static String directory = DEFAULT_DATABASE_DIRECTORY;
 

@@ -14,13 +14,11 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public final class BookTableView extends AbstractPage {
     private static final String[] COLUMN_NAMES = {
-            "ID", "Title", "Year", "Language", "Available Copies", "Pages"
-    };
-    private static final boolean[] EDITABLE_COLUMNS = {
-            false, true, true, true, false, true,
+            "ID", "Title", "Subtitle", "Year", "Language", "Available Copies", "Pages"
     };
 
     private JTable bookTable;
@@ -40,19 +38,14 @@ public final class BookTableView extends AbstractPage {
         this.setLayout(new BorderLayout());
 
         this.bookRepository = new BookRepositoryImpl();
-        this.bookTableModel = new DefaultTableModel(this.getUpdatedBooks(), COLUMN_NAMES) {
-            @Override
-            public String getColumnName(int column) {
-                return BookTableView.COLUMN_NAMES[column];
-            }
-
+        this.bookTableModel = new DefaultTableModel(this.getUpdatedBooks(), COLUMN_NAMES);
+        this.bookTable = new JTable(this.bookTableModel) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return BookTableView.EDITABLE_COLUMNS[column];
+                return false;
             }
         };
 
-        this.bookTable = new JTable(this.bookTableModel);
         this.bookTable.getActionMap().put("copy", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -100,7 +93,7 @@ public final class BookTableView extends AbstractPage {
     private Object[][] getUpdatedBooks() {
         ArrayList<List<Object>> elements = new ArrayList<>();
         for (Book book : this.bookRepository.findAll()) {
-            elements.add(List.of(book.getId(), book.getTitle(), book.getYear(), book.getLanguage(), book.getCopies(), book.getPages()));
+            elements.add(List.of(book.getId(), book.getTitle(), Objects.requireNonNullElse(book.getSubtitle(), ""), book.getYear(), book.getLanguage(), book.getCopies(), book.getPages()));
         }
 
         Object[][] raw = new Object[elements.size()][];

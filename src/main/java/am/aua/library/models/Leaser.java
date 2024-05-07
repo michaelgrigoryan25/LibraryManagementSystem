@@ -32,10 +32,16 @@ public class Leaser extends User {
         @Expose
         private Date leaseEndDate;
 
-        public Lease(Long id, Date leaseStartDate, Date leaseEndDate) {
-            this.id = id;
-            this.leaseStartDate = leaseStartDate;
-            this.leaseEndDate = leaseEndDate;
+        public Date getLeaseEndDate() {
+            return this.leaseEndDate;
+        }
+
+        public Date getLeaseStartDate() {
+            return this.leaseStartDate;
+        }
+
+        public Long getId() {
+            return this.id;
         }
     }
 
@@ -49,10 +55,6 @@ public class Leaser extends User {
      */
     @Expose
     private ArrayList<Lease> leases;
-    /**
-     * The date of birth of a specific user
-     */
-    private Date dateOfBirth;
 
     public void setInstitutionId(Long institutionId) {
         if (institutionId != null && institutionId > 0) {

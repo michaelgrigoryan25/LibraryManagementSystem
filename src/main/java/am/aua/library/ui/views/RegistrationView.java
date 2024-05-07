@@ -1,6 +1,6 @@
 package am.aua.library.ui.views;
 
-import am.aua.library.database.Database;
+import am.aua.library.Constants;
 import am.aua.library.database.DatabaseException;
 import am.aua.library.database.DuplicateRecordException;
 import am.aua.library.models.Admin;
@@ -125,7 +125,7 @@ public final class RegistrationView extends AbstractPage {
                 return;
             }
 
-            if (String.copyValueOf(adminRegistrationKeyField.getPassword()).equals(Database.ADMIN_REGISTRATION_KEY)) {
+            if (String.copyValueOf(adminRegistrationKeyField.getPassword()).equals(Constants.ADMIN_REGISTRATION_KEY)) {
                 Admin admin = new Admin(fullName, username, password);
                 try {
                     this.adminRepository.add(admin);

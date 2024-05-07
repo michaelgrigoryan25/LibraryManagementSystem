@@ -2,7 +2,6 @@ package am.aua.library.models;
 
 import com.google.gson.annotations.Expose;
 
-import java.net.URL;
 import java.util.ArrayList;
 
 /**
@@ -17,8 +16,6 @@ public class Book implements Comparable<Book> {
     @Expose
     private String subtitle;
     @Expose
-    private String description;
-    @Expose
     private int year;
     @Expose
     private int copies;
@@ -29,38 +26,14 @@ public class Book implements Comparable<Book> {
     @Expose
     private String publisher;
     @Expose
-    private URL cover;
-    @Expose
-    private URL link;
-    @Expose
     private ArrayList<Long> renters;
     @Expose
     private ArrayList<String> authors;
     @Expose
     private ArrayList<String> categories;
 
-    public void addCategory(String category) {
-        if (category != null && !category.isBlank() && !category.isEmpty()) {
-            this.categories.add(category.toUpperCase());
-        }
-    }
-
-    public void removeCategory(String category) {
-        if (category != null) {
-            this.categories.remove(category.toUpperCase());
-        }
-    }
-
-    private void setYear(int year) {
-        if (year > 0) {
-            this.year = year;
-        }
-    }
-
-    public void setPages(int pages) {
-        if (pages > 0) {
-            this.pages = pages;
-        }
+    public String getSubtitle() {
+        return this.subtitle;
     }
 
     public void incrementCopies() {
@@ -95,10 +68,6 @@ public class Book implements Comparable<Book> {
         return new ArrayList<>(this.renters);
     }
 
-    public ArrayList<Long> getRentersUnsafe() {
-        return this.renters;
-    }
-
     public Long getId() {
         return this.id;
     }
@@ -107,20 +76,8 @@ public class Book implements Comparable<Book> {
         return title;
     }
 
-    public String getSubtitle() {
-        return subtitle;
-    }
-
     public ArrayList<String> getAuthors() {
         return authors;
-    }
-
-    public void addAuthor(String author) {
-        this.authors.add(author);
-    }
-
-    public void removeAuthor(String author) {
-        this.authors.remove(author);
     }
 
     public int getYear() {
@@ -144,21 +101,7 @@ public class Book implements Comparable<Book> {
 
     @Override
     public String toString() {
-        String content = this.title;
-        if (this.subtitle != null) content += this.subtitle;
-        return content;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public URL getCover() {
-        return cover;
-    }
-
-    public URL getLink() {
-        return link;
+        return this.title;
     }
 
     public String getLanguage() {

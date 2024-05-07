@@ -10,19 +10,19 @@ import javax.swing.table.TableRowSorter;
 
 public final class LeaserTableView extends AbstractPage {
     private static final String[] COLUMN_NAMES = {
-            "ID", "Full Name", "Username", "Language", "Available Copies", "Pages"
+            "ID", "Full Name", "IID", "Institution", "Number of Current Leases", "Passphrase"
     };
+
     private static final boolean[] EDITABLE_COLUMNS = {
-            false, true, true, true, false, true,
+            false, true, false, false, false, true
     };
 
     private JTable bookTable;
-    private DefaultTableModel bookTableModel;
-    private TableRowSorter<TableModel> rowSorter;
-    private JTextField filterTextField;
-
     private JScrollPane scrollPane;
+    private JTextField filterTextField;
+    private DefaultTableModel bookTableModel;
     private BookRepositoryImpl bookRepository;
+    private TableRowSorter<TableModel> rowSorter;
 
     @Override
     protected void setup() {
