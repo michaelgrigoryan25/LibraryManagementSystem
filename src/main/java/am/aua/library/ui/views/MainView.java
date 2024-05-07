@@ -6,6 +6,8 @@ import am.aua.library.ui.components.AbstractPage;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.net.URISyntaxException;
+import java.nio.file.Path;
 
 public final class MainView extends AbstractPage {
     @Override
@@ -24,7 +26,8 @@ public final class MainView extends AbstractPage {
     private JPanel createImagePanel() {
         JPanel panel = new JPanel();
         panel.setLayout(new GridBagLayout());
-        ImageIcon imageIcon = new ImageIcon(Database.getAssetPath("./images/books.png").toString());
+        ImageIcon imageIcon;
+        imageIcon = new ImageIcon(Path.of("src", "main", "resources", "assets", "images", "books.png").toString());
         Image image = imageIcon.getImage();
         Image resized = image.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(resized);
