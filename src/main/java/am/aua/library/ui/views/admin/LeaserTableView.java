@@ -1,12 +1,18 @@
-package am.aua.library.ui.views;
+package am.aua.library.ui.views.admin;
 
+import am.aua.library.models.Institution;
 import am.aua.library.models.Leaser;
+import am.aua.library.repositories.InstitutionRepository;
+import am.aua.library.repositories.InstitutionRepositoryImpl;
 import am.aua.library.repositories.LeaserRepositoryImpl;
 import am.aua.library.ui.components.AbstractPage;
+import am.aua.library.ui.components.ButtonEditor;
+import am.aua.library.ui.components.ButtonRenderer;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
@@ -18,7 +24,7 @@ import java.util.Objects;
 
 public final class LeaserTableView extends AbstractPage {
     private static final String[] COLUMN_NAMES = {
-            "ID", "Full Name", "IID", "Institution", "Number of Current Leases", "Passphrase"
+            "ID", "Full Name", "Institution", "Update", "Delete"
     };
 
     private static final boolean[] EDITABLE_COLUMNS = {
@@ -29,8 +35,10 @@ public final class LeaserTableView extends AbstractPage {
     private JScrollPane scrollPane;
     private JTextField filterTextField;
     private DefaultTableModel leaserTableModel;
-    private LeaserRepositoryImpl leaserRepository;
     private TableRowSorter<TableModel> rowSorter;
+
+    private LeaserRepositoryImpl leaserRepository;
+    private InstitutionRepository institutionRepository;
 
     public LeaserTableView() {
         super("Leaser's view");
@@ -40,6 +48,7 @@ public final class LeaserTableView extends AbstractPage {
     protected void setup() {
         this.setLayout(new BorderLayout());
         this.leaserRepository = new LeaserRepositoryImpl();
+        this.institutionRepository = new InstitutionRepositoryImpl();
         this.leaserTableModel = new DefaultTableModel(this.getUpdatedLeasers(), COLUMN_NAMES);
         this.leaserTable = new JTable(this.leaserTableModel) {
             @Override
@@ -47,6 +56,15 @@ public final class LeaserTableView extends AbstractPage {
                 return false;
             }
         };
+
+        TableColumn updateButtonColumn = leaserTable.getColumnModel().getColumn(3);
+        updateButtonColumn.setCellRenderer(new ButtonRenderer());
+        updateButtonColumn.setCellEditor(new ButtonEditor());
+
+        TableColumn deleteButtonColumn = leaserTable.getColumnModel().getColumn(4);
+        deleteButtonColumn.setCellRenderer(new ButtonRenderer());
+        deleteButtonColumn.setCellEditor(new ButtonEditor());
+
 
         this.leaserTable.getActionMap().put("copy", new AbstractAction() {
             @Override
@@ -83,10 +101,13 @@ public final class LeaserTableView extends AbstractPage {
     private Object[][] getUpdatedLeasers() {
         ArrayList<java.util.List<Object>> elements = new ArrayList<>();
         for (Leaser leaser : this.leaserRepository.findAll()) {
-            elements.add(List.of(leaser.getId(), leaser.getFullName(), Objects.requireNonNullElse(leaser.getPassword() /*may be deleted*/, "")));
+            JButton deleteButton = new JButton("Delete");
+            JButton updateButton = new JButton("Update");
+            elements.add(List.of(leaser.getId(), leaser.getFullName(), institutionRepository.get(leaser.getInstitutionId()).getName(), "update", "delete"));
         }
 
         Object[][] raw = new Object[elements.size()][];
+
         for (int i = 0; i < elements.size(); i++) raw[i] = elements.get(i).toArray();
         return raw;
     }

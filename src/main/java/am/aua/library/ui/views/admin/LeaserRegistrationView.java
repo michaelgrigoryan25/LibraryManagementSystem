@@ -1,5 +1,4 @@
-package am.aua.library.ui.views;
-import am.aua.library.database.Database;
+package am.aua.library.ui.views.admin;
 import am.aua.library.database.DatabaseException;
 import am.aua.library.models.Institution;
 import am.aua.library.models.Leaser;
@@ -11,7 +10,6 @@ import am.aua.library.ui.components.AbstractPage;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.List;
 
 public class LeaserRegistrationView {
 

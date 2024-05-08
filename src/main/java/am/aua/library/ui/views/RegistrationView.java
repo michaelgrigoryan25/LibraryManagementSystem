@@ -8,6 +8,7 @@ import am.aua.library.repositories.AdminRepositoryImpl;
 import am.aua.library.ui.Helpers;
 import am.aua.library.ui.components.AbstractPage;
 import am.aua.library.ui.components.Text;
+import am.aua.library.ui.views.admin.AdminView;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;

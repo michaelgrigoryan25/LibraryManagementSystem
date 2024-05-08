@@ -1,6 +1,8 @@
-package am.aua.library.ui.views;
+package am.aua.library.ui.views.admin;
 
 import am.aua.library.ui.components.*;
+import am.aua.library.ui.views.BookTableView;
+import am.aua.library.ui.views.leaser.LeaserView;
 
 import javax.swing.*;
 import java.awt.*;

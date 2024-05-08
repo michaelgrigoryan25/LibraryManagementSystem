@@ -1,4 +1,4 @@
-package am.aua.library.ui.views;
+package am.aua.library.ui.views.admin;
 
 import am.aua.library.database.DatabaseException;
 import am.aua.library.models.Book;
