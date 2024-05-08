@@ -1,12 +1,10 @@
 package am.aua.library.ui.views;
 
-import am.aua.library.database.Database;
 import am.aua.library.ui.components.AbstractPage;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.net.URISyntaxException;
 import java.nio.file.Path;
 
 public final class MainView extends AbstractPage {

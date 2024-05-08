@@ -4,13 +4,17 @@ import am.aua.library.database.DatabaseException;
 import am.aua.library.models.Book;
 import am.aua.library.repositories.BookRepository;
 import am.aua.library.repositories.BookRepositoryImpl;
+import am.aua.library.ui.Helpers;
 import am.aua.library.ui.components.AbstractPage;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.UUID;
 
 public class AddBooksView extends AbstractPage {
+    private Long newBookId;
 
     private JTextField idField;
     private JTextField titleField;
@@ -36,17 +40,13 @@ public class AddBooksView extends AbstractPage {
     protected void setup() {
         this.setLayout(new GridLayout(12, 1));
         bookRepository = new BookRepositoryImpl();
+        this.newBookId = Math.abs(UUID.randomUUID().getLeastSignificantBits());
     }
 
     @Override
     protected void addComponents() {
-        //createPanel();
         addTextFields();
         addSubmitButton();
-    }
-
-    private void createPanel() {
-        panel = new JPanel();
     }
 
     private void addTextFields() {
@@ -58,15 +58,13 @@ public class AddBooksView extends AbstractPage {
         addPagesField();
         addLanguageField();
         addPublisherField();
-        addRentersField();
         addAuthorsField();
         addCategoriesField();
     }
 
     private void addIdField() {
-        idField = new JTextField();
         this.add(new JLabel("id"));
-        this.add(idField);
+        this.add(new JLabel(this.newBookId.toString()));
     }
 
     private void addTitleField() {
@@ -133,23 +131,46 @@ public class AddBooksView extends AbstractPage {
         JButton submit = new JButton("Add Book");
         submit.addActionListener(e -> {
             try {
+                String title = titleField.getText();
+                if (title == null || title.isEmpty() || title.isBlank()) {
+                    JOptionPane.showMessageDialog(this, "Title cannot be empty!");
+                    return;
+                }
+
+                String year = yearField.getText();
+                if (year == null || year.isBlank() || year.isEmpty() || !Helpers.isNumeric(year)) {
+                    JOptionPane.showMessageDialog(this, "The year must be a valid number!");
+                    return;
+                }
+
+                String copies = copiesField.getText();
+                if (copies == null || copies.isEmpty() ||
+                        copies.isBlank() || !Helpers.isNumeric(copies) || !(Integer.parseInt(copies) > 0)) {
+                    JOptionPane.showMessageDialog(this, "The number of copies must be a valid number");
+                    return;
+                }
+
                 bookRepository.add(new Book(
-                        Long.valueOf(idField.getText()),
+                        this.newBookId,
                         titleField.getText(),
                         subtitleField.getText(),
-                        Integer.parseInt(yearField.getText()),
-                        Integer.parseInt(copiesField.getText()),
+                        Integer.parseInt(year),
+                        Integer.parseInt(copies),
                         Integer.parseInt(pagesField.getText()),
                         languageField.getText(),
                         publisherField.getText(),
-                        Arrays.stream(rentersField.getText().split(";")).map(Long::valueOf).toList(),
+                        new ArrayList<>(),
                         Arrays.stream(authorsField.getText().split(";")).toList(),
                         Arrays.stream(categoriesField.getText().split(";")).toList()
                 ));
+
+                JOptionPane.showMessageDialog(this, "Book added successfully!");
+                this.dispose();
             } catch (DatabaseException exception) {
-                System.out.println("Could not add a book"); // TODO: Integrate error messages into this view page
+                JOptionPane.showMessageDialog(this, exception);
             }
         });
+
         this.add(submit);
     }
 }

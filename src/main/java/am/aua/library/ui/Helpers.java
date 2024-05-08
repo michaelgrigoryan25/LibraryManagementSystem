@@ -18,4 +18,14 @@ public final class Helpers {
 
         return true;
     }
+
+    public static boolean isNumeric(String input) {
+        for (char c : input.toCharArray()) {
+            if (!Character.isDigit(c)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }

@@ -3,7 +3,6 @@ package am.aua.library;
 import am.aua.library.database.Database;
 import am.aua.library.ui.views.MainView;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
