@@ -71,4 +71,14 @@ public class InstitutionRepositoryImpl implements InstitutionRepository{
         }
         return false;
     }
+
+    @Override
+    public Institution getByName(String name) {
+        for(Institution institution : institutions) {
+            if(institution.getName().equals(name)) {
+                return institution;
+            }
+        }
+        return null;
+    }
 }

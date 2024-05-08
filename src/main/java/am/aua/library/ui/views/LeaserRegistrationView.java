@@ -60,7 +60,7 @@ public class LeaserRegistrationView {
         System.out.println(password);
         System.out.println(institutionName);
         try {
-            leaserRepository.add(new Leaser(fullName, password));
+            leaserRepository.add(new Leaser(fullName, password, institutionRepository.getByName(institutionName).getId()));
         } catch (DatabaseException e) {
             errorArea = new JTextArea("Could not register user with provided credentials.");
             jPanel.add(errorArea);

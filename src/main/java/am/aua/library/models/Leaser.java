@@ -17,8 +17,13 @@ public class Leaser extends User {
      * @param passphrase leasers have a passphrases instead of usual
      *                   passwords. passphrases don't require encryption
      */
-    public Leaser(String fullName, String passphrase) {
+    public Leaser(String fullName, String passphrase, Long institutionId) {
         super(fullName, passphrase);
+        this.institutionId = institutionId;
+    }
+
+    public Long getInstitutionId() {
+        return institutionId;
     }
 
     /**
