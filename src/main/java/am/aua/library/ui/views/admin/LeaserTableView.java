@@ -26,7 +26,7 @@ import java.util.Objects;
 
 public final class LeaserTableView extends AbstractPage {
     private static final String[] COLUMN_NAMES = {
-            "ID", "Full Name", "Institution", "Update", "Delete"
+            "ID", "Full Name", "Passphrase", "Institution"
     };
 
     private JTable leaserTable;
@@ -44,6 +44,8 @@ public final class LeaserTableView extends AbstractPage {
 
     public LeaserTableView() {
         super("Leaser's view");
+        setup();
+        addComponents();
     }
 
     @Override
@@ -110,7 +112,7 @@ public final class LeaserTableView extends AbstractPage {
     private Object[][] getUpdatedLeasers() {
         ArrayList<java.util.List<Object>> elements = new ArrayList<>();
         for (Leaser leaser : this.leaserRepository.findAll()) {
-            elements.add(List.of(leaser.getId(), leaser.getFullName(), institutionRepository.get(leaser.getInstitutionId()).getName(), "Update", "Delete"));
+            elements.add(List.of(leaser.getId(), leaser.getFullName(), leaser.getPassword(), institutionRepository.get(leaser.getInstitutionId()).getName()));
         }
 
         Object[][] raw = new Object[elements.size()][];

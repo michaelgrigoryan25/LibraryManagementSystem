@@ -63,13 +63,12 @@ public class LeaserRepositoryImpl implements LeaserRepository {
 
     @Override
     public void update(Leaser element) throws DatabaseException {
-        int index = this.database.getLeasersUnsafe().indexOf(element);
+
+        System.out.println(element);
+        int index = getIndex(database.getLeasersUnsafe(), element);
         if (index < 0) {
             throw new RecordNotFoundException("cannot update user with id `" + element.getId() + "` since it doesn't exist");
         }
-
-        Leaser prev = this.database.getLeasersUnsafe().get(index);
-        element.setId(prev.getId());
 
         this.database.getLeasersUnsafe().set(index, element);
         this.database.persist();
@@ -84,5 +83,14 @@ public class LeaserRepositoryImpl implements LeaserRepository {
     @Override
     public boolean exists(Long id) {
         return get(id) != null;
+    }
+
+    private int getIndex(List<Leaser> leasers, Leaser leaser) {
+        for (int i = 0; i < leasers.size(); i++) {
+            if(leasers.get(i).equals(leaser)) {
+                return i;
+            }
+        }
+        return -1;
     }
 }

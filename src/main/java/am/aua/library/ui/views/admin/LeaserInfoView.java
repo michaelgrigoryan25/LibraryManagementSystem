@@ -19,8 +19,10 @@ public class LeaserInfoView {
     private LeaserRepository leaserRepository;
     private InstitutionRepository institutionRepository;
 
+    private JTextField idField;
     private JTextField fullNameField;
     private JComboBox<Object> institutionField;
+    private JTextField passphraseField;
 
     private Leaser leaser;
 
@@ -41,14 +43,21 @@ public class LeaserInfoView {
     public void addComponents(AbstractPage parent) {
 
         JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(4, 1));
+        panel.setLayout(new GridLayout(5, 1));
 
+        this.idField = new JTextField(String.valueOf(leaser.getId()));
         this.fullNameField = new JTextField(leaser.getFullName());
         this.institutionField = new JComboBox<>(institutionRepository.findAll().stream().map(Institution::getName).toArray());
+        this.passphraseField = new JTextField(leaser.getPassword());
+
+        this.idField.setEditable(false);
+
         panel.add(new JLabel("ID: "));
-        panel.add(new JTextField(String.valueOf(leaser.getId())));
+        panel.add(idField);
         panel.add(new JLabel("Full Name: "));
         panel.add(fullNameField);
+        panel.add(new JLabel("Passphrase: "));
+        panel.add(this.passphraseField);
         panel.add(new JLabel("Institution:"));
         panel.add(institutionField);
 
@@ -80,7 +89,10 @@ public class LeaserInfoView {
 
     private void update() {
         try {
-            leaserRepository.update(new Leaser(String.valueOf(leaser.getId()), fullNameField.getText(), leaser.getInstitutionId()));
+            System.out.println(institutionField.getSelectedItem().toString());
+            Leaser element = new Leaser(String.valueOf(this.fullNameField.getText()), this.passphraseField.getText(), institutionRepository.getByName(institutionField.getSelectedItem().toString()).getId());
+            element.setId(this.leaser.getId());
+            leaserRepository.update(element);
         } catch (DatabaseException e) {
             throw new RuntimeException(e);
         }
