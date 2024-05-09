@@ -2,7 +2,6 @@ package am.aua.library.ui.views.admin;
 
 import am.aua.library.ui.components.*;
 import am.aua.library.ui.views.BookTableView;
-import am.aua.library.ui.views.leaser.LeaserView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -36,8 +35,8 @@ public final class AdminView extends AbstractPage {
         addBooksButton.addActionListener(e -> new AddBooksView());
         this.add(addBooksButton);
 
-        JButton findLeaserButton = new JButton("Find & Update Leaser");
-        findLeaserButton.addActionListener(e -> new LeaserView());
-        this.add(findLeaserButton);
+//        JButton findLeaserButton = new JButton("Find & Update Leaser");
+//        findLeaserButton.addActionListener(e -> new LeaserView());
+//        this.add(findLeaserButton);
     }
 }
