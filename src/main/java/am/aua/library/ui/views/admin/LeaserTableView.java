@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Objects;
 
 public final class LeaserTableView extends AbstractPage {
+
     private static final String[] COLUMN_NAMES = {
             "ID", "Full Name", "Passphrase", "Institution"
     };
