@@ -27,15 +27,6 @@ public final class ReturnBookView extends AbstractPage {
         add(panel, BorderLayout.NORTH);
     }
 
-//    private void renderComboBox() {
-//        // Get the input text
-//        String inputText = inputField.getText();
-//
-//        // Populate the combo box with options based on the input text
-//        String[] options = generateOptions(inputText);
-//        comboBox.setModel(new DefaultComboBoxModel<>(options));
-//    }
-
     private String[] generateOptions(String input) {
         // Sample logic to generate options based on the input
         // Here, we simply add the input text with numbers from 1 to 5
