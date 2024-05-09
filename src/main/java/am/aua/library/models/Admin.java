@@ -6,7 +6,7 @@ import com.google.gson.annotations.Expose;
  * The Professor class represents a professor user in the system.
  * It extends the User class and includes additional attributes specific to professors.
  */
-public class Admin extends User {
+public final class Admin extends User {
     @Expose
     private final String username;
 

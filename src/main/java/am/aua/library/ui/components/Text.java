@@ -3,7 +3,7 @@ package am.aua.library.ui.components;
 import javax.swing.*;
 import java.awt.*;
 
-public class Text extends JLabel {
+public final class Text extends JLabel {
     public enum Size {SM, MD, LG}
 
     public Text(String label) {

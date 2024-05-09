@@ -8,7 +8,7 @@ import java.util.List;
  * The Book class represents a book resource in the system.
  * It extends the Resource class and inherits its attributes and methods.
  */
-public class Book implements Comparable<Book> {
+public final class Book implements Comparable<Book> {
     @Expose
     private Long id;
     @Expose

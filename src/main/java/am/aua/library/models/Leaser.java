@@ -10,7 +10,7 @@ import java.util.Objects;
  * The Student class represents a student user in the system.
  * It extends the User class and includes additional attributes specific to students.
  */
-public class Leaser extends User {
+public final class Leaser extends User {
     /**
      * Constructs a new User object with the specified attributes.
      *
