@@ -45,7 +45,7 @@ public class BookAssignView {
     public void addComponents(AbstractPage parent) {
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(9, 1));
-        panel.setPreferredSize(new Dimension(500, 500));
+        panel.setPreferredSize(new Dimension(700, 500));
 
         idField = new JTextField(String.valueOf(book.getId()));
         idField.setEditable(false);

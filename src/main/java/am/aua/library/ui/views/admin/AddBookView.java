@@ -8,6 +8,7 @@ import am.aua.library.ui.Helpers;
 import am.aua.library.ui.components.AbstractPage;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -27,6 +28,7 @@ public final class AddBookView extends AbstractPage {
     private JTextField publisherField;
     private JTextField authorsField;
     private JTextField categoriesField;
+    private JPanel inputsPanel;
 
     private BookRepository bookRepository;
 
@@ -36,7 +38,7 @@ public final class AddBookView extends AbstractPage {
 
     @Override
     protected void setup() {
-        this.setLayout(new GridLayout(12, 0));
+        this.setLayout(new BorderLayout());
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -46,6 +48,8 @@ public final class AddBookView extends AbstractPage {
         });
         bookRepository = new BookRepositoryImpl();
         this.newBookId = Math.abs(UUID.randomUUID().getLeastSignificantBits());
+        this.inputsPanel = new JPanel(new GridLayout(10, 0));
+        this.inputsPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
     }
 
     @Override
@@ -65,65 +69,66 @@ public final class AddBookView extends AbstractPage {
         addPublisherField();
         addAuthorsField();
         addCategoriesField();
+        this.add(inputsPanel, BorderLayout.NORTH);
     }
 
     private void addIdField() {
-        this.add(new JLabel("id"));
-        this.add(new JLabel(this.newBookId.toString()));
+        inputsPanel.add(new JLabel("id"));
+        inputsPanel.add(new JLabel(this.newBookId.toString()));
     }
 
     private void addTitleField() {
         titleField = new JTextField();
-        this.add(new JLabel("title"));
-        this.add(titleField);
+        inputsPanel.add(new JLabel("title"));
+        inputsPanel.add(titleField);
     }
 
     private void addSubtitleField() {
         subtitleField = new JTextField();
-        this.add(new JLabel("subtitle"));
-        this.add(subtitleField);
+        inputsPanel.add(new JLabel("subtitle"));
+        inputsPanel.add(subtitleField);
     }
 
     private void addYearField() {
         yearField = new JTextField();
-        this.add(new JLabel("year"));
-        this.add(yearField);
+        inputsPanel.add(new JLabel("year"));
+        inputsPanel.add(yearField);
     }
 
     private void addCopiesField() {
         copiesField = new JTextField();
-        this.add(new JLabel("copies"));
-        this.add(copiesField);
+        inputsPanel.add(new JLabel("copies"));
+        inputsPanel.add(copiesField);
     }
 
     private void addPagesField() {
         pagesField = new JTextField();
-        this.add(new JLabel("pages"));
-        this.add(pagesField);
+        inputsPanel.add(new JLabel("pages"));
+        inputsPanel.add(pagesField);
     }
 
     private void addLanguageField() {
         languageField = new JTextField();
-        this.add(new JLabel("language"));
-        this.add(languageField);
+        inputsPanel.add(new JLabel("language"));
+        inputsPanel.add(languageField);
     }
 
     private void addPublisherField() {
         publisherField = new JTextField();
-        this.add(new JLabel("publisher"));
-        this.add(publisherField);
+        inputsPanel.add(new JLabel("publisher"));
+        inputsPanel.add(publisherField);
     }
 
     private void addAuthorsField() {
         authorsField = new JTextField();
-        this.add(new JLabel("authors"));
-        this.add(authorsField);
+        inputsPanel.add(new JLabel("authors"));
+        inputsPanel.add(authorsField);
     }
 
     private void addCategoriesField() {
         categoriesField = new JTextField();
-        this.add(new JLabel("categories"));
-        this.add(categoriesField);
+        inputsPanel.add(new JLabel("categories"));
+        inputsPanel.add(categoriesField);
     }
 
     private void addSubmitButton() {
@@ -170,6 +175,6 @@ public final class AddBookView extends AbstractPage {
             }
         });
 
-        this.add(submit);
+        this.add(submit, BorderLayout.SOUTH);
     }
 }
