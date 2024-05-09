@@ -12,8 +12,7 @@ import am.aua.library.ui.components.AbstractPage;
 import javax.swing.*;
 import java.awt.*;
 
-public class LeaserInfoView {
-
+public final class LeaserInfoView {
     private AbstractPage parent;
 
     private LeaserRepository leaserRepository;

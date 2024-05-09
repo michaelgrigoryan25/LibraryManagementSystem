@@ -1,18 +1,14 @@
 package am.aua.library.ui.views.admin;
 
-import am.aua.library.models.Institution;
 import am.aua.library.models.Leaser;
 import am.aua.library.repositories.InstitutionRepository;
 import am.aua.library.repositories.InstitutionRepositoryImpl;
 import am.aua.library.repositories.LeaserRepositoryImpl;
 import am.aua.library.ui.components.AbstractPage;
-import am.aua.library.ui.components.ButtonEditor;
-import am.aua.library.ui.components.ButtonRenderer;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
@@ -22,7 +18,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public final class LeaserTableView extends AbstractPage {
     private static final String[] COLUMN_NAMES = {
@@ -70,7 +65,7 @@ public final class LeaserTableView extends AbstractPage {
 
                 int row = leaserTable.rowAtPoint(evt.getPoint());
                 int col = leaserTable.columnAtPoint(evt.getPoint());
-                if(row >= 0 && col >= 0) {
+                if (row >= 0 && col >= 0) {
                     Leaser selectedLeaser = leasers.get(row);
                     leaserInfoView = new LeaserInfoView(currentLeaser, selectedLeaser);
                 }

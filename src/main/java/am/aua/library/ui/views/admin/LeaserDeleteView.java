@@ -4,7 +4,7 @@ import am.aua.library.models.Leaser;
 import am.aua.library.repositories.LeaserRepository;
 import am.aua.library.ui.components.AbstractPage;
 
-public class LeaserDeleteView extends AbstractPage {
+public final class LeaserDeleteView extends AbstractPage {
 
     private Leaser leaser;
     private LeaserRepository leaserRepository;
