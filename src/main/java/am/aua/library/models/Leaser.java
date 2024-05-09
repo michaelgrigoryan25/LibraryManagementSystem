@@ -4,6 +4,7 @@ import com.google.gson.annotations.Expose;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * The Student class represents a student user in the system.
@@ -65,5 +66,29 @@ public class Leaser extends User {
         if (institutionId != null && institutionId > 0) {
             this.institutionId = institutionId;
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Leaser leaser = (Leaser) o;
+        return Objects.equals(getId(), leaser.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(institutionId, leases);
+    }
+
+    @Override
+    public String toString() {
+        return "Leaser{" +
+                "id=" + getId() +
+                ", fullName=" + getFullName() +
+                ", password" + getPassword() +
+                ", institutionId=" + institutionId +
+                ", leases=" + leases +
+                '}';
     }
 }
