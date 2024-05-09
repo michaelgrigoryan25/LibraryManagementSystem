@@ -1,0 +1,33 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+ApplicationException <|-- DatabaseException
+DatabaseException <|-- DuplicateRecordException
+DatabaseException <|-- RecrodNotFoundException
+
+class Database {
+        Database getInstance()
+
+        ArrayList<Leaser> getLeasers()
+
+        ArrayList<Leaser> getLeasersUnsafe()
+
+        ArrayList<Book> getBooks()
+
+        ArrayList<Book> getBooksUnsafe()
+
+        ArrayList<Admin> getAdmins()
+
+        ArrayList<Admin> getAdminsUnsafe()
+
+        ArrayList<Institution> getInstitutions()
+
+        ArrayList<Institution> getInstitutionsUnsafe()
+
+        void persist()
+
+        void load()
+
+        private <T> List<T> loadArrayDataFromJson(Path, Class<T[]>)
+}
+@enduml

@@ -1,0 +1,72 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+interface Repository
+interface UserRepository
+interface BookRepository
+interface InstitutionRepository
+interface LeaserRepository
+interface AdminRepository
+
+class AdminRepositoryImpl
+class BookRepositoryImpl
+class InstitutionRepositoryImpl
+class LeaserRepositoryImpl
+
+interface Repository<T> {
+        T get(Long)
+
+        T getUnsafe(Long)
+
+        List<T> findAll()
+
+        void add(T)
+
+        void update(T)
+
+        void remove(T)
+
+        boolean exists(Long)
+}
+
+interface UserRepository<T> {
+        T findByUsername(String)
+
+        List<T> findByNameContaining(String);
+}
+
+interface BookRepository {
+        List<Book> findByTitle(String)
+
+        boolean rentById(Long, Long)
+
+        boolean giveBackById(Long, Long)
+}
+
+interface InstitutionRepository {
+    Institution getByName(String)
+}
+
+class AdminRepositoryImpl {}
+
+class LeaserRepositoryImpl {
+
+}
+
+class BookRepositoryImpl {
+
+}
+
+Repository <|-- UserRepository
+Repository <|-- BookRepository
+Repository <|-- InstitutionRepository
+UserRepository <|-- AdminRepository
+UserRepository <|-- LeaserRepository
+AdminRepository <|-- AdminRepositoryImpl
+BookRepository <|-- BookRepositoryImpl
+InstitutionRepository <|-- InstitutionRepositoryImpl
+LeaserRepository <|-- LeaserRepositoryImpl
+
+
+
+@enduml
