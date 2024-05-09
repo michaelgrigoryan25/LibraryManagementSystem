@@ -63,8 +63,6 @@ public class LeaserRepositoryImpl implements LeaserRepository {
 
     @Override
     public void update(Leaser element) throws DatabaseException {
-
-        System.out.println(element);
         int index = getIndex(database.getLeasersUnsafe(), element);
         if (index < 0) {
             throw new RecordNotFoundException("cannot update user with id `" + element.getId() + "` since it doesn't exist");
@@ -87,7 +85,7 @@ public class LeaserRepositoryImpl implements LeaserRepository {
 
     private int getIndex(List<Leaser> leasers, Leaser leaser) {
         for (int i = 0; i < leasers.size(); i++) {
-            if(leasers.get(i).equals(leaser)) {
+            if (leasers.get(i).equals(leaser)) {
                 return i;
             }
         }
@@ -96,8 +94,8 @@ public class LeaserRepositoryImpl implements LeaserRepository {
 
     @Override
     public Leaser getByPassword(String password) {
-        for(Leaser leaser : this.findAll()) {
-            if(leaser.getPassword().equals(password)) {
+        for (Leaser leaser : this.findAll()) {
+            if (leaser.getPassword().equals(password)) {
                 return leaser;
             }
         }

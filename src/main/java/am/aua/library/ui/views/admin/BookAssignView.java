@@ -43,6 +43,7 @@ public class BookAssignView {
     }
 
     public void addComponents(AbstractPage parent) {
+        JPanel root = new JPanel(new GridLayout(2, 0));
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(9, 1));
         panel.setPreferredSize(new Dimension(700, 500));
@@ -87,21 +88,16 @@ public class BookAssignView {
         panel.add(new JLabel("Leaser"));
         panel.add(leasersField);
 
-        JButton assignButton = new JButton("Assign");
-        assignButton.addActionListener(e -> {
-            if (leasersField.getSelectedItem() != null) {
-                System.out.println(leasersField.getSelectedItem());
-                Leaser leaser = leaserRepository.get(((Leaser) leasersField.getSelectedItem()).getId());
-                try {
-                    this.bookRepository.rentById(book.getId(), leaser.getId());
-                } catch (DatabaseException ex) {
-                    throw new RuntimeException(ex);
-                }
-            }
-        });
-
-        panel.add(assignButton);
+        root.add(panel);
         JOptionPane.showMessageDialog(parent, panel);
+        if (leasersField.getSelectedItem() != null) {
+            Leaser leaser = leaserRepository.get(((Leaser) leasersField.getSelectedItem()).getId());
+            try {
+                this.bookRepository.rentById(book.getId(), leaser.getId());
+            } catch (DatabaseException ex) {
+                throw new RuntimeException(ex);
+            }
+        }
         new BookTableView();
     }
 }
