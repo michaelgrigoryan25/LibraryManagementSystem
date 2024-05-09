@@ -38,6 +38,12 @@ public class Leaser extends User {
         @Expose
         private Date leaseEndDate;
 
+        public Lease(Long bookId, Date start, Date end) {
+            this.id = bookId;
+            this.leaseStartDate = start;
+            this.leaseEndDate = end;
+        }
+
         public Date getLeaseEndDate() {
             return this.leaseEndDate;
         }
@@ -62,10 +68,22 @@ public class Leaser extends User {
     @Expose
     private ArrayList<Lease> leases;
 
-    public void setInstitutionId(Long institutionId) {
-        if (institutionId != null && institutionId > 0) {
-            this.institutionId = institutionId;
+    public void addLease(Lease lease) {
+        if (this.leases == null) {
+            this.leases = new ArrayList<>();
         }
+
+        this.leases.add(lease);
+    }
+
+    public void removeLease(Long id) {
+        int index = 0;
+        for (Lease lease : this.leases) {
+            if (lease.getId().equals(id)) break;
+            index++;
+        }
+
+        this.leases.remove(index);
     }
 
     @Override
@@ -83,12 +101,6 @@ public class Leaser extends User {
 
     @Override
     public String toString() {
-        return "Leaser{" +
-                "id=" + getId() +
-                ", fullName=" + getFullName() +
-                ", password" + getPassword() +
-                ", institutionId=" + institutionId +
-                ", leases=" + leases +
-                '}';
+        return getId().toString().substring(0, 4) + ": " + getFullName();
     }
 }

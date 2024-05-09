@@ -2,7 +2,6 @@ package am.aua.library.models;
 
 import com.google.gson.annotations.Expose;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,25 +12,25 @@ public class Book implements Comparable<Book> {
     @Expose
     private Long id;
     @Expose
-    private String title;
+    private final String title;
     @Expose
-    private String subtitle;
+    private final String subtitle;
     @Expose
-    private int year;
+    private final int year;
     @Expose
     private int copies;
     @Expose
-    private int pages;
+    private final int pages;
     @Expose
-    private String language;
+    private final String language;
     @Expose
-    private String publisher;
+    private final String publisher;
     @Expose
-    private List<Long> renters;
+    private final List<Long> renters;
     @Expose
-    private List<String> authors;
+    private final List<String> authors;
     @Expose
-    private List<String> categories;
+    private final List<String> categories;
 
     public Book(Long id, String title, String subtitle, int year, int copies, int pages, String language, String publisher, List<Long> renters, List<String> authors, List<String> categories) {
         this.id = id;
@@ -79,20 +78,12 @@ public class Book implements Comparable<Book> {
         }
     }
 
-    public List<Long> getRenters() {
-        return new ArrayList<>(this.renters);
-    }
-
     public Long getId() {
         return this.id;
     }
 
     public String getTitle() {
         return title;
-    }
-
-    public List<String> getAuthors() {
-        return authors;
     }
 
     public int getYear() {

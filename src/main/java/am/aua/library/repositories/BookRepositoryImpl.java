@@ -5,8 +5,11 @@ import am.aua.library.database.DatabaseException;
 import am.aua.library.database.DuplicateRecordException;
 import am.aua.library.database.RecordNotFoundException;
 import am.aua.library.models.Book;
+import am.aua.library.models.Leaser;
 import am.aua.library.models.User;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -27,14 +30,16 @@ public class BookRepositoryImpl implements BookRepository {
 
     @Override
     public boolean rentById(Long id, Long userId) throws DatabaseException {
-        final LeaserRepositoryImpl studentRepository = new LeaserRepositoryImpl();
-        final AdminRepositoryImpl professorRepository = new AdminRepositoryImpl();
+        final LeaserRepositoryImpl leaserRepository = new LeaserRepositoryImpl();
 
         Book book = getUnsafe(id);
-        User user = studentRepository.get(userId);
-        if (user == null) user = professorRepository.get(userId);
-
+        Leaser user = leaserRepository.getUnsafe(userId);
         if (book != null && user != null) {
+            Calendar endDate = Calendar.getInstance();
+            endDate.add(Calendar.MONTH, 1);
+            Leaser.Lease lease = new Leaser.Lease(book.getId(), new Date(), endDate.getTime());
+
+            user.addLease(lease);
             book.addRenter(user.getId());
             this.database.persist();
             return true;

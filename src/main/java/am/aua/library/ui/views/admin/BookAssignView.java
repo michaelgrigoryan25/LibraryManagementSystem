@@ -1,5 +1,6 @@
 package am.aua.library.ui.views.admin;
 
+import am.aua.library.database.DatabaseException;
 import am.aua.library.models.Book;
 import am.aua.library.models.Leaser;
 import am.aua.library.repositories.BookRepository;
@@ -25,7 +26,7 @@ public class BookAssignView {
     private JTextField languageField;
     private JTextField availableCopiesField;
     private JTextField pagesField;
-    private JComboBox<Object> leasersField;
+    private JComboBox<Leaser> leasersField;
 
     private List<Leaser> leasers;
 
@@ -81,19 +82,26 @@ public class BookAssignView {
         panel.add(new JLabel("Pages"));
         panel.add(pagesField);
 
-        leasersField = new JComboBox<>(leasers.stream().map(Leaser::getPassword).toArray());
+        DefaultComboBoxModel<Leaser> model = new DefaultComboBoxModel<>(leasers.toArray(Leaser[]::new));
+        leasersField = new JComboBox<>(model);
         panel.add(new JLabel("Leaser"));
         panel.add(leasersField);
 
         JButton assignButton = new JButton("Assign");
         assignButton.addActionListener(e -> {
-            Leaser leaser = leaserRepository.getByPassword(leasersField.getSelectedItem().toString());
-            this.book.addRenter(leaser.getId());
+            if (leasersField.getSelectedItem() != null) {
+                System.out.println(leasersField.getSelectedItem());
+                Leaser leaser = leaserRepository.get(((Leaser) leasersField.getSelectedItem()).getId());
+                try {
+                    this.bookRepository.rentById(book.getId(), leaser.getId());
+                } catch (DatabaseException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
         });
 
         panel.add(assignButton);
         JOptionPane.showMessageDialog(parent, panel);
-
         new BookTableView();
     }
 }
