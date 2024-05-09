@@ -9,7 +9,6 @@ import com.google.gson.Gson;
 import static am.aua.library.Constants.*;
 
 import java.io.*;
-import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -25,8 +24,23 @@ public class Database {
     private ArrayList<Leaser> leasers;
     private ArrayList<Institution> institutions;
 
-    private Database() throws DatabaseException, URISyntaxException, IOException {
+    private Database() throws DatabaseException, IOException {
+        this.setup();
         this.load();
+    }
+
+    private void setup() throws IOException {
+        Path path = Path.of("resources", "a.json");
+        if (!path.toFile().exists()) {
+            boolean ignored = path.toFile().createNewFile();
+            Files.writeString(path, "[]");
+        }
+
+        path = Path.of("resources", "l.json");
+        if (!path.toFile().exists()) {
+            boolean ignored = path.toFile().createNewFile();
+            Files.writeString(path, "[]");
+        }
     }
 
     public static synchronized Database getInstance() {
@@ -34,6 +48,7 @@ public class Database {
             try {
                 instance = new Database();
             } catch (Exception e) {
+                //noinspection CallToPrintStackTrace
                 e.printStackTrace();
                 System.exit(1);
             }

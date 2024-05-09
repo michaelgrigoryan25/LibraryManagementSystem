@@ -29,10 +29,6 @@ public final class Institution implements Comparable<Institution> {
         setName(name);
     }
 
-    public Institution(Institution institution) {
-        this(institution.getId(), institution.getName());
-    }
-
     public void setName(String name) {
         if (name != null && !name.isEmpty() && !name.isBlank()) {
             // Setting the name in uppercase for consistency throughout the program

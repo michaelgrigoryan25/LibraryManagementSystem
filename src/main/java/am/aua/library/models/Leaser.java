@@ -32,11 +32,11 @@ public final class Leaser extends User {
      */
     public static class Lease {
         @Expose
-        private Long id;
+        private final Long id;
         @Expose
-        private Date leaseStartDate;
+        private final Date leaseStartDate;
         @Expose
-        private Date leaseEndDate;
+        private final Date leaseEndDate;
 
         public Lease(Long bookId, Date start, Date end) {
             this.id = bookId;
@@ -61,7 +61,7 @@ public final class Leaser extends User {
      * The institution associated with the leaser
      */
     @Expose
-    private Long institutionId;
+    private final Long institutionId;
     /**
      * The IDs of the books that the user has leased
      */

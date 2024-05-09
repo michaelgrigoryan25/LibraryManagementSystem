@@ -4,21 +4,15 @@ import am.aua.library.database.Database;
 import am.aua.library.database.DatabaseException;
 import am.aua.library.models.Institution;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class InstitutionRepositoryImpl implements InstitutionRepository {
-    private final ArrayList<Institution> institutions;
-
-    public InstitutionRepositoryImpl() {
-        Database db = Database.getInstance();
-        institutions = db.getInstitutions();
-    }
+    private final Database database = Database.getInstance();
 
     @Override
     public Institution get(Long id) {
-        for (Institution institution : institutions) {
-            if (institution.getId().equals(id)) return new Institution(institution);
+        for (Institution institution : this.database.getInstitutions()) {
+            if (institution.getId().equals(id)) return institution;
         }
 
         return null;
@@ -26,7 +20,7 @@ public class InstitutionRepositoryImpl implements InstitutionRepository {
 
     @Override
     public Institution getUnsafe(Long id) {
-        for (Institution institution : institutions) {
+        for (Institution institution : this.database.getInstitutions()) {
             if (institution.getId().equals(id)) return institution;
         }
 
@@ -35,7 +29,7 @@ public class InstitutionRepositoryImpl implements InstitutionRepository {
 
     @Override
     public List<Institution> findAll() {
-        return institutions;
+        return this.database.getInstitutions();
     }
 
     @Override
@@ -55,7 +49,7 @@ public class InstitutionRepositoryImpl implements InstitutionRepository {
 
     @Override
     public boolean exists(Long id) {
-        for (Institution institution : institutions) {
+        for (Institution institution : this.database.getInstitutions()) {
             if (institution.getId().equals(id)) return true;
         }
 
@@ -64,7 +58,7 @@ public class InstitutionRepositoryImpl implements InstitutionRepository {
 
     @Override
     public Institution getByName(String name) {
-        for (Institution institution : institutions) {
+        for (Institution institution : this.database.getInstitutions()) {
             if (institution.getName().equals(name)) {
                 return institution;
             }

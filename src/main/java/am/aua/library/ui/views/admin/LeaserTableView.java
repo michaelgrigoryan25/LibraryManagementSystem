@@ -68,7 +68,7 @@ public final class LeaserTableView extends AbstractPage {
                 if (row >= 0 && col >= 0) {
                     // Closing the table view and displaying a JOptionPane
                     Leaser selectedLeaser = leasers.get(row);
-                    new LeaserInfoView(LeaserTableView.this, selectedLeaser);
+                    new LeaserInfoView(selectedLeaser);
                     LeaserTableView.this.dispose();
                 }
             }

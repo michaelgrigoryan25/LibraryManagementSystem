@@ -10,7 +10,6 @@ import am.aua.library.repositories.LeaserRepositoryImpl;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Arrays;
 
 public final class LeaserRegistrationView {
     public LeaserRegistrationView() {

@@ -23,7 +23,7 @@ public abstract class User {
      * The password of the user.
      */
     @Expose
-    private String password;
+    private final String password;
 
     /**
      * Constructs a new User object with the specified attributes.

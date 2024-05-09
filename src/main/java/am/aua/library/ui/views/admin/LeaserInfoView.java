@@ -20,11 +20,11 @@ public final class LeaserInfoView {
     private JTextField passphraseField;
     private final Leaser leaser;
 
-    public LeaserInfoView(LeaserTableView parent, Leaser leaser) {
+    public LeaserInfoView(Leaser leaser) {
         this.leaser = leaser;
 
         setup();
-        addComponents(parent);
+        addComponents();
     }
 
     public void setup() {
@@ -33,7 +33,7 @@ public final class LeaserInfoView {
     }
 
 
-    public void addComponents(LeaserTableView parent) {
+    public void addComponents() {
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(5, 1));
 

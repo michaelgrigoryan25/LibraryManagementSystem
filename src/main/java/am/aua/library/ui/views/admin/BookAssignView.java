@@ -14,21 +14,10 @@ import java.awt.*;
 import java.util.List;
 
 public class BookAssignView {
+    private Book book;
+    private List<Leaser> leasers;
     private BookRepository bookRepository;
     private LeaserRepository leaserRepository;
-
-    private Book book;
-
-    private JTextField idField;
-    private JTextField titleField;
-    private JTextField subtitleField;
-    private JTextField yearField;
-    private JTextField languageField;
-    private JTextField availableCopiesField;
-    private JTextField pagesField;
-    private JComboBox<Leaser> leasersField;
-
-    private List<Leaser> leasers;
 
     public BookAssignView(AbstractPage parent, Book book) {
         setup(book);
@@ -48,43 +37,43 @@ public class BookAssignView {
         panel.setLayout(new GridLayout(9, 1));
         panel.setPreferredSize(new Dimension(700, 500));
 
-        idField = new JTextField(String.valueOf(book.getId()));
+        JTextField idField = new JTextField(String.valueOf(book.getId()));
         idField.setEditable(false);
         panel.add(new JLabel("ID"));
         panel.add(idField);
 
-        titleField = new JTextField(book.getTitle());
+        JTextField titleField = new JTextField(book.getTitle());
         titleField.setEditable(false);
         panel.add(new JLabel("Title"));
         panel.add(titleField);
 
-        subtitleField = new JTextField(book.getSubtitle());
+        JTextField subtitleField = new JTextField(book.getSubtitle());
         subtitleField.setEditable(false);
         panel.add(new JLabel("Subtitle"));
         panel.add(subtitleField);
 
-        yearField = new JTextField(String.valueOf(book.getYear()));
+        JTextField yearField = new JTextField(String.valueOf(book.getYear()));
         yearField.setEditable(false);
         panel.add(new JLabel("Year"));
         panel.add(yearField);
 
-        languageField = new JTextField(book.getLanguage());
+        JTextField languageField = new JTextField(book.getLanguage());
         languageField.setEditable(false);
         panel.add(new JLabel("Language"));
         panel.add(languageField);
 
-        availableCopiesField = new JTextField(String.valueOf(book.getCopies()));
+        JTextField availableCopiesField = new JTextField(String.valueOf(book.getCopies()));
         availableCopiesField.setEditable(false);
         panel.add(new JLabel("Available Copies"));
         panel.add(availableCopiesField);
 
-        pagesField = new JTextField(String.valueOf(book.getPages()));
+        JTextField pagesField = new JTextField(String.valueOf(book.getPages()));
         pagesField.setEditable(false);
         panel.add(new JLabel("Pages"));
         panel.add(pagesField);
 
         DefaultComboBoxModel<Leaser> model = new DefaultComboBoxModel<>(leasers.toArray(Leaser[]::new));
-        leasersField = new JComboBox<>(model);
+        JComboBox<Leaser> leasersField = new JComboBox<>(model);
         panel.add(new JLabel("Leaser"));
         panel.add(leasersField);
 

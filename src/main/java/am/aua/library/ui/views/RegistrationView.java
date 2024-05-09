@@ -139,6 +139,7 @@ public final class RegistrationView extends AbstractPage {
                         return;
                     }
 
+                    //noinspection CallToPrintStackTrace
                     ex.printStackTrace();
                 }
             } else {

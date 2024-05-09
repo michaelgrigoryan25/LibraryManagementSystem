@@ -66,17 +66,5 @@ public final class AdminView extends AbstractPage {
             new AddBookView();
         });
         this.add(addBooksButton);
-
-//
-//        JButton viewLeasesButton = new JButton("View Leases");
-//        viewLeasesButton.addActionListener(e -> {
-//            this.dispose();
-//            if (viewLeasesView == null) {
-//                this.viewLeasesView = new LeasesView(AdminView.this);
-//            }
-//
-//            this.viewLeasesView.requestFocus();
-//        });
-//        this.add(viewLeasesButton);
     }
 }

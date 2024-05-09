@@ -1,5 +1,6 @@
 package am.aua.library.ui;
 
+@SuppressWarnings("BooleanMethodIsAlwaysInverted")
 public final class Helpers {
     public static boolean isValidUsername(String input) {
         return !input.isEmpty() && !input.isBlank() && isAscii(input) && !input.contains(" ");
