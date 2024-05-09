@@ -13,7 +13,6 @@ import java.awt.*;
 import java.util.List;
 
 public class BookAssignView {
-
     private BookRepository bookRepository;
     private LeaserRepository leaserRepository;
 
@@ -91,8 +90,10 @@ public class BookAssignView {
             Leaser leaser = leaserRepository.getByPassword(leasersField.getSelectedItem().toString());
             this.book.addRenter(leaser.getId());
         });
-        panel.add(assignButton);
 
+        panel.add(assignButton);
         JOptionPane.showMessageDialog(parent, panel);
+
+        new BookTableView();
     }
 }

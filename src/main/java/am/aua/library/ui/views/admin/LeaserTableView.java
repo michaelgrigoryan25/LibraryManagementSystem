@@ -13,14 +13,11 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
-import java.awt.event.ActionEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public final class LeaserTableView extends AbstractPage {
-
     private static final String[] COLUMN_NAMES = {
             "ID", "Full Name", "Passphrase", "Institution"
     };
@@ -36,8 +33,6 @@ public final class LeaserTableView extends AbstractPage {
 
     private List<Leaser> leasers;
 
-    private LeaserInfoView leaserInfoView;
-
     public LeaserTableView() {
         super("Leaser's view");
         setup();
@@ -47,9 +42,14 @@ public final class LeaserTableView extends AbstractPage {
     @Override
     protected void setup() {
         this.setLayout(new BorderLayout());
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                AdminView.getInstance().setVisible(true);
+            }
+        });
         this.leaserRepository = new LeaserRepositoryImpl();
         this.institutionRepository = new InstitutionRepositoryImpl();
-
         this.leasers = leaserRepository.findAll();
 
         this.leaserTableModel = new DefaultTableModel(this.getUpdatedLeasers(), COLUMN_NAMES);
@@ -59,16 +59,17 @@ public final class LeaserTableView extends AbstractPage {
                 return false;
             }
         };
-        AbstractPage currentLeaser = this;
+
         this.leaserTable.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent evt) {
-
                 int row = leaserTable.rowAtPoint(evt.getPoint());
                 int col = leaserTable.columnAtPoint(evt.getPoint());
                 if (row >= 0 && col >= 0) {
+                    // Closing the table view and displaying a JOptionPane
+                    LeaserTableView.this.dispose();
                     Leaser selectedLeaser = leasers.get(row);
-                    leaserInfoView = new LeaserInfoView(currentLeaser, selectedLeaser);
+                    new LeaserInfoView(LeaserTableView.this, selectedLeaser);
                 }
             }
         });

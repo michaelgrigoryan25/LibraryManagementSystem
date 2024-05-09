@@ -13,23 +13,19 @@ import javax.swing.*;
 import java.awt.*;
 
 public final class LeaserRegistrationView {
-
     private JTextField fullNameField;
     private JPasswordField passwordField;
-    private JComboBox<String> institutionField;
-
-    private JTextArea errorArea;
 
     private JPanel jPanel;
 
     private InstitutionRepository institutionRepository;
     private LeaserRepository leaserRepository;
 
-    public LeaserRegistrationView(AbstractPage abstractPage) {
-        setup(abstractPage);
+    public LeaserRegistrationView() {
+        this.setup();
     }
 
-    public void setup(AbstractPage abstractPage) {
+    public void setup() {
         institutionRepository = new InstitutionRepositoryImpl();
         leaserRepository = new LeaserRepositoryImpl();
 
@@ -46,12 +42,12 @@ public final class LeaserRegistrationView {
         jPanel.add(new JLabel("Institution"));
         jPanel.add(institutionField);
         JButton registerButton = new JButton("Register");
-        registerButton.addActionListener(e -> {
-            register(fullNameField.getText(), String.valueOf(passwordField.getPassword()), String.valueOf(institutionField.getSelectedItem()));
-        });
+        registerButton.addActionListener(e -> register(fullNameField.getText(), String.valueOf(passwordField.getPassword()), String.valueOf(institutionField.getSelectedItem())));
 
         jPanel.add(registerButton);
-        JOptionPane.showMessageDialog(abstractPage, jPanel);
+
+        JOptionPane.showMessageDialog(AdminView.getInstance(), jPanel);
+        AdminView.getInstance().setVisible(true);
     }
 
     public void register(String fullName, String password, String institutionName) {
@@ -61,7 +57,7 @@ public final class LeaserRegistrationView {
         try {
             leaserRepository.add(new Leaser(fullName, password, institutionRepository.getByName(institutionName).getId()));
         } catch (DatabaseException e) {
-            errorArea = new JTextArea("Could not register user with provided credentials.");
+            JTextArea errorArea = new JTextArea("Could not register user with provided credentials.");
             jPanel.add(errorArea);
         }
     }

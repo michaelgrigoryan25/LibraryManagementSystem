@@ -1,11 +1,8 @@
-package am.aua.library.ui.views;
+package am.aua.library.ui.views.admin;
 
 import am.aua.library.models.Book;
-import am.aua.library.models.Leaser;
 import am.aua.library.repositories.BookRepositoryImpl;
 import am.aua.library.ui.components.AbstractPage;
-import am.aua.library.ui.views.admin.BookAssignView;
-import am.aua.library.ui.views.admin.LeaserInfoView;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -14,9 +11,7 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
-import java.awt.event.ActionEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -30,12 +25,8 @@ public final class BookTableView extends AbstractPage {
     private DefaultTableModel bookTableModel;
     private TableRowSorter<TableModel> rowSorter;
     private JTextField filterTextField;
-
     private JScrollPane scrollPane;
     private BookRepositoryImpl bookRepository;
-
-    private BookAssignView bookAssignView;
-
     private List<Book> books;
 
     public BookTableView() {
@@ -45,12 +36,16 @@ public final class BookTableView extends AbstractPage {
     @Override
     protected void setup() {
         this.setLayout(new BorderLayout());
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                AdminView.getInstance().setVisible(true);
+            }
+        });
 
         this.bookRepository = new BookRepositoryImpl();
         this.bookTableModel = new DefaultTableModel(this.getUpdatedBooks(), COLUMN_NAMES);
-
         this.books = bookRepository.findAll();
-
         this.bookTable = new JTable(this.bookTableModel) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -74,9 +69,11 @@ public final class BookTableView extends AbstractPage {
             public void mouseClicked(MouseEvent evt) {
                 int row = bookTable.rowAtPoint(evt.getPoint());
                 int col = bookTable.columnAtPoint(evt.getPoint());
-                if(row >= 0 && col >= 0) {
+                if (row >= 0 && col >= 0) {
                     Book selectedBook = books.get(row);
-                    bookAssignView = new BookAssignView(currentBook, selectedBook);
+                    new BookAssignView(currentBook, selectedBook);
+                    // refreshing the page by closing and reopening the panel
+                    BookTableView.this.dispose();
                 }
             }
         });

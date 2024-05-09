@@ -9,11 +9,13 @@ import am.aua.library.ui.components.AbstractPage;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.UUID;
 
-public final class AddBooksView extends AbstractPage {
+public final class AddBookView extends AbstractPage {
     private Long newBookId;
 
     private JTextField titleField;
@@ -28,13 +30,20 @@ public final class AddBooksView extends AbstractPage {
 
     private BookRepository bookRepository;
 
-    public AddBooksView() {
+    public AddBookView() {
         super("Add Books");
     }
 
     @Override
     protected void setup() {
         this.setLayout(new GridLayout(12, 0));
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                super.windowClosing(e);
+                AdminView.getInstance().setVisible(true);
+            }
+        });
         bookRepository = new BookRepositoryImpl();
         this.newBookId = Math.abs(UUID.randomUUID().getLeastSignificantBits());
     }
@@ -150,8 +159,8 @@ public final class AddBooksView extends AbstractPage {
                         languageField.getText(),
                         publisherField.getText(),
                         new ArrayList<>(),
-                        Arrays.stream(authorsField.getText().split(";")).toList(),
-                        Arrays.stream(categoriesField.getText().split(";")).toList()
+                        Arrays.asList(authorsField.getText().split(";")),
+                        Arrays.asList(categoriesField.getText().split(";"))
                 ));
 
                 JOptionPane.showMessageDialog(this, "Book added successfully!");

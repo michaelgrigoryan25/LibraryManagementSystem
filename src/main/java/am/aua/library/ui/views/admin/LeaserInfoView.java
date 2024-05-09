@@ -7,26 +7,22 @@ import am.aua.library.repositories.InstitutionRepository;
 import am.aua.library.repositories.InstitutionRepositoryImpl;
 import am.aua.library.repositories.LeaserRepository;
 import am.aua.library.repositories.LeaserRepositoryImpl;
-import am.aua.library.ui.components.AbstractPage;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public final class LeaserInfoView {
-    private AbstractPage parent;
-
     private LeaserRepository leaserRepository;
     private InstitutionRepository institutionRepository;
 
-    private JTextField idField;
     private JTextField fullNameField;
     private JComboBox<Object> institutionField;
     private JTextField passphraseField;
+    private final Leaser leaser;
 
-    private Leaser leaser;
-
-    public LeaserInfoView(AbstractPage parent, Leaser leaser) {
-
+    public LeaserInfoView(JFrame parent, Leaser leaser) {
         this.leaser = leaser;
 
         setup();
@@ -39,17 +35,16 @@ public final class LeaserInfoView {
     }
 
 
-    public void addComponents(AbstractPage parent) {
-
+    public void addComponents(JFrame parent) {
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(5, 1));
 
-        this.idField = new JTextField(String.valueOf(leaser.getId()));
+        JTextField idField = new JTextField(String.valueOf(leaser.getId()));
         this.fullNameField = new JTextField(leaser.getFullName());
         this.institutionField = new JComboBox<>(institutionRepository.findAll().stream().map(Institution::getName).toArray());
         this.passphraseField = new JTextField(leaser.getPassword());
 
-        this.idField.setEditable(false);
+        idField.setEditable(false);
 
         panel.add(new JLabel("ID: "));
         panel.add(idField);
@@ -60,22 +55,31 @@ public final class LeaserInfoView {
         panel.add(new JLabel("Institution:"));
         panel.add(institutionField);
 
+        JOptionPane jop = new JOptionPane();
+        jop.setMessageType(JOptionPane.INFORMATION_MESSAGE);
+        JDialog dialog = jop.createDialog("Update or Delete Leaser");
+        dialog.setLocationRelativeTo(null);
+        dialog.setSize(800, 400);
+
         JButton update = new JButton("Update");
         update.addActionListener(e -> {
-            System.out.println("Updating " + leaser.getFullName());
             update();
+            dialog.dispose();
         });
 
         JButton delete = new JButton("Delete");
         delete.addActionListener(e -> {
-            System.out.println("Deleting " + leaser.getFullName());
             delete();
+            dialog.dispose();
         });
 
         panel.add(update);
         panel.add(delete);
+        jop.setMessage(panel);
 
-        JOptionPane.showMessageDialog(parent, panel);
+        dialog.setVisible(true);
+        dialog.dispose();
+        parent.setVisible(true);
     }
 
     private void delete() {
@@ -88,10 +92,11 @@ public final class LeaserInfoView {
 
     private void update() {
         try {
-            System.out.println(institutionField.getSelectedItem().toString());
-            Leaser element = new Leaser(String.valueOf(this.fullNameField.getText()), this.passphraseField.getText(), institutionRepository.getByName(institutionField.getSelectedItem().toString()).getId());
-            element.setId(this.leaser.getId());
-            leaserRepository.update(element);
+            if (institutionField.getSelectedItem() != null) {
+                Leaser element = new Leaser(String.valueOf(this.fullNameField.getText()), this.passphraseField.getText(), institutionRepository.getByName(institutionField.getSelectedItem().toString()).getId());
+                element.setId(this.leaser.getId());
+                leaserRepository.update(element);
+            }
         } catch (DatabaseException e) {
             throw new RuntimeException(e);
         }
