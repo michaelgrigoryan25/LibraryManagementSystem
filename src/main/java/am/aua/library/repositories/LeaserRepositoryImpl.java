@@ -93,4 +93,14 @@ public class LeaserRepositoryImpl implements LeaserRepository {
         }
         return -1;
     }
+
+    @Override
+    public Leaser getByPassword(String password) {
+        for(Leaser leaser : this.findAll()) {
+            if(leaser.getPassword().equals(password)) {
+                return leaser;
+            }
+        }
+        return null;
+    }
 }

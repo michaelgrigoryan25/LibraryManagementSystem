@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class LeaserTableView extends AbstractPage {
+
     private static final String[] COLUMN_NAMES = {
             "ID", "Full Name", "Passphrase", "Institution"
     };
