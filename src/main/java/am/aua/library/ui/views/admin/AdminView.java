@@ -21,7 +21,7 @@ public final class AdminView extends AbstractPage {
     @Override
     protected void setup() {
         AdminView.instance = this;
-        this.setLayout(new GridLayout(5, 1));
+        this.setLayout(new GridLayout(6, 1));
         this.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentShown(ComponentEvent e) {
@@ -66,6 +66,13 @@ public final class AdminView extends AbstractPage {
             new AddBookView();
         });
         this.add(addBooksButton);
+
+        JButton currentLeases = new JButton("See Currently Leased Books");
+        currentLeases.addActionListener(e -> {
+            this.setVisible(false);
+            new CurrentLeases();
+        });
+        this.add(currentLeases);
 
         JButton returnBookButton = new JButton("Return a Book");
         returnBookButton.addActionListener(e -> {

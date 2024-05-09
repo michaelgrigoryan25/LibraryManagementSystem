@@ -2,7 +2,9 @@ package am.aua.library.models;
 
 import com.google.gson.annotations.Expose;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * The Book class represents a book resource in the system.
@@ -76,6 +78,10 @@ public final class Book implements Comparable<Book> {
             incrementCopies();
             renters.remove(id);
         }
+    }
+
+    public String getAuthors() {
+        return String.join(",", Objects.requireNonNullElse(this.authors, new ArrayList<>()));
     }
 
     public Long getId() {

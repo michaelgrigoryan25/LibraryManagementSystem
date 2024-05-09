@@ -4,6 +4,7 @@ import com.google.gson.annotations.Expose;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -48,10 +49,6 @@ public final class Leaser extends User {
             return this.leaseEndDate;
         }
 
-        public Date getLeaseStartDate() {
-            return this.leaseStartDate;
-        }
-
         public Long getId() {
             return this.id;
         }
@@ -84,6 +81,14 @@ public final class Leaser extends User {
         }
 
         this.leases.remove(index);
+    }
+
+    public List<Lease> getLeases() {
+        if (this.leases != null) {
+            return new ArrayList<>(this.leases);
+        }
+
+        return null;
     }
 
     @Override
