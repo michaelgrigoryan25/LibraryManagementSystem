@@ -66,5 +66,12 @@ public final class AdminView extends AbstractPage {
             new AddBookView();
         });
         this.add(addBooksButton);
+
+        JButton returnBookButton = new JButton("Return a Book");
+        returnBookButton.addActionListener(e -> {
+            this.setVisible(false);
+            new ReturnBookView();
+        });
+        this.add(returnBookButton);
     }
 }

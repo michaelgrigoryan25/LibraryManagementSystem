@@ -53,30 +53,21 @@ public final class LeaserInfoView {
         panel.add(new JLabel("Institution:"));
         panel.add(institutionField);
 
-        JOptionPane jop = new JOptionPane();
-        jop.setMessageType(JOptionPane.INFORMATION_MESSAGE);
-        JDialog dialog = jop.createDialog("Update or Delete Leaser");
-        dialog.setLocationRelativeTo(null);
-        dialog.setSize(800, 400);
-
-        JButton update = new JButton("Update");
-        update.addActionListener(e -> {
-            update();
-            dialog.dispose();
-        });
 
         JButton delete = new JButton("Delete");
         delete.addActionListener(e -> {
             delete();
-            dialog.dispose();
+            JOptionPane.showMessageDialog(LeaserTableView.getInstance(), "Leaser deleted successfully");
+            JOptionPane.getRootFrame().dispose();
         });
 
-        panel.add(update);
+        panel.add(new JLabel());
         panel.add(delete);
-        jop.setMessage(panel);
+        JOptionPane.showMessageDialog(LeaserTableView.getInstance(), panel);
+        if (leaserRepository.get(leaser.getId()) != null) {
+            update();
+        }
 
-        dialog.setVisible(true);
-        dialog.dispose();
         new LeaserTableView();
     }
 

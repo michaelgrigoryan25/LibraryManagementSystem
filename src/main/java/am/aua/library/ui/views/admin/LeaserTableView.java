@@ -21,6 +21,11 @@ public final class LeaserTableView extends AbstractPage {
     private static final String[] COLUMN_NAMES = {
             "ID", "Full Name", "Passphrase", "Institution"
     };
+    private static LeaserTableView instance;
+
+    static LeaserTableView getInstance() {
+        return instance;
+    }
 
     private JTable leaserTable;
     private JScrollPane scrollPane;
@@ -41,6 +46,7 @@ public final class LeaserTableView extends AbstractPage {
 
     @Override
     protected void setup() {
+        LeaserTableView.instance = this;
         this.setLayout(new BorderLayout());
         this.addWindowListener(new WindowAdapter() {
             @Override
