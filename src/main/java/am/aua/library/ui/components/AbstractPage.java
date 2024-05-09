@@ -1,7 +1,11 @@
 package am.aua.library.ui.components;
 
+import am.aua.library.ui.views.admin.AdminView;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public abstract class AbstractPage extends JFrame {
     private static final String DEFAULT_TITLE = "Library Management System";
@@ -17,6 +21,7 @@ public abstract class AbstractPage extends JFrame {
         this.setPreferredSize(AbstractPage.DEFAULT_DIMENSIONS);
         this.setMinimumSize(AbstractPage.DEFAULT_DIMENSIONS);
         this.setResizable(false);
+        this.setupRedirects();
 
         this.setup();
         this.addComponents();
@@ -24,6 +29,15 @@ public abstract class AbstractPage extends JFrame {
         this.pack();
         this.setLocationRelativeTo(null);
         this.setVisible(true);
+    }
+
+    public void setupRedirects() {
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                AdminView.getInstance().setVisible(true);
+            }
+        });
     }
 
     protected abstract void setup();

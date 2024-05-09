@@ -48,12 +48,6 @@ public final class LeaserTableView extends AbstractPage {
     protected void setup() {
         LeaserTableView.instance = this;
         this.setLayout(new BorderLayout());
-        this.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                AdminView.getInstance().setVisible(true);
-            }
-        });
         this.leaserRepository = new LeaserRepositoryImpl();
         this.institutionRepository = new InstitutionRepositoryImpl();
         this.leasers = leaserRepository.findAll();

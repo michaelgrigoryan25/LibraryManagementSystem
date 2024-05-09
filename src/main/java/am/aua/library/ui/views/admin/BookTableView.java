@@ -36,13 +36,6 @@ public final class BookTableView extends AbstractPage {
     @Override
     protected void setup() {
         this.setLayout(new BorderLayout());
-        this.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                AdminView.getInstance().setVisible(true);
-            }
-        });
-
         this.bookRepository = new BookRepositoryImpl();
         this.bookTableModel = new DefaultTableModel(this.getUpdatedBooks(), COLUMN_NAMES);
         this.books = bookRepository.findAll();

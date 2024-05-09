@@ -150,4 +150,9 @@ public final class RegistrationView extends AbstractPage {
 
         return button;
     }
+
+
+    @Override
+    public void setupRedirects() {
+    }
 }

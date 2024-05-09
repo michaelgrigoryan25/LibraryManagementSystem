@@ -10,7 +10,11 @@ import java.awt.event.ComponentEvent;
 public final class AdminView extends AbstractPage {
     private static AdminView instance;
 
-    static AdminView getInstance() {
+    @Override
+    public void setupRedirects() {
+    }
+
+    public static AdminView getInstance() {
         return AdminView.instance;
     }
 

@@ -21,6 +21,9 @@ public final class LoginView extends AbstractPage {
     }
 
     @Override
+    public void setupRedirects() {}
+
+    @Override
     public void setup() {
         this.setLayout(new GridLayout(3, 1));
         this.usernameField = new JTextField();

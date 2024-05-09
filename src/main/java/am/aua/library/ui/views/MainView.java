@@ -33,6 +33,9 @@ public final class MainView extends AbstractPage {
         return panel;
     }
 
+    @Override
+    public void setupRedirects() {}
+
     private JPanel createTextPanel() {
         JPanel container = new JPanel();
         container.setLayout(new GridBagLayout());

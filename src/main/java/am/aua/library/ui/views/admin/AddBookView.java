@@ -39,13 +39,6 @@ public final class AddBookView extends AbstractPage {
     @Override
     protected void setup() {
         this.setLayout(new BorderLayout());
-        this.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                super.windowClosing(e);
-                AdminView.getInstance().setVisible(true);
-            }
-        });
         bookRepository = new BookRepositoryImpl();
         this.newBookId = Math.abs(UUID.randomUUID().getLeastSignificantBits());
         this.inputsPanel = new JPanel(new GridLayout(10, 0));

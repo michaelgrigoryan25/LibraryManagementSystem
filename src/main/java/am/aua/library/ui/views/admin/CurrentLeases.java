@@ -28,12 +28,6 @@ public final class CurrentLeases extends AbstractPage {
 
     @Override
     protected void setup() {
-        this.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                AdminView.getInstance().setVisible(true);
-            }
-        });
         inputField = new JTextField(20);
         renderButton = new JButton("Find Leased Books");
         leaserRepository = new LeaserRepositoryImpl();
@@ -65,6 +59,7 @@ public final class CurrentLeases extends AbstractPage {
         // Add components to the frame
         setLayout(new BorderLayout());
         JPanel panel = new JPanel(new GridLayout(1, 1));
+        panel.add(new JLabel("Enter Leaser ID: "));
         panel.add(inputField);
         panel.add(renderButton);
         add(panel, BorderLayout.NORTH);
