@@ -12,14 +12,14 @@ import java.nio.file.Path;
  * will be initialized, configured, and started from here.
  */
 public class Application {
-    public static void main(String[] args) throws ApplicationException, IOException {
-        Path path = Path.of("src", "main", "resources", "a.json");
+    public static void main(String[] args) throws IOException {
+        Path path = Path.of("resources", "a.json");
         if (!path.toFile().exists()) {
             path.toFile().createNewFile();
             Files.writeString(path, "[]");
         }
 
-        path = Path.of("src", "main", "resources", "l.json");
+        path = Path.of("resources", "l.json");
         if (!path.toFile().exists()) {
             path.toFile().createNewFile();
             Files.writeString(path, "[]");

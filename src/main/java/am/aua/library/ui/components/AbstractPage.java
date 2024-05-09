@@ -5,7 +5,7 @@ import java.awt.*;
 
 public abstract class AbstractPage extends JFrame {
     private static final String DEFAULT_TITLE = "Library Management System";
-    public static final Dimension DEFAULT_DIMENSIONS = new Dimension(700, 500);
+    public static final Dimension DEFAULT_DIMENSIONS = new Dimension(1000, 700);
 
     public AbstractPage() {
         this(null);

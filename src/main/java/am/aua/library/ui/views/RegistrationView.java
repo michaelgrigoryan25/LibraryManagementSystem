@@ -139,8 +139,7 @@ public final class RegistrationView extends AbstractPage {
                         return;
                     }
 
-                    System.err.print(getClass().getCanonicalName());
-                    System.err.print(": " + ex.getMessage());
+                    ex.printStackTrace();
                 }
             } else {
                 JOptionPane.showMessageDialog(RegistrationView.this, "Professor registration key is invalid");

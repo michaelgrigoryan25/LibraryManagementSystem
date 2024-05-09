@@ -13,10 +13,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.UUID;
 
-public class AddBooksView extends AbstractPage {
+public final class AddBooksView extends AbstractPage {
     private Long newBookId;
 
-    private JTextField idField;
     private JTextField titleField;
     private JTextField subtitleField;
     private JTextField yearField;
@@ -24,11 +23,8 @@ public class AddBooksView extends AbstractPage {
     private JTextField pagesField;
     private JTextField languageField;
     private JTextField publisherField;
-    private JTextField rentersField;
     private JTextField authorsField;
     private JTextField categoriesField;
-
-    private JPanel panel;
 
     private BookRepository bookRepository;
 
@@ -38,7 +34,7 @@ public class AddBooksView extends AbstractPage {
 
     @Override
     protected void setup() {
-        this.setLayout(new GridLayout(12, 1));
+        this.setLayout(new GridLayout(12, 0));
         bookRepository = new BookRepositoryImpl();
         this.newBookId = Math.abs(UUID.randomUUID().getLeastSignificantBits());
     }
@@ -107,12 +103,6 @@ public class AddBooksView extends AbstractPage {
         publisherField = new JTextField();
         this.add(new JLabel("publisher"));
         this.add(publisherField);
-    }
-
-    private void addRentersField() {
-        rentersField = new JTextField();
-        this.add(new JLabel("renters"));
-        this.add(rentersField);
     }
 
     private void addAuthorsField() {

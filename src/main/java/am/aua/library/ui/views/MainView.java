@@ -25,7 +25,7 @@ public final class MainView extends AbstractPage {
         JPanel panel = new JPanel();
         panel.setLayout(new GridBagLayout());
         ImageIcon imageIcon;
-        imageIcon = new ImageIcon(Path.of("src", "main", "resources", "assets", "images", "books.png").toString());
+        imageIcon = new ImageIcon(Path.of("resources", "assets", "images", "books.png").toString());
         Image image = imageIcon.getImage();
         Image resized = image.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(resized);

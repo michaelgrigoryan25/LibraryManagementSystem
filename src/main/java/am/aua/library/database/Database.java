@@ -70,14 +70,10 @@ public class Database {
         return new ArrayList<>(this.institutions);
     }
 
-    public synchronized ArrayList<Institution> getInstitutionsUnsafe() {
-        return this.institutions;
-    }
-
-    private static final Path booksDb = Path.of("src", "main", "resources", DEFAULT_BOOKS_DATABASE);
-    private static final Path adminsDb = Path.of("src", "main", "resources", DEFAULT_ADMINS_DATABASE);
-    private static final Path leasersDb = Path.of("src", "main", "resources", DEFAULT_LEASERS_DATABASE);
-    private static final Path institutionsDb = Path.of("src", "main", "resources", DEFAULT_INSTITUTIONS_DATABASE);
+    private static final Path booksDb = Path.of("./resources", DEFAULT_BOOKS_DATABASE);
+    private static final Path adminsDb = Path.of("./resources", DEFAULT_ADMINS_DATABASE);
+    private static final Path leasersDb = Path.of("./resources", DEFAULT_LEASERS_DATABASE);
+    private static final Path institutionsDb = Path.of("./resources", DEFAULT_INSTITUTIONS_DATABASE);
 
     public synchronized void persist() throws DatabaseException {
         try {
@@ -89,7 +85,7 @@ public class Database {
         }
     }
 
-    private synchronized void load() throws DatabaseException, URISyntaxException, IOException {
+    private synchronized void load() throws DatabaseException, IOException {
         // pre-defined list of institutions in Armenia
         List<Institution> institutions = loadArrayDataFromJson(institutionsDb, Institution[].class);
         this.institutions = new ArrayList<>(institutions);

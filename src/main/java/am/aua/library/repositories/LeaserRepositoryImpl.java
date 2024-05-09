@@ -4,7 +4,6 @@ import am.aua.library.database.Database;
 import am.aua.library.database.DatabaseException;
 import am.aua.library.database.RecordNotFoundException;
 import am.aua.library.models.Leaser;
-import am.aua.library.models.exceptions.MethodNotSupportedException;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,6 +1,5 @@
 package am.aua.library.repositories;
 
-import am.aua.library.models.exceptions.MethodNotSupportedException;
 import am.aua.library.models.User;
 
 import java.util.List;
