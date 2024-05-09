@@ -44,7 +44,7 @@ public final class LeaserTableView extends AbstractPage {
         this.setLayout(new BorderLayout());
         this.addWindowListener(new WindowAdapter() {
             @Override
-            public void windowClosed(WindowEvent e) {
+            public void windowClosing(WindowEvent e) {
                 AdminView.getInstance().setVisible(true);
             }
         });
@@ -67,9 +67,9 @@ public final class LeaserTableView extends AbstractPage {
                 int col = leaserTable.columnAtPoint(evt.getPoint());
                 if (row >= 0 && col >= 0) {
                     // Closing the table view and displaying a JOptionPane
-                    LeaserTableView.this.dispose();
                     Leaser selectedLeaser = leasers.get(row);
                     new LeaserInfoView(LeaserTableView.this, selectedLeaser);
+                    LeaserTableView.this.dispose();
                 }
             }
         });
@@ -119,6 +119,13 @@ public final class LeaserTableView extends AbstractPage {
     }
 
     private void filterLeasers() {
+        this.leaserTableModel.setDataVector(this.getUpdatedLeasers(), LeaserTableView.COLUMN_NAMES);
 
+        String query = filterTextField.getText();
+        if (!query.isBlank() && !query.isEmpty()) {
+            this.rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + query));
+        } else {
+            this.rowSorter.setRowFilter(null);
+        }
     }
 }

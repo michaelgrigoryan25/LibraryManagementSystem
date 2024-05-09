@@ -10,8 +10,6 @@ import am.aua.library.repositories.LeaserRepositoryImpl;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
 public final class LeaserInfoView {
     private LeaserRepository leaserRepository;
@@ -22,7 +20,7 @@ public final class LeaserInfoView {
     private JTextField passphraseField;
     private final Leaser leaser;
 
-    public LeaserInfoView(JFrame parent, Leaser leaser) {
+    public LeaserInfoView(LeaserTableView parent, Leaser leaser) {
         this.leaser = leaser;
 
         setup();
@@ -35,7 +33,7 @@ public final class LeaserInfoView {
     }
 
 
-    public void addComponents(JFrame parent) {
+    public void addComponents(LeaserTableView parent) {
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(5, 1));
 
@@ -79,7 +77,7 @@ public final class LeaserInfoView {
 
         dialog.setVisible(true);
         dialog.dispose();
-        parent.setVisible(true);
+        new LeaserTableView();
     }
 
     private void delete() {
