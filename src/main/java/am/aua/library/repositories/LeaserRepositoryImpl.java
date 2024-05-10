@@ -6,6 +6,8 @@ import am.aua.library.database.RecordNotFoundException;
 import am.aua.library.models.Book;
 import am.aua.library.models.Leaser;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**

@@ -1,5 +1,6 @@
 package am.aua.library.ui.views.admin;
 
+import am.aua.library.database.DatabaseException;
 import am.aua.library.models.Book;
 import am.aua.library.models.Leaser;
 import am.aua.library.repositories.BookRepositoryImpl;
@@ -16,6 +17,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * This class represents the view for displaying currently leased books for a specific leaser.
@@ -79,9 +81,8 @@ public final class CurrentLeases extends AbstractPage {
                 int row = table.rowAtPoint(evt.getPoint());
                 int col = table.columnAtPoint(evt.getPoint());
                 if (row >= 0 && col >= 0) {
-                    Long selectedLeaserId = (Long) CurrentLeases.this.table.getModel().getValueAt(row, 0);
-                    Leaser leaser = CurrentLeases.this.leaserRepository.get(selectedLeaserId);
-                    new LeaserInfoView(leaser);
+                    Long selectedBookId = (Long) CurrentLeases.this.table.getModel().getValueAt(row, 0);
+                    new LeasedBookInfoView(CurrentLeases.this, selectedBookId, CurrentLeases.this.getUserId(selectedBookId));
                     CurrentLeases.this.dispose();
                 }
             }
@@ -163,5 +164,17 @@ public final class CurrentLeases extends AbstractPage {
             ex.printStackTrace();
             return null;
         }
+    }
+    private Long getUserId(Long bookId) {
+        List<Leaser> all = this.leaserRepository.findAll();
+        for(Leaser leaser : all) {
+            List<Leaser.Lease> allLeases = leaser.getLeases();
+            for(Leaser.Lease lease : allLeases) {
+                if(Objects.equals(lease.getId(), bookId)) {
+                    return leaser.getId();
+                }
+            }
+        }
+        throw new RuntimeException("No leaser, book id = " + bookId);
     }
 }

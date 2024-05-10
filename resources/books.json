@@ -4,11 +4,13 @@
     "title": "200 Words to Help You Talk about Philosophy",
     "subtitle": null,
     "year": 2022,
-    "copies": 28,
+    "copies": 27,
     "pages": 128,
     "language": "en",
     "publisher": "Hachette UK",
-    "renters": [],
+    "renters": [
+      5086974015021635607
+    ],
     "authors": [
       "Anja Steinbauer"
     ],
