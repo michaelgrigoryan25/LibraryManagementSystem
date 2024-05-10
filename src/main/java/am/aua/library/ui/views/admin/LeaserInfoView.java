@@ -58,7 +58,9 @@ public final class LeaserInfoView {
         delete.addActionListener(e -> {
             delete();
             JOptionPane.showMessageDialog(LeaserTableView.getInstance(), "Leaser deleted successfully");
-            JOptionPane.getRootFrame().dispose();
+            fullNameField.setEnabled(false);
+            passphraseField.setEnabled(false);
+            institutionField.setEnabled(false);
         });
 
         panel.add(new JLabel());

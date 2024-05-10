@@ -21,7 +21,8 @@ public final class LoginView extends AbstractPage {
     }
 
     @Override
-    public void setupRedirects() {}
+    public void setupRedirects() {
+    }
 
     @Override
     public void setup() {
@@ -97,30 +98,10 @@ public final class LoginView extends AbstractPage {
 
     private void authenticate() {
         String username = usernameField.getText();
-        String javaEnv = System.getenv("JAVA_ENV");
-
-        // WARNING: This chunk is only used for development purposes
-        if (javaEnv != null && javaEnv.equals("development")) {
-            LoginView.this.dispose();
-            if (username.equals("admin")) {
-                new AdminView();
-                return;
-            }
-            return;
-        }
-
         if (!Helpers.isValidUsername(username)) {
             JOptionPane.showMessageDialog(LoginView.this, "Invalid username");
             return;
         }
-
-        String password = new String(passwordField.getPassword());
-        if (!Helpers.isValidPassword(password)) {
-            JOptionPane.showMessageDialog(LoginView.this, "Incorrect password");
-            return;
-        }
-
-        this.dispose();
 
         Admin admin = adminRepository.findByUsername(username);
         if (admin == null) {
@@ -128,7 +109,14 @@ public final class LoginView extends AbstractPage {
             return;
         }
 
+        String password = new String(passwordField.getPassword());
+        if (!Helpers.isValidPassword(password)) {
+            JOptionPane.showMessageDialog(LoginView.this, "Invalid password");
+            return;
+        }
+
         if (password.equals(admin.getPassword())) {
+            this.dispose();
             new AdminView();
             return;
         }
