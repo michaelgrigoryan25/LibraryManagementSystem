@@ -65,6 +65,10 @@ public final class Leaser extends User {
     @Expose
     private ArrayList<Lease> leases;
 
+    public void setLeases(List<Lease> leases) {
+        this.leases = new ArrayList<>(leases);
+    }
+
     public void addLease(Lease lease) {
         if (this.leases == null) {
             this.leases = new ArrayList<>();

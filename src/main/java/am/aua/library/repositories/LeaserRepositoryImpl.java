@@ -69,6 +69,11 @@ public class LeaserRepositoryImpl implements LeaserRepository {
             throw new RecordNotFoundException("cannot update user with id `" + element.getId() + "` since it doesn't exist");
         }
 
+        Leaser old = database.getLeasersUnsafe().get(index);
+        element.setId(old.getId());
+        // Preventing overridden leases
+        element.setLeases(old.getLeases());
+
         this.database.getLeasersUnsafe().set(index, element);
         this.database.persist();
     }

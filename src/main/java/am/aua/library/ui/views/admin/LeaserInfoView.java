@@ -56,7 +56,14 @@ public final class LeaserInfoView {
 
         JButton delete = new JButton("Delete");
         delete.addActionListener(e -> {
-            delete();
+            new Thread() {
+                @Override
+                public void run() {
+                    super.run();
+                    delete();
+                }
+            }.start();
+
             JOptionPane.showMessageDialog(LeaserTableView.getInstance(), "Leaser deleted successfully");
             fullNameField.setEnabled(false);
             passphraseField.setEnabled(false);
