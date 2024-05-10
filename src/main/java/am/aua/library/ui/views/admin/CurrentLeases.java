@@ -13,6 +13,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+/**
+ * This class represents the view for displaying currently leased books for a specific leaser.
+ */
 public final class CurrentLeases extends AbstractPage {
     private JTextField inputField;
     private JButton renderButton;
@@ -20,6 +23,9 @@ public final class CurrentLeases extends AbstractPage {
     private LeaserRepositoryImpl leaserRepository;
     private BookRepositoryImpl bookRepository;
 
+    /**
+     * Constructs a new CurrentLeases view.
+     */
     public CurrentLeases() {
         super("Currently Leased Books");
     }
@@ -80,7 +86,7 @@ public final class CurrentLeases extends AbstractPage {
             for (int i = 0; i < elements.size(); i++) raw[i] = elements.get(i).toArray();
             return raw;
         } catch (RuntimeException ex) {
-            //noinspection CallToPrintStackTrace
+            // Print the stack trace if an exception occurs
             ex.printStackTrace();
             return null;
         }

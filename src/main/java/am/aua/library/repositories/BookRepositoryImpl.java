@@ -13,20 +13,11 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Implementation of the {@link BookRepository} interface.
+ */
 public class BookRepositoryImpl implements BookRepository {
     private final Database database = Database.getInstance();
-
-    @Override
-    public List<Book> findByTitle(String title) {
-        List<Book> filtered = new LinkedList<>();
-        for (Book book : database.getBooks()) {
-            if (book.getTitle().toLowerCase().contains(title.toLowerCase())) {
-                filtered.add(book);
-            }
-        }
-
-        return filtered;
-    }
 
     @Override
     public boolean rentById(Long id, Long userId) throws DatabaseException {

@@ -11,11 +11,21 @@ import am.aua.library.repositories.LeaserRepositoryImpl;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * This class represents the view for registering a new leaser.
+ */
 public final class LeaserRegistrationView {
+
+    /**
+     * Constructs a new LeaserRegistrationView.
+     */
     public LeaserRegistrationView() {
         this.setup();
     }
 
+    /**
+     * Sets up the components and functionality for the leaser registration view.
+     */
     public void setup() {
         InstitutionRepository institutionRepository = new InstitutionRepositoryImpl();
         LeaserRepository leaserRepository = new LeaserRepositoryImpl();

@@ -10,12 +10,13 @@ import am.aua.library.ui.components.AbstractPage;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.UUID;
 
+/**
+ * This class represents the view for adding new books.
+ */
 public final class AddBookView extends AbstractPage {
     private Long newBookId;
 
@@ -32,6 +33,9 @@ public final class AddBookView extends AbstractPage {
 
     private BookRepository bookRepository;
 
+    /**
+     * Constructs a new AddBookView.
+     */
     public AddBookView() {
         super("Add Books");
     }

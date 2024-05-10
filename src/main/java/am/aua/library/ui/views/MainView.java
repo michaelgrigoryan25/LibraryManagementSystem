@@ -7,13 +7,23 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.nio.file.Path;
 
+/**
+ * The main view of the Library Management System.
+ */
 public final class MainView extends AbstractPage {
+
+    /**
+     * Sets up the main view.
+     */
     @Override
     protected void setup() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new GridLayout(3, 1));
     }
 
+    /**
+     * Adds components to the main view.
+     */
     @Override
     protected void addComponents() {
         add(createTextPanel());
@@ -21,6 +31,11 @@ public final class MainView extends AbstractPage {
         add(createButtonPanel());
     }
 
+    /**
+     * Creates a panel with an image.
+     *
+     * @return The created panel.
+     */
     private JPanel createImagePanel() {
         JPanel panel = new JPanel();
         panel.setLayout(new GridBagLayout());
@@ -33,9 +48,18 @@ public final class MainView extends AbstractPage {
         return panel;
     }
 
+    /**
+     * Does not set up any redirects.
+     */
     @Override
-    public void setupRedirects() {}
+    public void setupRedirects() {
+    }
 
+    /**
+     * Creates a panel with text.
+     *
+     * @return The created panel.
+     */
     private JPanel createTextPanel() {
         JPanel container = new JPanel();
         container.setLayout(new GridBagLayout());
@@ -46,6 +70,11 @@ public final class MainView extends AbstractPage {
         return container;
     }
 
+    /**
+     * Creates a panel with buttons.
+     *
+     * @return The created panel.
+     */
     private JPanel createButtonPanel() {
         JPanel rootPanel = new JPanel();
         rootPanel.setLayout(new BorderLayout());
@@ -75,10 +104,16 @@ public final class MainView extends AbstractPage {
         return rootPanel;
     }
 
+    /**
+     * Opens the login page.
+     */
     private void openLoginPage() {
         new LoginView();
     }
 
+    /**
+     * Opens the registration page.
+     */
     private void openRegisterPage() {
         new RegistrationView();
     }

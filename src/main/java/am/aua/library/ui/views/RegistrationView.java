@@ -14,6 +14,9 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
+/**
+ * View for admin registration.
+ */
 public final class RegistrationView extends AbstractPage {
     private JTextField fullNameField;
     private JTextField usernameField;
@@ -22,16 +25,25 @@ public final class RegistrationView extends AbstractPage {
 
     private AdminRepositoryImpl adminRepository;
 
+    /**
+     * Constructs a new RegistrationView.
+     */
     public RegistrationView() {
         super("Admin Registration");
     }
 
+    /**
+     * Sets up the registration view.
+     */
     @Override
     public void setup() {
         this.setLayout(new GridLayout(3, 1));
         this.adminRepository = new AdminRepositoryImpl();
     }
 
+    /**
+     * Adds components to the registration view.
+     */
     @Override
     public void addComponents() {
         this.add(createTextPanel());
@@ -39,6 +51,11 @@ public final class RegistrationView extends AbstractPage {
         this.add(createButtonsPanel());
     }
 
+    /**
+     * Creates a panel for displaying text.
+     *
+     * @return The created panel.
+     */
     private JPanel createTextPanel() {
         JPanel panel = new JPanel();
         panel.setLayout(new GridBagLayout());
@@ -47,6 +64,11 @@ public final class RegistrationView extends AbstractPage {
         return panel;
     }
 
+    /**
+     * Creates a panel for user input.
+     *
+     * @return The created panel.
+     */
     private JPanel createInputPanel() {
         JPanel rootPanel = new JPanel();
         rootPanel.setLayout(new BorderLayout());
@@ -82,6 +104,11 @@ public final class RegistrationView extends AbstractPage {
         return rootPanel;
     }
 
+    /**
+     * Creates a panel for buttons.
+     *
+     * @return The created panel.
+     */
     private JPanel createButtonsPanel() {
         JPanel rootPanel = new JPanel();
         rootPanel.setLayout(new GridBagLayout());
@@ -95,6 +122,11 @@ public final class RegistrationView extends AbstractPage {
         return rootPanel;
     }
 
+    /**
+     * Creates a button for navigating back to the main menu.
+     *
+     * @return The created button.
+     */
     private JButton createBackButton() {
         JButton button = new JButton("Back to Main Menu");
         button.addActionListener(e -> {
@@ -105,6 +137,11 @@ public final class RegistrationView extends AbstractPage {
         return button;
     }
 
+    /**
+     * Creates a button for registering an admin.
+     *
+     * @return The created button.
+     */
     private JButton createRegisterButton() {
         JButton button = new JButton("Register");
         button.addActionListener(e -> {
@@ -151,7 +188,9 @@ public final class RegistrationView extends AbstractPage {
         return button;
     }
 
-
+    /**
+     * Does not set up any redirects.
+     */
     @Override
     public void setupRedirects() {
     }

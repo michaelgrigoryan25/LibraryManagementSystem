@@ -5,16 +5,29 @@ import am.aua.library.ui.components.AbstractPage;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * View for returning a book.
+ */
 public final class ReturnBookView extends AbstractPage {
+
+    /**
+     * Constructs a new ReturnBookView.
+     */
     public ReturnBookView() {
         super("Dynamic JComboBox");
     }
 
+    /**
+     * Sets up the return book view.
+     */
     @Override
     protected void setup() {
         setLayout(new BorderLayout());
     }
 
+    /**
+     * Adds components to the return book view.
+     */
     @Override
     protected void addComponents() {
         JTextField userId = new JTextField();
@@ -27,6 +40,12 @@ public final class ReturnBookView extends AbstractPage {
         add(panel, BorderLayout.NORTH);
     }
 
+    /**
+     * Generates options based on the input.
+     *
+     * @param input The input text.
+     * @return An array of generated options.
+     */
     private String[] generateOptions(String input) {
         // Sample logic to generate options based on the input
         // Here, we simply add the input text with numbers from 1 to 5

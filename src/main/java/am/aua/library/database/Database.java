@@ -15,6 +15,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Database class represents the main database for managing books, admins, leasers, and institutions.
+ */
 public class Database {
     private static Database instance;
     private static final Gson GSON = new Gson().newBuilder().serializeNulls().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
@@ -24,11 +27,22 @@ public class Database {
     private ArrayList<Leaser> leasers;
     private ArrayList<Institution> institutions;
 
+    /**
+     * Constructs a new Database instance. Loads data from files during initialization.
+     *
+     * @throws DatabaseException if there is an issue with the database during initialization.
+     * @throws IOException       if an I/O error occurs during file operations.
+     */
     private Database() throws DatabaseException, IOException {
         this.setup();
         this.load();
     }
 
+    /**
+     * Sets up the necessary files and directories for the database.
+     *
+     * @throws IOException if an I/O error occurs during file operations.
+     */
     private void setup() throws IOException {
         Path path = Path.of("resources", "a.json");
         if (!path.toFile().exists()) {
@@ -43,12 +57,16 @@ public class Database {
         }
     }
 
+    /**
+     * Retrieves the singleton instance of the Database class.
+     *
+     * @return the Database instance.
+     */
     public static synchronized Database getInstance() {
         if (instance == null) {
             try {
                 instance = new Database();
             } catch (Exception e) {
-                //noinspection CallToPrintStackTrace
                 e.printStackTrace();
                 System.exit(1);
             }
@@ -57,30 +75,65 @@ public class Database {
         return instance;
     }
 
+    /**
+     * Retrieves a copy of the list of leasers stored in the database.
+     *
+     * @return a copy of the list of leasers.
+     */
     public ArrayList<Leaser> getLeasers() {
         return new ArrayList<>(this.leasers);
     }
 
+    /**
+     * Retrieves the list of leasers stored in the database without creating a copy.
+     *
+     * @return the list of leasers.
+     */
     public synchronized ArrayList<Leaser> getLeasersUnsafe() {
         return this.leasers;
     }
 
+    /**
+     * Retrieves a copy of the list of books stored in the database.
+     *
+     * @return a copy of the list of books.
+     */
     public ArrayList<Book> getBooks() {
         return new ArrayList<>(this.books);
     }
 
+    /**
+     * Retrieves the list of books stored in the database without creating a copy.
+     *
+     * @return the list of books.
+     */
     public synchronized ArrayList<Book> getBooksUnsafe() {
         return this.books;
     }
 
+    /**
+     * Retrieves a copy of the list of admins stored in the database.
+     *
+     * @return a copy of the list of admins.
+     */
     public ArrayList<Admin> getAdmins() {
         return new ArrayList<>(this.admins);
     }
 
+    /**
+     * Retrieves the list of admins stored in the database without creating a copy.
+     *
+     * @return the list of admins.
+     */
     public synchronized ArrayList<Admin> getAdminsUnsafe() {
         return this.admins;
     }
 
+    /**
+     * Retrieves a copy of the list of institutions stored in the database.
+     *
+     * @return a copy of the list of institutions.
+     */
     public ArrayList<Institution> getInstitutions() {
         return new ArrayList<>(this.institutions);
     }
@@ -90,6 +143,11 @@ public class Database {
     private static final Path leasersDb = Path.of("./resources", DEFAULT_LEASERS_DATABASE);
     private static final Path institutionsDb = Path.of("./resources", DEFAULT_INSTITUTIONS_DATABASE);
 
+    /**
+     * Persists the database by writing the data to JSON files.
+     *
+     * @throws DatabaseException if there is an issue with persisting the data.
+     */
     public synchronized void persist() throws DatabaseException {
         try {
             Files.writeString(booksDb, GSON.toJson(this.books.toArray()));
@@ -100,6 +158,12 @@ public class Database {
         }
     }
 
+    /**
+     * Loads data from JSON files into the database during initialization.
+     *
+     * @throws DatabaseException if there is an issue with loading data into the database.
+     * @throws IOException       if an I/O error occurs during file operations.
+     */
     private synchronized void load() throws DatabaseException, IOException {
         // pre-defined list of institutions in Armenia
         List<Institution> institutions = loadArrayDataFromJson(institutionsDb, Institution[].class);
@@ -118,6 +182,15 @@ public class Database {
         this.persist();
     }
 
+    /**
+     * Loads an array of data from a JSON file.
+     *
+     * @param path  the path to the JSON file.
+     * @param clazz the class type of the array.
+     * @param <T>   the type of the array elements.
+     * @return a list containing the data loaded from the JSON file.
+     * @throws IOException if an I/O error occurs during file operations.
+     */
     private <T> List<T> loadArrayDataFromJson(Path path, Class<T[]> clazz) throws IOException {
         String content = Files.readString(path);
         return Arrays.asList(GSON.fromJson(content, clazz));

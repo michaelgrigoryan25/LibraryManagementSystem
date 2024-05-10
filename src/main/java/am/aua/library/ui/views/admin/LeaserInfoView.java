@@ -11,6 +11,9 @@ import am.aua.library.repositories.LeaserRepositoryImpl;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * This class represents the view for displaying and managing information about a leaser.
+ */
 public final class LeaserInfoView {
     private LeaserRepository leaserRepository;
     private InstitutionRepository institutionRepository;
@@ -20,6 +23,11 @@ public final class LeaserInfoView {
     private JTextField passphraseField;
     private final Leaser leaser;
 
+    /**
+     * Constructs a new LeaserInfoView.
+     *
+     * @param leaser The leaser whose information is displayed.
+     */
     public LeaserInfoView(Leaser leaser) {
         this.leaser = leaser;
 
@@ -27,12 +35,17 @@ public final class LeaserInfoView {
         addComponents();
     }
 
+    /**
+     * Sets up the LeaserInfoView.
+     */
     public void setup() {
         this.leaserRepository = new LeaserRepositoryImpl();
         this.institutionRepository = new InstitutionRepositoryImpl();
     }
 
-
+    /**
+     * Adds components to the LeaserInfoView.
+     */
     public void addComponents() {
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(5, 1));
@@ -80,6 +93,9 @@ public final class LeaserInfoView {
         new LeaserTableView();
     }
 
+    /**
+     * Deletes the leaser from the database.
+     */
     private void delete() {
         try {
             leaserRepository.remove(leaser);
@@ -88,6 +104,9 @@ public final class LeaserInfoView {
         }
     }
 
+    /**
+     * Updates the information of the leaser.
+     */
     private void update() {
         try {
             if (institutionField.getSelectedItem() != null) {

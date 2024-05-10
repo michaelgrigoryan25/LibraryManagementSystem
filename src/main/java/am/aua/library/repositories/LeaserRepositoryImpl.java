@@ -6,9 +6,11 @@ import am.aua.library.database.RecordNotFoundException;
 import am.aua.library.models.Book;
 import am.aua.library.models.Leaser;
 
-import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Implementation of the LeaserRepository interface for managing leaser data.
+ */
 public class LeaserRepositoryImpl implements LeaserRepository {
     private final Database database = Database.getInstance();
 
@@ -37,18 +39,6 @@ public class LeaserRepositoryImpl implements LeaserRepository {
     @Override
     public Leaser findByUsername(String username) throws MethodNotSupportedException {
         throw new MethodNotSupportedException("findByUsername is not supported for type `Leaser`");
-    }
-
-    @Override
-    public List<Leaser> findByNameContaining(String contains) {
-        ArrayList<Leaser> leasers = new ArrayList<>();
-        for (Leaser user : this.database.getLeasers()) {
-            if (user.getFullName().contains(contains)) {
-                leasers.add(user);
-            }
-        }
-
-        return leasers;
     }
 
     @Override

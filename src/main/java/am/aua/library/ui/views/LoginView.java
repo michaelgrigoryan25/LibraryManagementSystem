@@ -11,19 +11,31 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
+/**
+ * View for user login.
+ */
 public final class LoginView extends AbstractPage {
     private JTextField usernameField;
     private JPasswordField passwordField;
     private AdminRepositoryImpl adminRepository;
 
+    /**
+     * Constructs a new LoginView.
+     */
     public LoginView() {
         super("Login");
     }
 
+    /**
+     * Does not set up any redirects.
+     */
     @Override
     public void setupRedirects() {
     }
 
+    /**
+     * Sets up the login view.
+     */
     @Override
     public void setup() {
         this.setLayout(new GridLayout(3, 1));
@@ -32,6 +44,9 @@ public final class LoginView extends AbstractPage {
         this.adminRepository = new AdminRepositoryImpl();
     }
 
+    /**
+     * Adds components to the login view.
+     */
     @Override
     public void addComponents() {
         this.add(createTextPanel());
@@ -39,6 +54,11 @@ public final class LoginView extends AbstractPage {
         this.add(createButtonsPanel());
     }
 
+    /**
+     * Creates a panel with text.
+     *
+     * @return The created panel.
+     */
     private JPanel createTextPanel() {
         JPanel panel = new JPanel();
         panel.setLayout(new GridBagLayout());
@@ -47,6 +67,11 @@ public final class LoginView extends AbstractPage {
         return panel;
     }
 
+    /**
+     * Creates a panel for user input.
+     *
+     * @return The created panel.
+     */
     private JPanel createInputPanel() {
         JPanel rootPanel = new JPanel();
         rootPanel.setLayout(new BorderLayout());
@@ -67,6 +92,11 @@ public final class LoginView extends AbstractPage {
         return rootPanel;
     }
 
+    /**
+     * Creates a panel with buttons.
+     *
+     * @return The created panel.
+     */
     private JPanel createButtonsPanel() {
         JPanel rootPanel = new JPanel();
         rootPanel.setLayout(new GridBagLayout());
@@ -80,6 +110,11 @@ public final class LoginView extends AbstractPage {
         return rootPanel;
     }
 
+    /**
+     * Creates a button to navigate back to the main menu.
+     *
+     * @return The created button.
+     */
     private JButton createBackButton() {
         JButton button = new JButton("Back to Main Menu");
         button.addActionListener(e -> {
@@ -90,12 +125,20 @@ public final class LoginView extends AbstractPage {
         return button;
     }
 
+    /**
+     * Creates a button for user login.
+     *
+     * @return The created button.
+     */
     private JButton createLoginButton() {
         JButton login = new JButton("Login");
         login.addActionListener(e -> authenticate());
         return login;
     }
 
+    /**
+     * Authenticates user credentials.
+     */
     private void authenticate() {
         String username = usernameField.getText();
         if (!Helpers.isValidUsername(username)) {

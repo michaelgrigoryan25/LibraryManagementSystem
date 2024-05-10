@@ -1,12 +1,16 @@
 package am.aua.library.ui.views.admin;
 
 import am.aua.library.ui.components.*;
+import am.aua.library.ui.components.Button;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
+/**
+ * This class represents the main admin view.
+ */
 public final class AdminView extends AbstractPage {
     private static AdminView instance;
 
@@ -14,10 +18,18 @@ public final class AdminView extends AbstractPage {
     public void setupRedirects() {
     }
 
+    /**
+     * Gets the singleton instance of AdminView.
+     *
+     * @return The singleton instance of AdminView.
+     */
     public static AdminView getInstance() {
         return AdminView.instance;
     }
 
+    /**
+     * Constructs a new AdminView.
+     */
     public AdminView() {
         super("Admin View");
     }
@@ -43,42 +55,42 @@ public final class AdminView extends AbstractPage {
 
     @Override
     protected void addComponents() {
-        JButton viewBooksTableButton = new JButton("View Books");
+        JButton viewBooksTableButton = new Button("View Books");
         viewBooksTableButton.addActionListener(e -> {
             this.setVisible(false);
             new BookTableView();
         });
         this.add(viewBooksTableButton);
 
-        JButton viewLeasersTableButton = new JButton("View Leasers");
+        JButton viewLeasersTableButton = new Button("View Leasers");
         viewLeasersTableButton.addActionListener(e -> {
             this.setVisible(false);
             new LeaserTableView();
         });
         this.add(viewLeasersTableButton);
 
-        JButton addLeaserButton = new JButton("New Leaser Registration");
+        JButton addLeaserButton = new Button("New Leaser Registration");
         addLeaserButton.addActionListener(e -> {
             this.setVisible(false);
             new LeaserRegistrationView();
         });
         this.add(addLeaserButton);
 
-        JButton addBooksButton = new JButton("Add a New Book");
+        JButton addBooksButton = new Button("Add a New Book");
         addBooksButton.addActionListener(e -> {
             this.setVisible(false);
             new AddBookView();
         });
         this.add(addBooksButton);
 
-        JButton currentLeases = new JButton("See Currently Leased Books");
+        JButton currentLeases = new Button("See Currently Leased Books");
         currentLeases.addActionListener(e -> {
             this.setVisible(false);
             new CurrentLeases();
         });
         this.add(currentLeases);
 
-        JButton returnBookButton = new JButton("Return a Book");
+        JButton returnBookButton = new Button("Return a Book");
         returnBookButton.addActionListener(e -> {
             this.setVisible(false);
             new ReturnBookView();

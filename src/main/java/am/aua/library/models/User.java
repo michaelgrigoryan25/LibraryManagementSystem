@@ -39,6 +39,9 @@ public abstract class User {
         this.password = password;
     }
 
+    /**
+     * @return User's password
+     */
     public String getPassword() {
         return this.password;
     }
@@ -52,12 +55,20 @@ public abstract class User {
         return id;
     }
 
+    /**
+     * Setter for the user ID
+     *
+     * @param id Desired ID
+     */
     public void setId(Long id) {
         if (this.id != null && id >= 0) {
             this.id = id;
         }
     }
 
+    /**
+     * @return Full name of the user
+     */
     public String getFullName() {
         return this.fullName;
     }

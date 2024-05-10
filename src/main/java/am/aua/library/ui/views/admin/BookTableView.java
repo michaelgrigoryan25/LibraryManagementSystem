@@ -16,6 +16,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * This class represents the view for displaying a table of books.
+ */
 public final class BookTableView extends AbstractPage {
     private static final String[] COLUMN_NAMES = {
             "ID", "Title", "Subtitle", "Year", "Language", "Available Copies", "Pages"
@@ -29,6 +32,9 @@ public final class BookTableView extends AbstractPage {
     private BookRepositoryImpl bookRepository;
     private List<Book> books;
 
+    /**
+     * Constructs a new BookTableView.
+     */
     public BookTableView() {
         super("Books View");
     }
@@ -94,6 +100,9 @@ public final class BookTableView extends AbstractPage {
         this.add(this.scrollPane, BorderLayout.CENTER);
     }
 
+    /**
+     * Filters the books based on the input in the filter text field.
+     */
     private void filterBooks() {
         this.bookTableModel.setDataVector(this.getUpdatedBooks(), BookTableView.COLUMN_NAMES);
 
@@ -105,6 +114,11 @@ public final class BookTableView extends AbstractPage {
         }
     }
 
+    /**
+     * Retrieves updated book data.
+     *
+     * @return A 2D array of book data.
+     */
     private Object[][] getUpdatedBooks() {
         ArrayList<List<Object>> elements = new ArrayList<>();
         for (Book book : this.bookRepository.findAll()) {

@@ -13,17 +13,32 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
+/**
+ * Represents the view for assigning a book to a leaser.
+ */
 public class BookAssignView {
+
     private Book book;
     private List<Leaser> leasers;
     private BookRepository bookRepository;
     private LeaserRepository leaserRepository;
 
+    /**
+     * Constructs a new BookAssignView.
+     *
+     * @param parent The parent AbstractPage.
+     * @param book   The Book to assign.
+     */
     public BookAssignView(AbstractPage parent, Book book) {
         setup(book);
         addComponents(parent);
     }
 
+    /**
+     * Sets up the BookAssignView.
+     *
+     * @param book The Book to set up the view for.
+     */
     public void setup(Book book) {
         this.leaserRepository = new LeaserRepositoryImpl();
         this.bookRepository = new BookRepositoryImpl();
@@ -31,6 +46,11 @@ public class BookAssignView {
         this.leasers = leaserRepository.findAll();
     }
 
+    /**
+     * Adds components to the view.
+     *
+     * @param parent The parent AbstractPage to add components to.
+     */
     public void addComponents(AbstractPage parent) {
         JPanel root = new JPanel(new GridLayout(2, 0));
         JPanel panel = new JPanel();

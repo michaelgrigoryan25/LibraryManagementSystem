@@ -6,6 +6,9 @@ import am.aua.library.models.Institution;
 
 import java.util.List;
 
+/**
+ * Implementation of the {@link InstitutionRepository} interface.
+ */
 public class InstitutionRepositoryImpl implements InstitutionRepository {
     private final Database database = Database.getInstance();
 

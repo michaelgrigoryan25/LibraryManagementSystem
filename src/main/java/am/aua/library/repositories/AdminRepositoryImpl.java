@@ -6,9 +6,11 @@ import am.aua.library.database.DuplicateRecordException;
 import am.aua.library.database.RecordNotFoundException;
 import am.aua.library.models.Admin;
 
-import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Implementation of the {@link AdminRepository} interface.
+ */
 public class AdminRepositoryImpl implements AdminRepository {
     private final Database database = Database.getInstance();
 
@@ -21,18 +23,6 @@ public class AdminRepositoryImpl implements AdminRepository {
         }
 
         return null;
-    }
-
-    @Override
-    public List<Admin> findByNameContaining(String contains) {
-        ArrayList<Admin> admins = new ArrayList<>();
-        for (Admin user : this.database.getAdmins()) {
-            if (user.getFullName().contains(contains)) {
-                admins.add(user);
-            }
-        }
-
-        return admins;
     }
 
     @Override
