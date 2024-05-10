@@ -100,6 +100,10 @@ public class LeaserRepositoryImpl implements LeaserRepository {
     @Override
     public List<Leaser.Lease> getLeases(Long id) {
         Leaser leaser = get(id);
-        return leaser.getLeases();
+        if (leaser != null) {
+            return leaser.getLeases();
+        }
+
+        return null;
     }
 }

@@ -9,6 +9,8 @@ import am.aua.library.ui.components.AbstractPage;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.datatransfer.StringSelection;
+import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -22,6 +24,8 @@ public final class CurrentLeases extends AbstractPage {
     private JTable table;
     private LeaserRepositoryImpl leaserRepository;
     private BookRepositoryImpl bookRepository;
+    private final static String[] COlUMN_NAMES = {"ID", "Title", "Author", "Lease End Date", "Is Overdue?"};
+
 
     /**
      * Constructs a new CurrentLeases view.
@@ -36,7 +40,19 @@ public final class CurrentLeases extends AbstractPage {
         renderButton = new JButton("Find Leased Books");
         leaserRepository = new LeaserRepositoryImpl();
         bookRepository = new BookRepositoryImpl();
-        renderButton.addActionListener(e -> renderTable());
+        renderButton.addActionListener(e -> {
+            try {
+                if (this.inputField == null || this.inputField.getText().isBlank() || this.inputField.getText().isEmpty()) {
+                    renderTable();
+                } else {
+                    renderTable(Long.decode(this.inputField.getText()));
+                }
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(this, "Provide a valid ID!");
+                //noop
+            }
+        });
+
         // Create the table with an empty model for now
         table = new JTable(new DefaultTableModel()) {
             @Override
@@ -44,15 +60,30 @@ public final class CurrentLeases extends AbstractPage {
                 return false;
             }
         };
+
+        this.table.getActionMap().put("copy", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JTable table = CurrentLeases.this.table;
+                String cellValue = table.getModel().getValueAt(table.getSelectedRow(), table.getSelectedColumn()).toString();
+                StringSelection stringSelection = new StringSelection(cellValue);
+                Toolkit.getDefaultToolkit().getSystemClipboard().setContents(stringSelection, stringSelection);
+            }
+        });
+
     }
 
     private void renderTable() {
-        // Sample data, you can replace this with your actual data retrieval logic
-        String[] columnNames = {"ID", "Title", "Author", "Lease End Date", "Is Overdue?"};
-
         // Create a new table model with the data
-        DefaultTableModel model = new DefaultTableModel(getUpdatedBooks(), columnNames);
+        DefaultTableModel model = new DefaultTableModel(getUpdatedBooks(), COlUMN_NAMES);
+        // Set the new table model to the table
+        table.setModel(model);
+    }
 
+
+    private void renderTable(Long id) {
+        // Create a new table model with the data
+        DefaultTableModel model = new DefaultTableModel(getUpdatedBooks(id), COlUMN_NAMES);
         // Set the new table model to the table
         table.setModel(model);
     }
@@ -70,12 +101,12 @@ public final class CurrentLeases extends AbstractPage {
         add(new JScrollPane(table), BorderLayout.CENTER); // Add a scroll pane for the table
     }
 
-    private Object[][] getUpdatedBooks() {
+    private Object[][] getUpdatedBooks(Long id) {
         try {
             ArrayList<java.util.List<Object>> elements = new ArrayList<>();
-            List<Leaser.Lease> leases = this.leaserRepository.getLeases(Long.decode(this.inputField.getText()));
+            List<Leaser.Lease> leases = this.leaserRepository.getLeases(id);
             if (leases != null) {
-                for (Leaser.Lease lease : this.leaserRepository.getLeases(Long.decode(this.inputField.getText()))) {
+                for (Leaser.Lease lease : this.leaserRepository.getLeases(id)) {
                     Book book = bookRepository.get(lease.getId());
                     Calendar calendar = Calendar.getInstance();
                     elements.add(List.of(book.getId(), book.getTitle(), book.getAuthors(), lease.getLeaseEndDate(), calendar.before(lease.getLeaseEndDate())));
@@ -86,14 +117,35 @@ public final class CurrentLeases extends AbstractPage {
             for (int i = 0; i < elements.size(); i++) raw[i] = elements.get(i).toArray();
             return raw;
         } catch (Exception ex) {
-            if (ex instanceof NumberFormatException) {
-                JOptionPane.showMessageDialog(this, "Provide a valid ID!");
-            } else {
-                // Print the stack trace if an exception occurs
-                //noinspection CallToPrintStackTrace
-                ex.printStackTrace();
+            //noinspection CallToPrintStackTrace
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
+    private Object[][] getUpdatedBooks() {
+        try {
+            ArrayList<java.util.List<Object>> elements = new ArrayList<>();
+            List<Leaser> leasers = this.leaserRepository.findAll();
+            if (leasers != null) {
+                for (Leaser leaser : leasers) {
+                    if (leaser.getLeases() != null) {
+                        for (Leaser.Lease lease : leaser.getLeases()) {
+                            Book book = bookRepository.get(lease.getId());
+                            Calendar calendar = Calendar.getInstance();
+                            elements.add(List.of(book.getId(), book.getTitle(), book.getAuthors(), lease.getLeaseEndDate(), calendar.before(lease.getLeaseEndDate())));
+                        }
+                    }
+                }
             }
 
+            Object[][] raw = new Object[elements.size()][];
+            for (int i = 0; i < elements.size(); i++) raw[i] = elements.get(i).toArray();
+            return raw;
+        } catch (Exception ex) {
+            // Print the stack trace if an exception occurs
+            //noinspection CallToPrintStackTrace
+            ex.printStackTrace();
             return null;
         }
     }

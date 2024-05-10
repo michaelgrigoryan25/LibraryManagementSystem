@@ -101,10 +101,8 @@ public class BookAssignView {
         JOptionPane.showMessageDialog(parent, panel);
         if (leasersField.getSelectedItem() != null) {
             Leaser leaser = leaserRepository.get(((Leaser) leasersField.getSelectedItem()).getId());
-            System.out.println(leaser);
             try {
-                boolean rented = bookRepository.rentById(book.getId(), leaser.getId());
-                System.out.println(rented);
+                bookRepository.rentById(book.getId(), leaser.getId());
             } catch (DatabaseException ex) {
                 throw new RuntimeException(ex);
             }
