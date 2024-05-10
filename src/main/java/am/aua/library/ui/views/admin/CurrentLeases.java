@@ -37,7 +37,6 @@ public final class CurrentLeases extends AbstractPage {
         leaserRepository = new LeaserRepositoryImpl();
         bookRepository = new BookRepositoryImpl();
         renderButton.addActionListener(e -> renderTable());
-
         // Create the table with an empty model for now
         table = new JTable(new DefaultTableModel()) {
             @Override
@@ -60,6 +59,7 @@ public final class CurrentLeases extends AbstractPage {
 
     @Override
     protected void addComponents() {
+        renderTable();
         // Add components to the frame
         setLayout(new BorderLayout());
         JPanel panel = new JPanel(new GridLayout(1, 1));
@@ -85,9 +85,15 @@ public final class CurrentLeases extends AbstractPage {
             Object[][] raw = new Object[elements.size()][];
             for (int i = 0; i < elements.size(); i++) raw[i] = elements.get(i).toArray();
             return raw;
-        } catch (RuntimeException ex) {
-            // Print the stack trace if an exception occurs
-            ex.printStackTrace();
+        } catch (Exception ex) {
+            if (ex instanceof NumberFormatException) {
+                JOptionPane.showMessageDialog(this, "Provide a valid ID!");
+            } else {
+                // Print the stack trace if an exception occurs
+                //noinspection CallToPrintStackTrace
+                ex.printStackTrace();
+            }
+
             return null;
         }
     }
