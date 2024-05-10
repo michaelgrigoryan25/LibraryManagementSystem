@@ -60,6 +60,14 @@ public final class Book implements Comparable<Book> {
         if (this.copies > 0) this.copies--;
     }
 
+    public List<Long> getRentersUnsafe() {
+        return this.renters;
+    }
+
+    public List<Long> getRenters() {
+        return new ArrayList<>(this.renters);
+    }
+
     public void setId(Long id) {
         if (id != null && id > 0) {
             this.id = id;

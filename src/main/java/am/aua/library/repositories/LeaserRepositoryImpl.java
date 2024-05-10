@@ -3,6 +3,7 @@ package am.aua.library.repositories;
 import am.aua.library.database.Database;
 import am.aua.library.database.DatabaseException;
 import am.aua.library.database.RecordNotFoundException;
+import am.aua.library.models.Book;
 import am.aua.library.models.Leaser;
 
 import java.util.ArrayList;
@@ -74,7 +75,16 @@ public class LeaserRepositoryImpl implements LeaserRepository {
 
     @Override
     public void remove(Leaser element) throws DatabaseException {
-        this.database.getLeasersUnsafe().remove(element);
+        final BookRepositoryImpl bookRepository = new BookRepositoryImpl();
+        for (Book book : bookRepository.findAll()) {
+            if (book.getRenters().contains(element.getId())) {
+                book.getRentersUnsafe().remove(element.getId());
+                book.incrementCopies();
+            }
+        }
+
+        int index = getIndex(this.database.getLeasers(), element);
+        this.database.getLeasersUnsafe().remove(index);
         this.database.persist();
     }
 
