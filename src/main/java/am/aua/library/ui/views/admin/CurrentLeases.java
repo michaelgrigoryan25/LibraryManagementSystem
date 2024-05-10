@@ -11,6 +11,8 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -71,6 +73,19 @@ public final class CurrentLeases extends AbstractPage {
             }
         });
 
+        this.table.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent evt) {
+                int row = table.rowAtPoint(evt.getPoint());
+                int col = table.columnAtPoint(evt.getPoint());
+                if (row >= 0 && col >= 0) {
+                    Long selectedLeaserId = (Long) CurrentLeases.this.table.getModel().getValueAt(row, 0);
+                    Leaser leaser = CurrentLeases.this.leaserRepository.get(selectedLeaserId);
+                    new LeaserInfoView(leaser);
+                    CurrentLeases.this.dispose();
+                }
+            }
+        });
     }
 
     private void renderTable() {

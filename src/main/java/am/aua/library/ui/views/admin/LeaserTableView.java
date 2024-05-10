@@ -77,11 +77,6 @@ public final class LeaserTableView extends AbstractPage {
     private InstitutionRepository institutionRepository;
 
     /**
-     * List of leasers.
-     */
-    private List<Leaser> leasers;
-
-    /**
      * Constructs a new LeaserTableView.
      */
     public LeaserTableView() {
@@ -99,7 +94,6 @@ public final class LeaserTableView extends AbstractPage {
         this.setLayout(new BorderLayout());
         this.leaserRepository = new LeaserRepositoryImpl();
         this.institutionRepository = new InstitutionRepositoryImpl();
-        this.leasers = leaserRepository.findAll();
 
         this.leaserTableModel = new DefaultTableModel(getUpdatedLeasers(), COLUMN_NAMES);
         this.leaserTable = new JTable(this.leaserTableModel) {
@@ -115,8 +109,9 @@ public final class LeaserTableView extends AbstractPage {
                 int row = leaserTable.rowAtPoint(evt.getPoint());
                 int col = leaserTable.columnAtPoint(evt.getPoint());
                 if (row >= 0 && col >= 0) {
-                    Leaser selectedLeaser = leasers.get(row);
-                    new LeaserInfoView(selectedLeaser);
+                    Long selectedLeaserId = (Long) LeaserTableView.this.leaserTableModel.getValueAt(row, 0);
+                    Leaser leaser = LeaserTableView.this.leaserRepository.get(selectedLeaserId);
+                    new LeaserInfoView(leaser);
                     LeaserTableView.this.dispose();
                 }
             }
